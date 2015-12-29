@@ -35,8 +35,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :oekaki_dengon_game, OekakiDengonGame.Repo,
   adapter: Ecto.Adapters.Postgres,
+  database: "oekaki_dengon_game_repo",
   username: "postgres",
-  password: "postgres",
-  database: "oekaki_dengon_game_dev",
-  hostname: "localhost",
+  hostname: "db",
+  port: 5432,
   pool_size: 10
