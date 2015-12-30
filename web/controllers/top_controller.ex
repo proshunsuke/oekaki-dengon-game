@@ -1,4 +1,4 @@
-defmodule OekakiDengonGame.PageController do
+defmodule OekakiDengonGame.TopController do
   use OekakiDengonGame.Web, :controller
 
   def index(conn, _params) do
