@@ -18,7 +18,7 @@ defmodule OekakiDengonGame.Router do
 
     get "/", PageController, :index
     get "/hello_world", HelloWorldController, :index
-    get "/users", UserController, :index
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
