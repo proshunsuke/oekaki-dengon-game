@@ -26,7 +26,8 @@ var config = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
+      { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/, include: __dirname },
+      { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], include: path.join(__dirname, '..', '..', 'src') },
       { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') }
     ]
   },
