@@ -37,6 +37,9 @@
     "webpack-dev-server": "^1.14.0"
   },
   "scripts": {
+    "start-server": "node server.js",
+    "start-dev-server": "DEBUG=true node server.js",
+    "build": "webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "proshunsuke",
