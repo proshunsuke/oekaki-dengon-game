@@ -17,8 +17,6 @@ defmodule OekakiDengonGame.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    get "/hello_world", HelloWorldController, :index
-    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
