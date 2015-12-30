@@ -1,14 +1,12 @@
-defmodule OekakiDengonGame.User do
+defmodule OekakiDengonGame.Room do
   use OekakiDengonGame.Web, :model
 
-  schema "users" do
-    field :name, :string
-    field :email, :string
+  schema "rooms" do
 
     timestamps
   end
 
-  @required_fields ~w(name email)
+  @required_fields ~w()
   @optional_fields ~w()
 
   @doc """
