@@ -8,14 +8,14 @@ var devFlagPlugin = new webpack.DefinePlugin({
 
 var config = {
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?http://localhost:5000',
     'webpack/hot/only-dev-server',
     './web/static/js/top/index.js'
   ],
   output: {
-    path: __dirname + '/static/',
-    publicPath: '/static/',
-    filename: 'bundle.js',
+    path: __dirname + '/priv/static/js',
+    publicPath: '/priv/static/js',
+    filename: 'app.js',
     hot: true
   },
   plugins: [

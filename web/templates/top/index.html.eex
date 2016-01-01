@@ -1,2 +1,2 @@
-<div id="main"></div>
-<script src="./static/bundle.js"></script>
+<div id="root"></div>
+
