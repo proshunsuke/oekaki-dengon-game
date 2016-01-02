@@ -8,9 +8,9 @@ var devFlagPlugin = new webpack.DefinePlugin({
 
 var config = {
   entry: [
-    'webpack-dev-server/client?http://localhost:5000',
+    'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './web/static/js/top/index.js'
+    './web/static/js/top/app.js'
   ],
   output: {
     path: __dirname + '/priv/static/js',
