@@ -15,7 +15,8 @@
     "react-dom": "^0.14.0",
     "redux-thunk": "^1.0.0",
     "react-bootstrap": "^0.28.1",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "redux-simple-router": "^1.0.2"
   },
   "name": "oekaki_dengon_game",
   "description": "To start your Phoenix app:",
