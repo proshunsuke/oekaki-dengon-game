@@ -2,6 +2,7 @@ const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
 const { pushPath } = require('redux-simple-router');
+import { Button } from 'react-bootstrap';
 
 function App({ pushPath, children }) {
   return (
@@ -16,7 +17,7 @@ function App({ pushPath, children }) {
         <Link to="/bar">Bar</Link>
       </header>
       <div>
-        <button onClick={() => pushPath('/foo')}>Go to /foo</button>
+        <Button onClick={() => pushPath('/foo')}>Go to /foo</Button>
       </div>
       <div style={{marginTop: '1.5em'}}>{children}</div>
     </div>
