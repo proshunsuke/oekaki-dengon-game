@@ -3,10 +3,10 @@ import { Button, Input, ButtonInput } from 'react-bootstrap';
 
 module.exports = function CreateRoom() {
     return <div>
-        <form>
-            <Input type="text" label="部屋の名前" placeholder="部屋の名前を入力してください" />
-            <Input type="password" label="パスワード" placeholder="パスワードを入力してください" />
-            <ButtonInput type="submit" value="送信" />
+        <form className="form-horizontal">
+            <Input type="text" label="部屋の名前" placeholder="部屋の名前を入力してください" labelClassName="col-xs-2" wrapperClassName="col-xs-10" />
+            <Input type="password" label="パスワード" placeholder="パスワードを入力してください" labelClassName="col-xs-2" wrapperClassName="col-xs-10"/>
+            <ButtonInput type="submit" value="送信" wrapperClassName="col-xs-offset-2 col-xs-10"/>
         </form>
     </div>;
 }
