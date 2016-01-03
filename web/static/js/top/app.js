@@ -9,7 +9,7 @@ import { devTools } from 'redux-devtools';
 const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
 
 const reducers = require('./reducers');
-const { App, Home, Foo, Bar } = require('./components');
+const { App, Home, Foo, Bar, CreateRoom } = require('./components');
 
 const history = createHistory();
 const reducer = combineReducers(Object.assign({}, reducers, {
@@ -29,6 +29,7 @@ ReactDOM.render(
           <IndexRoute component={Home}/>
           <Route path="foo" component={Foo}/>
           <Route path="bar" component={Bar}/>
+          <Route path="room" component={CreateRoom}/>
         </Route>
       </Router>
       <DebugPanel top right bottom>
