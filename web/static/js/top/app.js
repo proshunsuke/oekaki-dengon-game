@@ -3,7 +3,7 @@ const ReactDOM = require('react-dom');
 const { applyMiddleware, compose, createStore, combineReducers } = require('redux');
 const { Provider } = require('react-redux');
 const { Router, Route, IndexRoute } = require('react-router');
-const createHistory = require('history/lib/createHashHistory');
+import { createHistory } from 'history'
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
