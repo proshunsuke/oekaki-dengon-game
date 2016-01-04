@@ -5,8 +5,8 @@ defmodule OekakiDengonGame.RoomController do
 
   plug :action
 
-  def index(conn, _params) do
+  def create(conn, _params) do
     rooms = Repo.all(Room)
-    render conn, :index, rooms: rooms
+    render(conn, "create.json", rooms: rooms)
   end
 end
