@@ -19,8 +19,9 @@ defmodule OekakiDengonGame.Router do
     get "/", TopController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", OekakiDengonGame do
-  #   pipe_through :api
-  # end
+  scope "/api", OekakiDengonGame do
+    pipe_through :api
+
+    post "/room", RoomController, :index
+  end
 end
