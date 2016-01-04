@@ -2,7 +2,9 @@ defmodule OekakiDengonGame.Room do
   use OekakiDengonGame.Web, :model
 
   schema "rooms" do
-
+    field :name, :string
+    field :draw_time, :integer
+    field :status, :string
     timestamps
   end
 
