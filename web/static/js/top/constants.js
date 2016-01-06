@@ -1,5 +1,6 @@
 
 module.exports = {
   INCREASE: 'INCREASE',
-  DECREASE: 'DECREASE'
+  DECREASE: 'DECREASE',
+  CREATE_ROOM: 'CREATE_ROOM'
 }
