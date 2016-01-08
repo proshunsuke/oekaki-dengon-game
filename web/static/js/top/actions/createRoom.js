@@ -7,6 +7,4 @@ function createRoomRequest() {
     };
 }
 
-function
-
-module.exports = { createRoom };
+module.exports = { createRoomRequest };
