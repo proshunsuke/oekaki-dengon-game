@@ -10,7 +10,5 @@ function createRoomRequest(data) {
 
 export function createRoomRequestIfNeeded(data) {
     console.log("createRoomRequestIfNeeded", data);
-    return dispatch => {
-        return dispatch(createRoomRequest(data));
-    }
+    return createRoomRequest(data);
 }
