@@ -7,7 +7,9 @@ const initialState = {
 }
 
 function update(state = initialState, action) {
-    if(action.type === constants.CREATE_ROOM) {
+    console.log("update");
+    console.log(action);
+    if(action.type === constants.CREATE_ROOM_REQUEST) {
         return {
             userName: state.userName,
             roomName: state.roomName,
