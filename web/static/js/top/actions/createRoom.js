@@ -1,14 +1,16 @@
 const constants = require('../constants');
 
-function createRoomRequest() {
+function createRoomRequest(data) {
+    console.log("createRoomRequest: ", data);
     return {
         type: constants.CREATE_ROOM_REQUEST,
-        roomInfo: 'a'
+        roomInfo: data
     };
 }
 
 export function createRoomRequestIfNeeded(data) {
-    return (dispatch) => {
-        return dispatch(createRoomRequest);
+    console.log("createRoomRequestIfNeeded", data);
+    return dispatch => {
+        return dispatch(createRoomRequest(data));
     }
 }
