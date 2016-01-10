@@ -2,6 +2,7 @@ defmodule OekakiDengonGame.RoomController do
   use OekakiDengonGame.Web, :controller
   alias OekakiDengonGame.Repo
   alias OekakiDengonGame.Room
+  alias OekakiDengonGame.User
 
   plug :action
 
@@ -14,12 +15,23 @@ defmodule OekakiDengonGame.RoomController do
       password: _params["roomPassword"]
     }
 
-    changeset = Room.changeset(%Room{}, room_params)
-    case Repo.insert(changeset) do
-        {:ok, changeset} ->
-          conn
-          |> render(conn, "create.json", rooms: Repo.all(Room))
-        {:error, changeset} ->
+    room_changeset = Room.changeset(%Room{}, room_params)
+    case Repo.insert(room_changeset) do
+        {:ok, room} ->
+          user_params = %{
+            name: _params["userName"],
+            role: User.leader,
+            room_id: room.id
+          }
+          user_changeset = User.changeset(%User{}, user_params)
+          case Repo.insert(user_changeset) do
+            {:ok, user} ->
+              conn
+              |> render(conn, "create.json", rooms: Repo.all(Room))
+            {:error, user_changeset} ->
+              render(conn, "create.json", rooms: Repo.all(Room))
+          end
+        {:error, room_changeset} ->
           render(conn, "create.json", rooms: Repo.all(Room))
     end
   end

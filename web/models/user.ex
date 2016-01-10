@@ -3,13 +3,15 @@ defmodule OekakiDengonGame.User do
 
   schema "users" do
     field :name, :string
-    field :email, :string
-
+    field :role, :string
+    belongs_to :room, OekakiDengonGame.Room
     timestamps
   end
 
-  @required_fields ~w(name email)
+  @required_fields ~w(name role room_id)
   @optional_fields ~w()
+
+  @leader "leader"
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -20,5 +22,9 @@ defmodule OekakiDengonGame.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def leader do
+    @leader
   end
 end

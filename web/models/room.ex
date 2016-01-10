@@ -6,6 +6,7 @@ defmodule OekakiDengonGame.Room do
     field :draw_time, :integer
     field :status, :string
     field :password, :string
+    has_many :users, OekakiDengonGame.User
     timestamps
   end
 
