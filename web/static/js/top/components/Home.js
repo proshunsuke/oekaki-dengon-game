@@ -11,7 +11,7 @@ function Home({ number, increase, decrease, pushPath }) {
       {number}
       <Button onClick={() => increase(1)}>Increase</Button>
       <Button onClick={() => decrease(1)}>Decrease</Button>
-        <Button onClick={() => pushPath('/room')}>部屋を作る</Button>
+        <Button onClick={() => pushPath('/room')}>部屋を作る!</Button>
     </div>
   );
 };

@@ -6,16 +6,18 @@ var devFlagPlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
 });
 
+var publicPath = 'http://localhost:3000/';
+
 var config = {
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    'webpack-dev-server/client?' + publicPath,
     'webpack/hot/only-dev-server',
     './web/static/js/top/app.js'
   ],
   output: {
-    path: __dirname + '/priv/static/js',
-    publicPath: '/priv/static/js',
+    path: path.join(__dirname, './priv/static/js'),
     filename: 'app.js',
+    publicPath: publicPath,
     hot: true
   },
   plugins: [
