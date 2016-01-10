@@ -1,6 +1,7 @@
 const React = require('react');
+import '../../css/app.css';
 const ReactDOM = require('react-dom');
-const { applyMiddleware, compose, createStore, combineReducers } = require('redux');
+const { compose, createStore, combineReducers } = require('redux');
 const { Provider } = require('react-redux');
 const { Router, Route, IndexRoute } = require('react-router');
 import { createHistory } from 'history'
@@ -9,7 +10,7 @@ import { devTools } from 'redux-devtools';
 const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
 
 const reducers = require('./reducers');
-const { App, Home, Foo, Bar, CreateRoom } = require('./components');
+const { App, Home, CreateRoom } = require('./components');
 
 const history = createHistory();
 const reducer = combineReducers(Object.assign({}, reducers, {
@@ -27,8 +28,6 @@ ReactDOM.render(
       <Router history={history}>
         <Route path="/" component={App}>
           <IndexRoute component={Home}/>
-          <Route path="foo" component={Foo}/>
-          <Route path="bar" component={Bar}/>
           <Route path="room" component={CreateRoom}/>
         </Route>
       </Router>
@@ -37,5 +36,5 @@ ReactDOM.render(
       </DebugPanel>
     </div>
   </Provider>,
-  document.getElementById('mount')
+  document.getElementById('root')
 );

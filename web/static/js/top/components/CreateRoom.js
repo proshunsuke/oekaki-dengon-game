@@ -12,7 +12,6 @@ class CreateRoomContainer extends React.Component {
     handleCreateRoom(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        console.log("handleCreateRoom");
         dispatch(createRoomRequestIfNeeded({
             userName: this.refs.userName.refs.input.value,
             roomName: this.refs.roomName.refs.input.value,

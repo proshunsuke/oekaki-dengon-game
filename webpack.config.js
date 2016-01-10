@@ -29,7 +29,7 @@ var config = {
   module: {
     loaders: [
       { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') }
+      { test: /\.css$/, loader: 'style!css' }
     ]
   },
   resolve: {
