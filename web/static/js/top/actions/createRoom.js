@@ -9,17 +9,17 @@ function createRoomRequest(data) {
 }
 
 function createRoomReceive(data) {
-    console.log("actionのcreateRoomReceiveはきてる");
     return {
         type: constants.CREATE_ROOM_RECEIVE,
         roomId: data.room_id,
-        userId: data.user_id
+        userId: data.user_id,
+        userName: data.user_name,
+        role: data.role
     }
 }
 
 export function createRoomRequestIfNeeded(data) {
     return dispatch => {
-        console.log("ここにこないんだよ");
         dispatch(createRoomRequest(data));
         return request
             .post('/api/rooms')
@@ -30,7 +30,7 @@ export function createRoomRequestIfNeeded(data) {
                     alert('エラーが発生しました。部屋が作られませんでした。');
                 } else {
                     console.log("部屋が作られました。", res.body.data);
-                    createRoomReceive(res.body.data);
+                    dispatch(createRoomReceive(res.body.data));
                 }
             });
     }

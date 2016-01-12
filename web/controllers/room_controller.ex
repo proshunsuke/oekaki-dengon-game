@@ -26,7 +26,7 @@ defmodule OekakiDengonGame.RoomController do
           user_changeset = User.changeset(%User{}, user_params)
           case Repo.insert(user_changeset) do
             {:ok, user} ->
-              data = %{room_id: room.id, user_id: user.id}
+              data = %{room_id: room.id, user_id: user.id, user_name: user.name, role: user.role}
               conn
               |> render("create.json", data: data)
             {:error, user_changeset} ->
