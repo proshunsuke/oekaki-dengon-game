@@ -19,10 +19,21 @@ const reducer = combineReducers(Object.assign({}, reducers, {
   routing: routeReducer
 }));
 
-const finalCreateStore = compose(
-    applyMiddleware(...middleware),
-    devTools()
-)(createStore);
+let finalCreateStore;
+
+// こここうすると動かない
+// DebugPanelコンポーネントを別で定義して__ENVで読み込むか決めないとだめ
+if (__DEV__) {
+  finalCreateStore = compose(
+      applyMiddleware(...middleware),
+      devTools()
+  )(createStore);
+} else {
+  finalCreateStore = compose(
+      applyMiddleware(...middleware)
+  )(createStore);
+}
+
 const store = finalCreateStore(reducer);
 syncReduxAndRouter(history, store);
 ReactDOM.render(
