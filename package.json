@@ -18,8 +18,9 @@
     "react-router-bootstrap": "^0.20.0",
     "redux": "^3.0.4",
     "redux-simple-router": "^1.0.2",
-    "uglify-js-brunch": ">= 1.0 < 1.8",
-    "superagent": "^1.6.1"
+    "redux-thunk": "^1.0.3",
+    "superagent": "^1.6.1",
+    "uglify-js-brunch": ">= 1.0 < 1.8"
   },
   "name": "oekaki_dengon_game",
   "description": "To start your Phoenix app:",

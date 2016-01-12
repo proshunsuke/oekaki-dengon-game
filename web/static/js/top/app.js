@@ -1,7 +1,8 @@
 const React = require('react');
 import '../../css/app.css';
 const ReactDOM = require('react-dom');
-const { compose, createStore, combineReducers } = require('redux');
+const { createStore, combineReducers, applyMiddleware, compose } = require('redux');
+import thunk from 'redux-thunk';
 const { Provider } = require('react-redux');
 const { Router, Route, IndexRoute } = require('react-router');
 import { createHistory } from 'history'
@@ -9,17 +10,21 @@ import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
 
-const reducers = require('./reducers');
+const reducers = require('./reducers/index');
+let reducer = combineReducers(reducers);
 const { App, Home, CreateRoom } = require('./components');
 
 const history = createHistory();
-const reducer = combineReducers(Object.assign({}, reducers, {
-  routing: routeReducer
-}));
 
-const finalCreateStore = compose(
-  devTools()
-)(createStore);
+let finalCreateStore;
+if (process.env.NODE_ENV === 'production') {
+  finalCreateStore = applyMiddleware(thunk)(createStore)
+} else {
+  finalCreateStore = compose(
+      applyMiddleware(thunk),
+      devTools()
+  )(createStore);
+}
 const store = finalCreateStore(reducer);
 syncReduxAndRouter(history, store);
 ReactDOM.render(

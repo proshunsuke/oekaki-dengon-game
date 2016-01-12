@@ -1,13 +1,21 @@
 const constants = require('../constants');
 
-const initialState = {
-}
-
-function update(state = initialState, action) {
-    if(action.type === constants.CREATE_ROOM_REQUEST) {
-        return { };
+function createRoom(state = {
+    roomId: null,
+    userName: null,
+    role: null
+}, action) {
+    switch(action.type) {
+        case constants.CREATE_ROOM_REQUEST:
+            console.log("createRoom CREATE_ROOM_REQUEST");
+            return;
+        case constants.CREATE_ROOM_RECEIVE:
+            console.log("createRoom CREATE_ROOM_RECEIVE");
+            console.log(action.userId, action.roomId);
+            return;
+        default:
+            return state;
     }
-    return state;
 }
 
-module.exports = update;
+module.exports = createRoom;
