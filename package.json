@@ -20,7 +20,8 @@
     "redux-simple-router": "^1.0.2",
     "redux-thunk": "^1.0.3",
     "superagent": "^1.6.1",
-    "uglify-js-brunch": ">= 1.0 < 1.8"
+    "uglify-js-brunch": ">= 1.0 < 1.8",
+    "webpack": "^1.9.11"
   },
   "name": "oekaki_dengon_game",
   "description": "To start your Phoenix app:",
@@ -61,7 +62,6 @@
     "redux": "^3.0.4",
     "redux-devtools": "^2.1.5",
     "style-loader": "^0.13.0",
-    "webpack": "^1.9.11",
     "webpack-dev-server": "^1.9.0"
   },
   "scripts": {
@@ -69,7 +69,7 @@
     "start-dev-server": "DEBUG=true node server.js",
     "build": "webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "webpack -p"
+    "postinstall": "NODE_ENV=production webpack -p"
   },
   "author": "proshunsuke",
   "license": "MIT"
