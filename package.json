@@ -21,7 +21,8 @@
     "redux-thunk": "^1.0.3",
     "superagent": "^1.6.1",
     "uglify-js-brunch": ">= 1.0 < 1.8",
-    "webpack": "^1.9.11"
+    "webpack": "^1.9.11",
+    "extract-text-webpack-plugin": "^0.9.1"
   },
   "name": "oekaki_dengon_game",
   "description": "To start your Phoenix app:",
@@ -42,7 +43,6 @@
     "eslint": "^1.10.3",
     "eslint-config-rackt": "^1.1.1",
     "expect": "^1.13.0",
-    "extract-text-webpack-plugin": "^0.9.1",
     "history": "^1.14.0",
     "is-buffer": "^1.1.0",
     "isparta": "^4.0.0",
