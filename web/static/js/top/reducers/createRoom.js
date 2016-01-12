@@ -9,13 +9,10 @@ function createRoom(state = {
 }, action) {
     switch(action.type) {
         case constants.CREATE_ROOM_REQUEST:
-            console.log("createRoom CREATE_ROOM_REQUEST");
             return Object.assign({}, state, {
                 isFetching: true
             });
         case constants.CREATE_ROOM_RECEIVE:
-            console.log("createRoom CREATE_ROOM_RECEIVE");
-            console.log(action.userId, action.roomId);
             return Object.assign({}, state, {
                 isFetching: false,
                 roomId: action.roomId,
