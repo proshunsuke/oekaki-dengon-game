@@ -68,7 +68,8 @@
     "start-server": "node server.js",
     "start-dev-server": "DEBUG=true node server.js",
     "build": "webpack -p",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "webpack -p"
   },
   "author": "proshunsuke",
   "license": "MIT"
