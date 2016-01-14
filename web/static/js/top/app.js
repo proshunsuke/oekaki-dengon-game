@@ -23,6 +23,7 @@ let finalCreateStore;
 
 // こここうすると動かない
 // DebugPanelコンポーネントを別で定義して__ENVで読み込むか決めないとだめ
+
 if (__DEV__) {
   finalCreateStore = compose(
       applyMiddleware(...middleware),
