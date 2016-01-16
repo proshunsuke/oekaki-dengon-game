@@ -8,10 +8,7 @@ const { Router, Route, IndexRoute } = require('react-router');
 import { createHistory } from 'history'
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
-const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
 import DevToolsComponent from './containers/index';
-
-console.log('DevToolsComponent: ', DevToolsComponent);
 
 const reducers = require('./reducers');
 let middleware = [ thunk ];
@@ -23,9 +20,6 @@ const reducer = combineReducers(Object.assign({}, reducers, {
 }));
 
 let finalCreateStore;
-
-// こここうすると動かない
-// DebugPanelコンポーネントを別で定義して__ENVで読み込むか決めないとだめ
 
 if (__DEV__) {
   finalCreateStore = compose(
