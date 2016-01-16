@@ -9,9 +9,9 @@ import { createHistory } from 'history'
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
-const { DevToolsComponent } = require('./containers/DevToolsComponent');
+import DevToolsComponent from './containers/index';
 
-console.log(DevToolsComponent);
+console.log('DevToolsComponent: ', DevToolsComponent);
 
 const reducers = require('./reducers');
 let middleware = [ thunk ];
@@ -49,10 +49,7 @@ ReactDOM.render(
           <Route path="room" component={CreateRoom}/>
         </Route>
       </Router>
-      <DevToolsComponent />
-      <DebugPanel top right bottom>
-        <DevTools store={store} monitor={LogMonitor} />
-      </DebugPanel>
+      <DevToolsComponent store={store}/>
     </div>
   </Provider>,
   document.getElementById('root')
