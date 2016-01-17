@@ -33,7 +33,6 @@ export function createRoomRequestIfNeeded(data) {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋が作られませんでした。');
                 } else {
-                    console.log("部屋が作られました。", res.body.data);
                     dispatch(createRoomReceive(res.body.data));
                 }
             });
