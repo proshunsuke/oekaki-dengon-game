@@ -8,9 +8,14 @@ class ActiveRooms extends React.Component {
     }
 
     render() {
-        return <div>
-            ここに部屋がたくさん出てくるはず
-        </div>;
+        console.log(this.props);
+        return (
+            <ul>
+                {this.props.rooms.map((room, i) =>
+                    <li key={i}>{room.name}</li>
+                )}
+            </ul>
+        )
     }
 }
 

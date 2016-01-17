@@ -12,11 +12,12 @@ class Home extends React.Component {
     }
 
     render() {
-        const { dispatch } = this.props;
+        const { dispatch, rooms } = this.props;
+        console.log(this.props);
         return (
             <div>
                 <Button onClick={() => dispatch(routeActions.push('/room'))}>部屋を作る</Button>
-                <ActiveRooms />
+                <ActiveRooms rooms = {rooms}/>
             </div>
         );
     }

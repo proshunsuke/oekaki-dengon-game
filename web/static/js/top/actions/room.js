@@ -8,9 +8,24 @@ function fetchRooms() {
     };
 }
 
+function fetchRoomsReceive(rooms) {
+    return {
+        type: constants.FETCH_ROOMS_RECEIVE,
+        rooms: rooms
+    }
+}
+
 export function fetchRoomsIfNeeded() {
     return dispatch => {
-        return dispatch(fetchRooms());
-        // ここサーバーのfetch room api を叩く
+        dispatch(fetchRooms());
+        return request
+            .get('/api/rooms')
+            .end(function (err, res) {
+                if (err || !res.ok) {
+                    alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
+                } else {
+                    dispatch(fetchRoomsReceive(res.body.data));
+                }
+            });
     }
 }
