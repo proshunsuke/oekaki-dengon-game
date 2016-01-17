@@ -1,17 +1,16 @@
 const React = require('react');
 const { connect } = require('react-redux');
 import { Button } from 'react-bootstrap';
-const { pushPath } = require('redux-simple-router');
+import { routeActions } from 'redux-simple-router'
 
-function Home({ pushPath }) {
+function Home({ dispatch }) {
   return (
     <div>
-        <Button onClick={() => pushPath('/room')}>部屋を作る</Button>
+        <Button onClick={() => dispatch(routeActions.push('/room'))}>部屋を作る</Button>
     </div>
   );
 };
 
 module.exports = connect(
-    null,
-  { pushPath }
+    null
 )(Home);

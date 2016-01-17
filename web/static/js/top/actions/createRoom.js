@@ -1,5 +1,6 @@
 const constants = require('../constants');
 import request from 'superagent';
+import { routeActions } from 'redux-simple-router'
 
 function createRoomRequest(data) {
     return {
@@ -9,12 +10,15 @@ function createRoomRequest(data) {
 }
 
 function createRoomReceive(data) {
-    return {
-        type: constants.CREATE_ROOM_RECEIVE,
-        roomId: data.room_id,
-        userId: data.user_id,
-        userName: data.user_name,
-        role: data.role
+    return dispatch => {
+        dispatch(routeActions.push(`/room/${data.room_id}`))
+        return {
+            type: constants.CREATE_ROOM_RECEIVE,
+            roomId: data.room_id,
+            userId: data.user_id,
+            userName: data.user_name,
+            role: data.role
+        }
     }
 }
 

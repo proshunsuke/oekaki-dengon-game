@@ -4,20 +4,22 @@ const ReactDOM = require('react-dom');
 const { compose, createStore, combineReducers, applyMiddleware } = require('redux');
 import thunk from 'redux-thunk';
 const { Provider } = require('react-redux');
-const { Router, Route, IndexRoute } = require('react-router');
+const { Router, Route, IndexRoute, browserHistory } = require('react-router');
 import { createHistory } from 'history'
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+import { syncHistory, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 import DevToolsComponent from './containers/index';
 
 const reducers = require('./reducers');
-let middleware = [ thunk ];
-const { App, Home, CreateRoom } = require('./components');
+
+const { App, Home, CreateRoom, Room } = require('./components');
 
 const history = createHistory();
 const reducer = combineReducers(Object.assign({}, reducers, {
   routing: routeReducer
 }));
+const reduxRouterMiddleware = syncHistory(browserHistory)
+let middleware = [ thunk, reduxRouterMiddleware ];
 
 let finalCreateStore;
 
@@ -33,14 +35,16 @@ if (__DEV__) {
 }
 
 const store = finalCreateStore(reducer);
-syncReduxAndRouter(history, store);
+reduxRouterMiddleware.listenForReplays(store);
+
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router history={history}>
+      <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={Home}/>
           <Route path="room" component={CreateRoom}/>
+          <Route path="room/:id" component={Room}/>
         </Route>
       </Router>
       <DevToolsComponent store={store}/>

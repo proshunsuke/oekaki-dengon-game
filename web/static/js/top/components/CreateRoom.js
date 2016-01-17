@@ -3,7 +3,7 @@ const { connect } = require('react-redux');
 const { createRoomRequestIfNeeded } = require('../actions/createRoom');
 import { Button, Input, ButtonInput } from 'react-bootstrap';
 
-class CreateRoomContainer extends React.Component {
+class CreateRoom extends React.Component {
     constructor(props) {
         super(props);
         this.handleCreateRoom = this.handleCreateRoom.bind(this);
@@ -34,4 +34,4 @@ class CreateRoomContainer extends React.Component {
     }
 }
 
-module.exports = connect()(CreateRoomContainer);
+module.exports = connect()(CreateRoom);
