@@ -69,7 +69,7 @@
     "start-dev-server": "DEBUG=true node server.js",
     "build": "DEBUG=false webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "DEBUG=false webpack -p"
+    "postinstall": "DEBUG=false node_modules/.bin/webpack"
   },
   "author": "proshunsuke",
   "license": "MIT"

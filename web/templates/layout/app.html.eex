@@ -17,7 +17,7 @@
 <%= if Mix.env == :dev do %>
   <script src="http://localhost:3000/app.js"></script>
 <% else %>
-  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+<script>require("priv/static/js/app").App.run()</script>
 <% end %>
 </body>
 </html>
