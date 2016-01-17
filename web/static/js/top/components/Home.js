@@ -13,7 +13,6 @@ class Home extends React.Component {
 
     render() {
         const { dispatch, rooms } = this.props;
-        console.log(this.props);
         return (
             <div>
                 <Button onClick={() => dispatch(routeActions.push('/room'))}>部屋を作る</Button>
@@ -23,4 +22,16 @@ class Home extends React.Component {
     }
 }
 
-module.exports = connect()(Home);
+function mapStateToProps(state) {
+    const { room } = state;
+    let rooms = room.rooms;
+    // ここもうちょっとなんとかなりそう
+    if (rooms == null) {
+        rooms = []
+    }
+    return {
+        rooms
+    }
+}
+
+module.exports = connect(mapStateToProps)(Home);
