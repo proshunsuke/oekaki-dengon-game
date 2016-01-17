@@ -4,4 +4,12 @@ defmodule OekakiDengonGame.RoomView do
   def render("create.json", %{data: data}) do
     %{data: data}
   end
+
+  def render("fetch.json", %{rooms: rooms}) do
+    %{data: render_many(rooms, OekakiDengonGame.RoomView, "room.json")}
+  end
+
+  def render("room.json", %{room: room}) do
+    %{id: room.id, name: room.name, draw_time: room.draw_time, status: room.status}
+  end
 end

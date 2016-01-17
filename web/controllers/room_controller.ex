@@ -6,6 +6,16 @@ defmodule OekakiDengonGame.RoomController do
 
   plug :action
 
+  def fetch(conn, _params) do
+    active_rooms = Room
+    |> Room.active
+    |> OekakiDengonGame.Repo.all
+
+    IO.inspect active_rooms
+
+    render(conn, :fetch, rooms: active_rooms)
+  end
+
   def create(conn, _params) do
     room_info = _params
     room_params = %{

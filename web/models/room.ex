@@ -13,11 +13,19 @@ defmodule OekakiDengonGame.Room do
   @required_fields ~w(name draw_time status password)
   @optional_fields ~w()
 
+  # draw_time
   @draw_time_5 5
   @draw_time_60 60
   @draw_time_120 120
 
+  # states
   @waiting "waiting"
+  @closed "closed"
+
+  def active(query) do
+      from r in query,
+      where: r.status != @closed
+  end
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -44,5 +52,9 @@ defmodule OekakiDengonGame.Room do
 
   def waiting do
     @waiting
+  end
+
+  def closed do
+    @closed
   end
 end
