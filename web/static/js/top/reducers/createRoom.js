@@ -1,7 +1,7 @@
 const constants = require('../constants');
 
 function createRoom(state = {
-    isFetching: false,
+    isCreateRoomFetching: false,
     roomId: null,
     userId: null,
     userName: null,
@@ -10,11 +10,11 @@ function createRoom(state = {
     switch(action.type) {
         case constants.CREATE_ROOM_REQUEST:
             return Object.assign({}, state, {
-                isFetching: true
+                isCreateRoomFetching: true
             });
         case constants.CREATE_ROOM_RECEIVE:
             return Object.assign({}, state, {
-                isFetching: false,
+                isCreateRoomFetching: false,
                 roomId: action.roomId,
                 userId: action.userId,
                 userName: action.userName,

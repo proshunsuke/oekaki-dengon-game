@@ -9,7 +9,7 @@ class ActiveRooms extends React.Component {
 
     render() {
         return <div>
-            これ
+            ここに部屋がたくさん出てくるはず
         </div>;
     }
 }
