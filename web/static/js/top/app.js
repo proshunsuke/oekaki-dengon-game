@@ -12,9 +12,8 @@ import DevToolsComponent from './containers/index';
 
 const reducers = require('./reducers');
 
-const { App, Home, CreateRoom, Room } = require('./components');
+const { App, Home, CreateRoom, EnterRoom, Room } = require('./components');
 
-const history = createHistory();
 const reducer = combineReducers(Object.assign({}, reducers, {
   routing: routeReducer
 }));
@@ -45,6 +44,7 @@ ReactDOM.render(
           <IndexRoute component={Home}/>
           <Route path="room" component={CreateRoom}/>
           <Route path="room/:id" component={Room}/>
+          <Route path="room/:id/enter" component={EnterRoom}/>
         </Route>
       </Router>
       <DevToolsComponent store={store}/>
