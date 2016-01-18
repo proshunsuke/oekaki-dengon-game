@@ -11,7 +11,10 @@ class ActiveRooms extends React.Component {
         return (
             <ul>
                 {this.props.rooms.map((room, i) =>
-                    <li key={i}>{i}. id: {room.id}, 部屋の名前: {room.name}, ステータス: {room.status}, 描く時間: {room.draw_time}</li>
+                    <li
+                        key={i}>{i}. id: {room.id}, 部屋の名前: {room.name}, ステータス: {room.status}, 描く時間: {room.draw_time}
+                        <Button>部屋に入る</Button>
+                    </li>
                 )}
             </ul>
         )
