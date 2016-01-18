@@ -4,15 +4,10 @@ defmodule OekakiDengonGame.RoomController do
   alias OekakiDengonGame.Room
   alias OekakiDengonGame.User
 
-  plug :action
-
   def fetch(conn, _params) do
     active_rooms = Room
     |> Room.active
     |> OekakiDengonGame.Repo.all
-
-    IO.inspect active_rooms
-
     render(conn, :fetch, rooms: active_rooms)
   end
 
@@ -26,6 +21,7 @@ defmodule OekakiDengonGame.RoomController do
     }
 
     room_changeset = Room.changeset(%Room{}, room_params)
+    # ここから先適当、特にエラー時
     case Repo.insert(room_changeset) do
         {:ok, room} ->
           user_params = %{
