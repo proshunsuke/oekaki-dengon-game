@@ -12,6 +12,7 @@ defmodule OekakiDengonGame.User do
   @optional_fields ~w()
 
   @leader "leader"
+  @general "general"
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -26,5 +27,9 @@ defmodule OekakiDengonGame.User do
 
   def leader do
     @leader
+  end
+
+  def general do
+    @general
   end
 end

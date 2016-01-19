@@ -54,7 +54,7 @@ export function enterRoomsIfNeeded(data) {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋に入れませんでした。');
                 } else {
-                    dispatch(enterRoomReceive(res.body.data));
+                    dispatch(createRoomReceive(res.body.data));
                 }
             });
     }

@@ -14,7 +14,20 @@ defmodule OekakiDengonGame.RoomController do
   def enter(conn, _params) do
     # 現在以下のような値で来ている
     # %{"room_id" => "106", "userName" => "a"}
-    IO.inspect _params
+    user_params = %{
+      name: _params["userName"],
+      role: User.general,
+      room_id: _params["room_id"]
+    }
+    user_changeset = User.changeset(%User{}, user_params)
+      case Repo.insert(user_changeset) do
+        {:ok, user} ->
+          data = %{room_id: _params["room_id"], user_id: user.id, user_name: user.name, role: user.role}
+          conn
+          |> render("create.json", data: data)
+        {:error, user_changeset} ->
+          render(conn, "create.json", rooms: Repo.all(Room))
+      end
   end
 
   def create(conn, _params) do
