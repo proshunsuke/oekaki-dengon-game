@@ -19,7 +19,7 @@ export function fetchRoomsIfNeeded() {
     return dispatch => {
         dispatch(fetchRooms());
         return request
-            .get('/api/rooms')
+            .get('/api/room')
             .end(function (err, res) {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋情報が取得出来ませんでした。');

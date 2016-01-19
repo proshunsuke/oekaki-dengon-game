@@ -20,6 +20,11 @@ function createRoom(state = {
                 userName: action.userName,
                 role: action.role
             });
+        case constants.SET_ROOM_ID:
+            return Object.assign({}, state, {
+                isCreateRoomFetching: false,
+                roomId: action.roomId
+            });
         default:
             return state;
     }

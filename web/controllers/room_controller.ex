@@ -11,6 +11,12 @@ defmodule OekakiDengonGame.RoomController do
     render(conn, :fetch, rooms: active_rooms)
   end
 
+  def enter(conn, _params) do
+    # 現在以下のような値で来ている
+    # %{"room_id" => "106", "userName" => "a"}
+    IO.inspect _params
+  end
+
   def create(conn, _params) do
     room_info = _params
     room_params = %{

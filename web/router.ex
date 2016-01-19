@@ -22,7 +22,8 @@ defmodule OekakiDengonGame.Router do
   scope "/api", OekakiDengonGame do
     pipe_through :api
 
-    get "/rooms", RoomController, :fetch
-    post "/rooms", RoomController, :create
+    get "/room", RoomController, :fetch
+    post "/room", RoomController, :create
+    post "/room/:room_id", RoomController, :enter
   end
 end
