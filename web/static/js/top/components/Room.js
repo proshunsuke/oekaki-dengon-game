@@ -1,5 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
+import {Socket, LongPoller} from "phoenix"
 
 class Room extends React.Component {
     constructor(props) {
