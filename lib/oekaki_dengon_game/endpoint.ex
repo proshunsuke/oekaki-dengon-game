@@ -1,7 +1,7 @@
 defmodule OekakiDengonGame.Endpoint do
   use Phoenix.Endpoint, otp_app: :oekaki_dengon_game
 
-  socket "/socket", OekakiDengonGame.UserSocket
+  socket "/ws", OekakiDengonGame.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

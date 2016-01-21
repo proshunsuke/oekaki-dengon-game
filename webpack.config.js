@@ -33,7 +33,10 @@ var config = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.json']
+    extensions: ['', '.js', '.json'],
+    alias: {
+      phoenix: __dirname + '/deps/phoenix/web/static/js/phoenix.js'
+    }
   }
 };
 
