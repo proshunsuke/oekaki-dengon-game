@@ -2,8 +2,8 @@ defmodule OekakiDengonGame.Endpoint do
   use Phoenix.Endpoint, otp_app: :oekaki_dengon_game
 
   # ここを参考に
-  # https://github.com/chrismccord/phoenix_chat_example
-  
+  # http://10consulting.com/2015/11/18/phoenix-react-redux-example/
+
   socket "/ws", OekakiDengonGame.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
