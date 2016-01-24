@@ -1,6 +1,7 @@
 const constants = require('../constants');
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
+import { Socket } from 'phoenix';
 
 function createRoomRequest(data) {
     return {
@@ -75,5 +76,24 @@ export function createRoomRequestIfNeeded(data) {
                     dispatch(createRoomReceive(res.body.data));
                 }
             });
+    }
+}
+
+export function startSocket() {
+    let socket = new Socket('/ws');
+    socket.connect();
+    console.log(socket);
+
+    let channel = socket.channel('todos');
+
+    channel.on('new:todo', msg => console.log('new:todo', msg));
+
+    channel.join()
+        .receive('ok', messages => console.log('catching up', messages))
+        .receive('error', reason => console.log('failed join', reason))
+        .after(10000, () => console.log('Networking issue. Still waiting...'));
+
+    return {
+        type: constants.START_SOCKET
     }
 }
