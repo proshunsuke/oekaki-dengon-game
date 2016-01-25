@@ -82,16 +82,32 @@ export function createRoomRequestIfNeeded(data) {
 export function startSocket() {
     let socket = new Socket('/ws');
     socket.connect();
-    console.log(socket);
+    console.log('socket',socket);
 
-    let channel = socket.channel('todos');
+    let channel = socket.channel('todos:a');
+
+    console.log('channel', channel);
 
     channel.on('new:todo', msg => console.log('new:todo', msg));
 
     channel.join()
-        .receive('ok', messages => console.log('catching up', messages))
+        .receive('ok', messages => {
+            console.log('catching up', messages)
+            let payload = {
+                text: 'test message'
+            };
+
+            channel.push('new:todo', payload)
+                .receive('ok', response => {
+                    console.log('created TODO', response);
+                })
+                .receive('error', error => {
+                    console.error(error);
+                });
+        } )
         .receive('error', reason => console.log('failed join', reason))
         .after(10000, () => console.log('Networking issue. Still waiting...'));
+
 
     return {
         type: constants.START_SOCKET
