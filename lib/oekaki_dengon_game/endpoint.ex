@@ -5,6 +5,7 @@ defmodule OekakiDengonGame.Endpoint do
   # http://10consulting.com/2015/11/18/phoenix-react-redux-example/
 
   socket "/ws", OekakiDengonGame.TodoSocket
+  socket "/oekaki-ws", OekakiDengonGame.OekakiSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
