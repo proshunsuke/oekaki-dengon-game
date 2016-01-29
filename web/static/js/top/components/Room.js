@@ -9,7 +9,8 @@ class Room extends React.Component {
 
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(startSocket());
+        // 一旦やめとく
+        //dispatch(startSocket());
     }
 
     render() {
