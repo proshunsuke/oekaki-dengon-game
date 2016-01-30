@@ -8,6 +8,7 @@ export function startSocket() {
     socket.connect();
 
     return {
-        type: constants.START_SOCKET
+        type: constants.START_SOCKET,
+        socket: socket
     }
 }

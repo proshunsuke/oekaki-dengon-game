@@ -1,7 +1,7 @@
 const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
-const { startSocket } = require('../actions/createRoom');
+const { startSocket } = require('../actions/socket');
 import { Button, Navbar, NavItem, MenuItem, NavDropdown, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -13,8 +13,8 @@ class App extends React.Component {
     componentDidMount() {
         const { dispatch } = this.props;
 
-        // ここでlobbyに入る
-        // dispatch(startSocket());
+        // ここでsocketを取得
+         dispatch(startSocket());
     }
 
     render() {
