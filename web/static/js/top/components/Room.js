@@ -1,6 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
-const { startSocket } = require('../actions/createRoom');
+const { joinRoom } = require('../actions/socketChannel');
 
 class Room extends React.Component {
     constructor(props) {
@@ -9,8 +9,7 @@ class Room extends React.Component {
 
     componentDidMount() {
         const { dispatch } = this.props;
-        // 一旦やめとく
-        //dispatch(startSocket());
+        dispatch(joinRoom());
     }
 
     render() {

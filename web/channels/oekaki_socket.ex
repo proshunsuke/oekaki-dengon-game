@@ -2,6 +2,7 @@ defmodule OekakiDengonGame.OekakiSocket do
   use Phoenix.Socket
 
   channel "lobby", OekakiDengonGame.LobbyChannel
+  channel "room:*", OekakiDengonGame.RoomChannel
 
   transport :websocket, Phoenix.Transports.WebSocket
 

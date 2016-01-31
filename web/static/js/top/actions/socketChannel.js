@@ -13,22 +13,34 @@ export function startSocket() {
     }
 }
 
+function joinLobbyAction(channel) {
+    return {
+        type: constants.JOIN_LOBBY,
+        channel: channel
+    }
+}
+
+function onLobby(channel) {
+    channel.on('join', msg => console.log('other joined lobby', msg));
+}
+
 export function joinLobby() {
     return (dispatch, getState) => {
         const { socketChannel } = getState();
         const socket = socketChannel.socket;
         let channel = socket.channel('lobby');
-        console.log('channel', channel);
+        onLobby(channel);
         channel.join()
             .receive('ok', messages => {
                 console.log('catching up', messages)
                 let payload = {
-                    text: 'test message'
+                    text: 'joined'
                 };
 
                 channel.push('join', payload)
                     .receive('ok', response => {
-                        console.log('joined', response);
+                        console.log('joined lobby', response);
+                        dispatch(joinLobbyAction(channel));
                     })
                     .receive('error', error => {
                         console.error(error);
@@ -36,9 +48,43 @@ export function joinLobby() {
             } )
             .receive('error', reason => console.log('failed join', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
-        return {
-            type: constants.JOIN_LOBBY,
-            channel: channel
-        }
+    }
+}
+
+function joinRoomAction(channel) {
+    return {
+        type: constants.JOIN_ROOM,
+        channel: channel
+    }
+}
+
+function onRoom(channel) {
+    channel.on('join', msg => console.log(`other joined room`, msg));
+}
+
+export function joinRoom() {
+    return (dispatch, getState) => {
+        const { socketChannel, createRoom } = getState();
+        const socket = socketChannel.socket;
+        let channel = socket.channel(`room:${createRoom.roomId}`);
+        onRoom(channel);
+        channel.join()
+            .receive('ok', messages => {
+                console.log('catching up', messages)
+                let payload = {
+                    text: `joined room:${createRoom.roomId}`
+                };
+
+                channel.push('join', payload)
+                    .receive('ok', response => {
+                        console.log(`joined room:${createRoom.roomId}`, response);
+                        dispatch(joinRoomAction(channel));
+                    })
+                    .receive('error', error => {
+                        console.error(error);
+                    });
+            } )
+            .receive('error', reason => console.log('failed join', reason))
+            .after(10000, () => console.log('Networking issue. Still waiting...'));
     }
 }

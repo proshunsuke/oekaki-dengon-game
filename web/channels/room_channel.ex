@@ -1,8 +1,8 @@
-defmodule OekakiDengonGame.LobbyChannel do
+defmodule OekakiDengonGame.RoomChannel do
   use OekakiDengonGame.Web, :channel
 
-  def join("lobby", _params, socket) do
-    {:ok, assign(socket, :lobby, 'lobby') }
+  def join("room:" <> room_id, _params, socket) do
+    {:ok, assign(socket, :room_id, room_id) }
   end
 
   def handle_in("join", params, socket) do

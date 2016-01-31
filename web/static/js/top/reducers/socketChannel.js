@@ -13,6 +13,10 @@ function socketChannel(state = {
             return Object.assign({}, state, {
                 channel: action.channel
             });
+        case constants.JOIN_ROOM:
+            return Object.assign({}, state, {
+                channel: action.channel
+            });
         default:
             return state;
     }
