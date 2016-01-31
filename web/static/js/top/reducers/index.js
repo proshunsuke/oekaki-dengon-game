@@ -1,5 +1,5 @@
 const createRoom = require('./createRoom');
 const room = require('./room');
-const socket = require('./socket');
+const socketChannel = require('./socketChannel');
 
-module.exports = { createRoom, room, socket };
+module.exports = { createRoom, room, socketChannel };
