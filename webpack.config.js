@@ -30,6 +30,9 @@ var config = {
     loaders: [
       { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
       { test: /\.css$/, loader: 'style!css' }
+    ],
+    postLoaders: [
+      { loader: "transform?brfs" }
     ]
   },
   resolve: {
