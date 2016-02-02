@@ -7,11 +7,13 @@
     "brunch": "^1.8.5",
     "clean-css-brunch": ">= 1.0 < 1.8",
     "css-brunch": ">= 1.0 < 1.8",
+    "extract-text-webpack-plugin": "^0.9.1",
     "history": "^1.14.0",
     "javascript-brunch": ">= 1.0 < 1.8",
     "lodash": "^3.10.1",
     "react": "^0.14.2",
     "react-bootstrap": "^0.28.1",
+    "react-canvas": "^1.1.0",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0-rc2",
@@ -21,8 +23,7 @@
     "redux-thunk": "^1.0.3",
     "superagent": "^1.6.1",
     "uglify-js-brunch": ">= 1.0 < 1.8",
-    "webpack": "^1.9.11",
-    "extract-text-webpack-plugin": "^0.9.1"
+    "webpack": "^1.9.11"
   },
   "name": "oekaki_dengon_game",
   "description": "To start your Phoenix app:",
