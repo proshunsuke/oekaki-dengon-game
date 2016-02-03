@@ -1,6 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 const { joinRoom } = require('../actions/socketChannel');
+import { findDOMNode } from 'react-dom';
 
 class Room extends React.Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class Room extends React.Component {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(joinRoom());
-        const context = React.getDOMNode(this).getContext('2d');
+        const context = findDOMNode(this.refs.area).getContext('2d');
         this.paint(context);
     }
 
@@ -26,7 +27,7 @@ class Room extends React.Component {
     render() {
         return <div>
             <p>ここルーム</p>
-            <canvas width={200} height={200} />;
+            <canvas width={200} height={200} ref='area'/>;
         </div>;
     }
 }
