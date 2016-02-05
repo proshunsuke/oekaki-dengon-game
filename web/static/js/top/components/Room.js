@@ -6,6 +6,7 @@ import { findDOMNode } from 'react-dom';
 class Room extends React.Component {
     constructor(props) {
         super(props);
+        this.handleClickCanvas = this.handleClickCanvas.bind(this);
     }
 
     componentDidMount() {
@@ -13,6 +14,11 @@ class Room extends React.Component {
         dispatch(joinRoom());
         const context = findDOMNode(this.refs.area).getContext('2d');
         this.paint(context);
+    }
+
+    handleClickCanvas(e) {
+        e.preventDefault();
+        console.log('clickした');
     }
 
     paint(context) {
@@ -27,7 +33,7 @@ class Room extends React.Component {
     render() {
         return <div>
             <p>ここルーム</p>
-            <canvas width={200} height={200} ref='area'/>;
+            <canvas width={200} height={200} ref='area' onClick={this.handleClickCanvas.bind(this)}/>;
         </div>;
     }
 }
