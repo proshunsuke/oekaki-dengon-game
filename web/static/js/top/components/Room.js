@@ -33,7 +33,7 @@ class Room extends React.Component {
     render() {
         return <div>
             <p>ここルーム</p>
-            <canvas width={200} height={200} ref='area' onClick={this.handleClickCanvas.bind(this)}/>;
+            <canvas width={600} height={400} ref='area' onClick={this.handleClickCanvas.bind(this)}/>;
         </div>;
     }
 }
