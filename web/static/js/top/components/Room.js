@@ -23,17 +23,15 @@ class Room extends React.Component {
 
     paint(context) {
         context.save();
-        context.translate(100, 100);
-        context.rotate(this.props.rotation, 100, 100);
         context.fillStyle = '#F00';
-        context.fillRect(-50, -50, 100, 100);
+        context.fillRect(0, 0, 600, 400);
         context.restore();
     }
 
     render() {
         return <div>
             <p>ここルーム</p>
-            <canvas width={600} height={400} ref='area' onClick={this.handleClickCanvas.bind(this)}/>;
+            ここ<canvas width={600} height={400} ref='area' onClick={this.handleClickCanvas.bind(this)}/>まで
         </div>;
     }
 }
