@@ -23,7 +23,7 @@ class Room extends React.Component {
 
     paint(context) {
         context.save();
-        context.fillStyle = '#F00';
+        context.fillStyle = '#FFFFFF';
         context.fillRect(0, 0, 600, 400);
         context.restore();
     }
@@ -31,7 +31,7 @@ class Room extends React.Component {
     render() {
         return <div>
             <p>ここルーム</p>
-            ここ<canvas width={600} height={400} ref='area' onClick={this.handleClickCanvas.bind(this)}/>まで
+            ここ<canvas width={600} height={400} ref='area' onMouseDown={this.handleClickCanvas.bind(this)}/>まで
         </div>;
     }
 }
