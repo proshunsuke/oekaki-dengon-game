@@ -29,9 +29,14 @@ class Room extends React.Component {
     }
 
     render() {
+        const canvasStyle = {
+            border: '1px solid #000000',
+            width: 600,
+            height: 400
+        }
+
         return <div>
-            <p>ここルーム</p>
-            ここ<canvas width={600} height={400} ref='area' onMouseDown={this.handleClickCanvas.bind(this)}/>まで
+            <canvas style={canvasStyle} ref='area' onMouseDown={this.handleClickCanvas.bind(this)}/>
         </div>;
     }
 }
