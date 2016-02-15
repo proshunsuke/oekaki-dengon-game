@@ -1,24 +1,41 @@
 const React = require('react');
 const { connect } = require('react-redux');
 const { joinRoom } = require('../actions/socketChannel');
+const { componentDidMountRoom, mouseDown, mouseMove, mouseUp } = require('../actions/draw');
 import { findDOMNode } from 'react-dom';
 
 class Room extends React.Component {
     constructor(props) {
         super(props);
-        this.handleClickCanvas = this.handleClickCanvas.bind(this);
+        this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
+        this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
+        this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
     }
 
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(joinRoom());
         const context = findDOMNode(this.refs.area).getContext('2d');
+        dispatch(componentDidMountRoom(context));
         this.paint(context);
     }
 
-    handleClickCanvas(e) {
+    handleOnMouseDown(e) {
         e.preventDefault();
-        console.log('clickした');
+        const { dispatch, draw } = this.props;
+        dispatch(mouseDown(e.clientX, e.clientY));
+    }
+
+    handleOnMouseMove(e) {
+        e.preventDefault();
+        const { dispatch, draw } = this.props;
+        dispatch(mouseMove(e.clientX, e.clientY));
+    }
+
+    handleOnMouseUp(e) {
+        e.preventDefault();
+        const { dispatch } = this.props;
+        dispatch(mouseUp());
     }
 
     paint(context) {
@@ -36,9 +53,20 @@ class Room extends React.Component {
         }
 
         return <div>
-            <canvas style={canvasStyle} ref='area' onMouseDown={this.handleClickCanvas.bind(this)}/>
+            <canvas
+                style={canvasStyle} ref='area' onMouseDown={this.handleOnMouseDown.bind(this)}
+                onMouseMove = {this.handleOnMouseMove.bind(this)}
+                onMouseUp = {this.handleOnMouseUp.bind(this)}
+            />
         </div>;
     }
 }
 
-module.exports = connect()(Room);
+function mapStateToProps(state) {
+    const { draw } = state;
+    return {
+        draw
+    }
+}
+
+module.exports = connect(mapStateToProps)(Room);
