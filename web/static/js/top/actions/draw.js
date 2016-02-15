@@ -38,13 +38,18 @@ export function mouseMove(endX, endY) {
         context.lineTo(endX, endY);
         context.stroke();
         context.closePath();
-        console.log('かいてる');
         dispatch(mouseMoveAction(endX, endY, context));
     }
 }
 
 export function mouseUp() {
     return {
-        type: constants.MOuSE_UP
+        type: constants.MOUSE_UP
+    }
+}
+
+export function mouseLeave() {
+    return {
+        type: constants.MOUSE_LEAVE
     }
 }

@@ -1,7 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 const { joinRoom } = require('../actions/socketChannel');
-const { componentDidMountRoom, mouseDown, mouseMove, mouseUp } = require('../actions/draw');
+const { componentDidMountRoom, mouseDown, mouseMove, mouseUp, mouseLeave } = require('../actions/draw');
 import { findDOMNode } from 'react-dom';
 
 class Room extends React.Component {
@@ -10,6 +10,7 @@ class Room extends React.Component {
         this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
         this.handleOnMouseMove = this.handleOnMouseMove.bind(this);
         this.handleOnMouseUp = this.handleOnMouseUp.bind(this);
+        this.handleOnMouseLeave = this.handleOnMouseLeave.bind(this);
     }
 
     componentDidMount() {
@@ -22,20 +23,33 @@ class Room extends React.Component {
 
     handleOnMouseDown(e) {
         e.preventDefault();
-        const { dispatch, draw } = this.props;
-        dispatch(mouseDown(e.clientX, e.clientY));
+        const { dispatch } = this.props;
+        const rect = e.target.getBoundingClientRect();
+        console.log(rect.top);
+        const startX = e.clientX - rect.top;
+        const startY = e.clientY - rect.right;
+        dispatch(mouseDown(startX, startY));
     }
 
     handleOnMouseMove(e) {
         e.preventDefault();
-        const { dispatch, draw } = this.props;
-        dispatch(mouseMove(e.clientX, e.clientY));
+        const { dispatch } = this.props;
+        const rect = e.target.getBoundingClientRect();
+        const startX = e.clientX - rect.top;
+        const startY = e.clientY - rect.right;
+        dispatch(mouseMove(startX, startY));
     }
 
     handleOnMouseUp(e) {
         e.preventDefault();
         const { dispatch } = this.props;
         dispatch(mouseUp());
+    }
+
+    handleOnMouseLeave(e) {
+        e.preventDefault();
+        const { dispatch } = this.props;
+        dispatch(mouseLeave());
     }
 
     paint(context) {
@@ -54,19 +68,14 @@ class Room extends React.Component {
 
         return <div>
             <canvas
-                style={canvasStyle} ref='area' onMouseDown={this.handleOnMouseDown.bind(this)}
+                style={canvasStyle} ref='area'
+                onMouseDown={this.handleOnMouseDown.bind(this)}
                 onMouseMove = {this.handleOnMouseMove.bind(this)}
                 onMouseUp = {this.handleOnMouseUp.bind(this)}
+                onMouseLeave = {this.handleOnMouseLeave.bind(this)}
             />
         </div>;
     }
 }
 
-function mapStateToProps(state) {
-    const { draw } = state;
-    return {
-        draw
-    }
-}
-
-module.exports = connect(mapStateToProps)(Room);
+module.exports = connect()(Room);

@@ -23,7 +23,11 @@ function draw(state = {
                 startY: action.endY,
                 context: action.context
             });
-        case constants.MOuSE_UP:
+        case constants.MOUSE_UP:
+            return Object.assign({}, state, {
+                isDrawing: false
+            });
+        case constants.MOUSE_LEAVE:
             return Object.assign({}, state, {
                 isDrawing: false
             });
