@@ -32,10 +32,10 @@ class Room extends React.Component {
         const scrollY = dElm.scrollTop || dBody.scrollTop;
         const offsetX = positionX + scrollX ;
         const offsetY = positionY + scrollY ;
-        //const startX = e.pageX - offsetX;
-        //const startY = e.pageY - offsetY;
-        const startX = e.pageX;
-        const startY = e.pageY;
+        const startX = e.pageX - offsetX;
+        const startY = e.pageY - offsetY;
+        //const startX = e.pageX;
+        //const startY = e.pageY;
         dispatch(mouseDown(startX, startY));
     }
 
@@ -50,10 +50,10 @@ class Room extends React.Component {
         const scrollY = dElm.scrollTop || dBody.scrollTop;
         const offsetX = positionX + scrollX ;
         const offsetY = positionY + scrollY ;
-        //const startX = e.pageX - offsetX;
-        //const startY = e.pageY - offsetY;
-        const startX = e.pageX;
-        const startY = e.pageY;
+        const startX = e.pageX - offsetX;
+        const startY = e.pageY - offsetY;
+        //const startX = e.pageX;
+        //const startY = e.pageY;
         dispatch(mouseMove(startX, startY));
     }
 
