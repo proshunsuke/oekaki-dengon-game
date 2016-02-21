@@ -38,7 +38,9 @@ var config = {
   resolve: {
     extensions: ['', '.js', '.json'],
     alias: {
-      phoenix: __dirname + '/deps/phoenix/web/static/js/phoenix.js'
+      // It's an incompatibility between Phoenix itself and the ES2015 transpiler in Babel.
+      // https://github.com/slashdotdash/phoenix-react-redux-example/issues/3
+      phoenix: __dirname + '/web/static/js/phoenix.js'
     }
   }
 };
