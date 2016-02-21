@@ -24,36 +24,16 @@ class Room extends React.Component {
     handleOnMouseDown(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        const rect = e.target.getBoundingClientRect();
-        const positionX = rect.left;
-        const positionY = rect.top;
-        const dElm = document.documentElement , dBody = document.body;
-        const scrollX = dElm.scrollLeft || dBody.scrollLeft;
-        const scrollY = dElm.scrollTop || dBody.scrollTop;
-        const offsetX = positionX + scrollX ;
-        const offsetY = positionY + scrollY ;
-        //const startX = e.pageX - offsetX;
-        //const startY = e.pageY - offsetY;
-        const startX = e.pageX - this.offsetLeft;
-        const startY = e.pageY - this.offsetTop;
+        const startX = (e.pageX - e.target.offsetLeft)*0.5;
+        const startY = (e.pageY - e.target.offsetTop)*0.375;
         dispatch(mouseDown(startX, startY));
     }
 
     handleOnMouseMove(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        const rect = e.target.getBoundingClientRect();
-        const positionX = rect.left;
-        const positionY = rect.top;
-        const dElm = document.documentElement , dBody = document.body;
-        const scrollX = dElm.scrollLeft || dBody.scrollLeft;
-        const scrollY = dElm.scrollTop || dBody.scrollTop;
-        const offsetX = positionX + scrollX ;
-        const offsetY = positionY + scrollY ;
-        //const startX = e.pageX - offsetX;
-        //const startY = e.pageY - offsetY;
-        const startX = e.pageX - this.offsetLeft;
-        const startY = e.pageY - this.offsetTop;
+        const startX = (e.pageX - e.target.offsetLeft)*0.5;
+        const startY = (e.pageY - e.target.offsetTop)*0.375;
         dispatch(mouseMove(startX, startY));
     }
 
