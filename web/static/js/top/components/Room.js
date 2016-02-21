@@ -4,6 +4,13 @@ const { joinRoom } = require('../actions/socketChannel');
 const { componentDidMountRoom, mouseDown, mouseMove, mouseUp, mouseLeave } = require('../actions/draw');
 import { findDOMNode } from 'react-dom';
 
+const CANVAS_WIDTH = 600;
+const CANVAS_HEIGHT = 400;
+const CANVAS_SCALE_X = 300; // この値ちょっと不明
+const CANVAS_SCALE_Y = 150; // この値ちょっと不明
+const CANVAS_SCALE_RATE_X = CANVAS_SCALE_X / CANVAS_WIDTH;
+const CANVAS_SCALE_RATE_Y = CANVAS_SCALE_Y / CANVAS_HEIGHT;
+
 class Room extends React.Component {
     constructor(props) {
         super(props);
@@ -15,25 +22,24 @@ class Room extends React.Component {
 
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(joinRoom());
         const context = findDOMNode(this.refs.area).getContext('2d');
+        dispatch(joinRoom());
         dispatch(componentDidMountRoom(context));
-        this.paint(context);
     }
 
     handleOnMouseDown(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        const startX = (e.pageX - e.target.offsetLeft)*0.5;
-        const startY = (e.pageY - e.target.offsetTop)*0.375;
+        const startX = (e.pageX - e.target.offsetLeft)*CANVAS_SCALE_RATE_X;
+        const startY = (e.pageY - e.target.offsetTop)*CANVAS_SCALE_RATE_Y;
         dispatch(mouseDown(startX, startY));
     }
 
     handleOnMouseMove(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        const startX = (e.pageX - e.target.offsetLeft)*0.5;
-        const startY = (e.pageY - e.target.offsetTop)*0.375;
+        const startX = (e.pageX - e.target.offsetLeft)*CANVAS_SCALE_RATE_X;
+        const startY = (e.pageY - e.target.offsetTop)*CANVAS_SCALE_RATE_Y;
         dispatch(mouseMove(startX, startY));
     }
 
@@ -49,18 +55,11 @@ class Room extends React.Component {
         dispatch(mouseLeave());
     }
 
-    paint(context) {
-        context.save();
-        context.fillStyle = '#FFFFFF';
-        context.fillRect(0, 0, 600, 400);
-        context.restore();
-    }
-
     render() {
         const canvasStyle = {
             border: '1px solid #000000',
-            width: 600,
-            height: 400
+            width: CANVAS_WIDTH,
+            height: CANVAS_HEIGHT
         }
 
         return <div>
