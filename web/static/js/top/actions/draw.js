@@ -33,6 +33,9 @@ export function mouseMove(endX, endY) {
         }
         let context = draw.context;
         context.lineWidth = 2;
+        context.lineJoin= 'round';
+        context.lineCap = 'round';
+        context.shadowBlur = 0;
         context.beginPath();
         context.moveTo(draw.startX, draw.startY);
         context.lineTo(endX, endY);
