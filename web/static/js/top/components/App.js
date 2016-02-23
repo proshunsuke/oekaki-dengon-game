@@ -13,7 +13,6 @@ class App extends React.Component {
     componentDidMount() {
         const { dispatch } = this.props;
 
-        // ここでsocketを取得
         dispatch(startSocket());
         dispatch(joinLobby());
     }
