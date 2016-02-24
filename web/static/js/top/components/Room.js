@@ -2,6 +2,7 @@ const React = require('react');
 const { connect } = require('react-redux');
 const { joinRoom } = require('../actions/socketChannel');
 const { componentDidMountRoom, mouseDown, mouseMove, mouseUp, mouseLeave } = require('../actions/draw');
+const UserList = require('./UserList');
 import { findDOMNode } from 'react-dom';
 
 const CANVAS_WIDTH = 600;
@@ -56,6 +57,9 @@ class Room extends React.Component {
     }
 
     render() {
+        const { users } = this.props;
+        console.log('最初のusers', users);
+
         const canvasStyle = {
             border: '1px solid #000000',
             width: CANVAS_WIDTH,
@@ -70,8 +74,17 @@ class Room extends React.Component {
                 onMouseUp = {this.handleOnMouseUp.bind(this)}
                 onMouseLeave = {this.handleOnMouseLeave.bind(this)}
             />
+            <UserList users = {users} />
         </div>;
     }
 }
 
-module.exports = connect()(Room);
+function mapStateToProps(state) {
+    const { user } = state;
+    const users  = user.users;
+    return {
+        users
+    }
+}
+
+module.exports = connect(mapStateToProps)(Room);

@@ -58,8 +58,17 @@ function joinRoomAction(channel) {
     }
 }
 
-function onRoom(channel) {
-    channel.on('join', msg => console.log(`other joined room`, msg));
+function otherUserJoinedRoom(msg) {
+    return {
+        type: constants.OTHER_USER_JOINED_ROOM,
+        msg: msg
+    }
+}
+
+function onRoom(channel, dispatch) {
+    channel.on('join', msg => {
+        dispatch(otherUserJoinedRoom(msg));
+    });
 }
 
 export function joinRoom() {
@@ -67,7 +76,7 @@ export function joinRoom() {
         const { socketChannel, createRoom } = getState();
         const socket = socketChannel.socket;
         let channel = socket.channel(`room:${createRoom.roomId}`);
-        onRoom(channel);
+        onRoom(channel, dispatch);
         channel.join()
             .receive('ok', messages => {
                 console.log('catching up', messages)
