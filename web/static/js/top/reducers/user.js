@@ -1,14 +1,16 @@
 const constants = require('../constants');
 
 function user(state = {
-    users: []
+    users: [{name: 'first'}]
 }, action) {
     switch(action.type) {
         case constants.OTHER_USER_JOINED_ROOM:
             console.log("だれか入ってきた", action.msg);
-            state.users.push({name: 'testuser'});
+            const tmpUserList = state.users;
+            tmpUserList.push({name: `testuser${tmpUserList.length.toString()}`});
+            console.log(tmpUserList);
             return Object.assign({}, state, {
-                users: state.users
+                users: tmpUserList
             });
         default:
             return state;

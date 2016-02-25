@@ -74,6 +74,7 @@ class Room extends React.Component {
                 onMouseUp = {this.handleOnMouseUp.bind(this)}
                 onMouseLeave = {this.handleOnMouseLeave.bind(this)}
             />
+            {users[users.length-1].name}
             <UserList users = {users} />
         </div>;
     }
