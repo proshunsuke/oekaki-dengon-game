@@ -5,7 +5,7 @@ function user(state = {
 }, action) {
     switch(action.type) {
         case constants.OTHER_USER_JOINED_ROOM:
-            console.log("reducerまできた", action.msg);
+            console.log("だれか入ってきた", action.msg);
             state.users.push({name: 'testuser'});
             return Object.assign({}, state, {
                 users: state.users
