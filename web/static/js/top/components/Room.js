@@ -58,8 +58,6 @@ class Room extends React.Component {
 
     render() {
         const { users } = this.props;
-        console.log('最初のusers', users);
-
         const canvasStyle = {
             border: '1px solid #000000',
             width: CANVAS_WIDTH,
@@ -80,10 +78,8 @@ class Room extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { user } = state;
-    const users  = user.users;
     return {
-        users
+        users: state.users
     }
 }
 
