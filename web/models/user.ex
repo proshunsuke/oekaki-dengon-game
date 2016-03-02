@@ -14,6 +14,14 @@ defmodule OekakiDengonGame.User do
   @leader "leader"
   @general "general"
 
+  def by_active_room_id(query, room_id) do
+    from u in query,
+    join: r in OekakiDengonGame.Room,
+    on: r.id == ^room_id,
+    where: r.status != ^OekakiDengonGame.Room.closed,
+    select: u
+  end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 

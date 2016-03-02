@@ -7,9 +7,10 @@ class UserList extends React.Component {
     }
     render() {
         const { users } = this.props;
+        console.log('UserList component');
         return <ul>
             {users.map((user, i) =>
-                <li key={user.name}>{i}. name: {user.name}
+                <li key={user.id}>{i}. name: {user.name}
                 </li>
             )}
         </ul>;

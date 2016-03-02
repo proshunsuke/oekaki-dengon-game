@@ -1,16 +1,9 @@
 const constants = require('../constants');
 
-function users(state = [{
-    name: 'first'
-}], action) {
+function users(state = [], action) {
     switch(action.type) {
         case constants.OTHER_USER_JOINED_ROOM:
-            return [
-                {
-                    name: `testuser${state.length.toString()}`
-                },
-                ...state
-            ];
+            return action.users;
         default:
             return state;
     }

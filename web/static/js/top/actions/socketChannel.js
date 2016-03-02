@@ -58,16 +58,16 @@ function joinRoomAction(channel) {
     }
 }
 
-function otherUserJoinedRoom(msg) {
+function otherUserJoinedRoom(result) {
     return {
         type: constants.OTHER_USER_JOINED_ROOM,
-        msg: msg
+        users: result.users
     }
 }
 
 function onRoom(channel, dispatch) {
-    channel.on('join', msg => {
-        dispatch(otherUserJoinedRoom(msg));
+    channel.on('join', result => {
+        dispatch(otherUserJoinedRoom(result));
     });
 }
 
@@ -81,7 +81,7 @@ export function joinRoom() {
             .receive('ok', messages => {
                 console.log('catching up', messages)
                 let payload = {
-                    text: `joined room:${createRoom.roomId}`
+                    roomId: createRoom.roomId
                 };
 
                 channel.push('join', payload)
