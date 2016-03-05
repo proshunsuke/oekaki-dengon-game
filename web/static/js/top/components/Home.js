@@ -11,6 +11,12 @@ class Home extends React.Component {
         dispatch(fetchRoomsIfNeeded());
     }
 
+    shouldComponentUpdate() {
+        // ここでchannelを抜ける処理をする
+        console.log('home rerendered');
+        return true;
+    }
+
     render() {
         const { dispatch, rooms } = this.props;
         return (

@@ -19,4 +19,8 @@ defmodule OekakiDengonGame.RoomChannel do
     }
     {:reply, :ok, socket}
   end
+
+  def leave(_reason, socket) do
+    {:ok, socket}
+  end
 end
