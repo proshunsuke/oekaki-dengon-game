@@ -9,6 +9,7 @@ import { createHistory } from 'history'
 import { syncHistory, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 import DevToolsComponent from './containers/index';
+const { startSocket, joinLobby, joinRoom } = require('./actions/socketChannel');
 
 const reducers = require('./reducers');
 
@@ -36,14 +37,24 @@ if (__DEV__) {
 const store = finalCreateStore(reducer);
 reduxRouterMiddleware.listenForReplays(store);
 
+store.dispatch(startSocket());
+
+function channelCheckInHome() {
+  store.dispatch(joinLobby());
+}
+
+function channelCheckInRoom() {
+  store.dispatch(joinRoom());
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <div>
       <Router history={browserHistory}>
         <Route path="/" component={App}>
-          <IndexRoute component={Home}/>
+          <IndexRoute component={Home} onEnter={channelCheckInHome}/>
           <Route path="room" component={CreateRoom}/>
-          <Route path="room/:id" component={Room}/>
+          <Route path="room/:id" component={Room}  onEnter={channelCheckInRoom}/>
           <Route path="room/:id/enter" component={EnterRoom}/>
         </Route>
       </Router>

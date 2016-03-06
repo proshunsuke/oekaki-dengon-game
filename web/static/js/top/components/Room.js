@@ -1,6 +1,5 @@
 const React = require('react');
 const { connect } = require('react-redux');
-const { joinRoom } = require('../actions/socketChannel');
 const { componentDidMountRoom, mouseDown, mouseMove, mouseUp, mouseLeave } = require('../actions/draw');
 const UserList = require('./UserList');
 import { findDOMNode } from 'react-dom';
@@ -24,7 +23,6 @@ class Room extends React.Component {
     componentDidMount() {
         const { dispatch } = this.props;
         const context = findDOMNode(this.refs.area).getContext('2d');
-        dispatch(joinRoom());
         dispatch(componentDidMountRoom(context));
     }
 

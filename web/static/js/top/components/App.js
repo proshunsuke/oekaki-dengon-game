@@ -1,7 +1,7 @@
 const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
-const { startSocket, joinLobby } = require('../actions/socketChannel');
+const { startSocket } = require('../actions/socketChannel');
 import { Button, Navbar, NavItem, MenuItem, NavDropdown, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -14,7 +14,6 @@ class App extends React.Component {
         const { dispatch } = this.props;
 
         dispatch(startSocket());
-        dispatch(joinLobby());
     }
 
     render() {
