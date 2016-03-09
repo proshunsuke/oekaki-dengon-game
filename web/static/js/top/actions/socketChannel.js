@@ -97,3 +97,26 @@ export function joinRoom() {
             .after(10000, () => console.log('Networking issue. Still waiting...'));
     }
 }
+
+function leaveOtherChannelAction() {
+    return {
+        type: constants.LEAVE_OTHER_CHANNEL
+    }
+}
+
+export function leaveOtherChannel() {
+    return (dispatch, getState) => {
+        const { socketChannel } = getState();
+        let channel = socketChannel.channel;
+        if (channel == null) {
+            return;
+        }
+        channel.leave()
+            .receive('ok', messages => {
+                console.log('leave channel', messages);
+                dispatch(leaveOtherChannelAction());
+            } )
+            .receive('error', reason => console.log('failed leave', reason))
+            .after(10000, () => console.log('Networking issue. Still waiting...'));
+    }
+}

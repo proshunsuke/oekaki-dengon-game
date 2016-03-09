@@ -9,7 +9,7 @@ import { createHistory } from 'history'
 import { syncHistory, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 import DevToolsComponent from './containers/index';
-const { startSocket, joinLobby, joinRoom } = require('./actions/socketChannel');
+const { startSocket, joinLobby, joinRoom, leaveOtherChannel } = require('./actions/socketChannel');
 
 const reducers = require('./reducers');
 
@@ -40,10 +40,12 @@ reduxRouterMiddleware.listenForReplays(store);
 store.dispatch(startSocket());
 
 function channelCheckInHome() {
+  store.dispatch(leaveOtherChannel());
   store.dispatch(joinLobby());
 }
 
 function channelCheckInRoom() {
+  store.dispatch(leaveOtherChannel());
   store.dispatch(joinRoom());
 }
 

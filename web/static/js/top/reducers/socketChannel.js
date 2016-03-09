@@ -17,6 +17,10 @@ function socketChannel(state = {
             return Object.assign({}, state, {
                 channel: action.channel
             });
+        case constants.LEAVE_OTHER_CHANNEL:
+            return Object.assign({}, state, {
+                channel: null
+            });
         default:
             return state;
     }
