@@ -44,6 +44,14 @@ function channelCheckInHome() {
   store.dispatch(joinLobby());
 }
 
+function channelCheckInCreateRoom() {
+  store.dispatch(leaveOtherChannel());
+}
+
+function channelCheckInEnterRoom() {
+  store.dispatch(leaveOtherChannel());
+}
+
 function channelCheckInRoom() {
   store.dispatch(leaveOtherChannel());
   store.dispatch(joinRoom());
@@ -55,9 +63,9 @@ ReactDOM.render(
       <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={Home} onEnter={channelCheckInHome}/>
-          <Route path="room" component={CreateRoom}/>
+          <Route path="room" component={CreateRoom} onEnter={channelCheckInCreateRoom} />
           <Route path="room/:id" component={Room}  onEnter={channelCheckInRoom}/>
-          <Route path="room/:id/enter" component={EnterRoom}/>
+          <Route path="room/:id/enter" component={EnterRoom} onEnter={channelCheckInEnterRoom} />
         </Route>
       </Router>
       <DevToolsComponent store={store}/>
