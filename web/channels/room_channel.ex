@@ -4,7 +4,7 @@ defmodule OekakiDengonGame.RoomChannel do
   alias OekakiDengonGame.Room
   alias OekakiDengonGame.User
 
-  def join("room:" <> room_id, _params, socket) do
+  def join("room:" <> room_id, params, socket) do
     {:ok, assign(socket, :room_id, room_id) }
   end
 
@@ -20,7 +20,10 @@ defmodule OekakiDengonGame.RoomChannel do
     {:reply, :ok, socket}
   end
 
-  def leave(_reason, socket) do
-    {:ok, socket}
-  end
+  def terminate(_reason, socket) do
+        IO.inspect 'leave lobby'
+        IO.inspect _reason
+        IO.inspect socket
+        {:ok, socket}
+    end
 end

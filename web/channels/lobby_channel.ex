@@ -13,7 +13,10 @@ defmodule OekakiDengonGame.LobbyChannel do
     {:reply, :ok, socket}
   end
 
-  def leave(_reason, socket) do
-    {:ok, socket}
+  def terminate(_reason, socket) do
+      IO.inspect 'leave lobby'
+      IO.inspect _reason
+      IO.inspect socket
+      {:ok, socket}
   end
 end
