@@ -13,7 +13,6 @@ defmodule OekakiDengonGame.RoomChannel do
         |> User.by_active_room_id(params["roomId"])
         |> OekakiDengonGame.Repo.all
         |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
-    IO.inspect users_join_room
     broadcast! socket, "join", %{
       users: users_join_room
     }
@@ -21,9 +20,6 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def terminate(_reason, socket) do
-        IO.inspect 'leave lobby'
-        IO.inspect _reason
-        IO.inspect socket
         {:ok, socket}
     end
 end

@@ -28,7 +28,7 @@ export function joinLobby() {
     return (dispatch, getState) => {
         const { socketChannel } = getState();
         const socket = socketChannel.socket;
-        let channel = socket.channel('lobby');
+        let channel = socket.channel('lobby', {roomName: 'test'});
         onLobby(channel);
         channel.join()
             .receive('ok', messages => {
