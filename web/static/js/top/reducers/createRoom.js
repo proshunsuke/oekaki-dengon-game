@@ -10,7 +10,8 @@ function createRoom(state = {
     switch(action.type) {
         case constants.CREATE_ROOM_REQUEST:
             return Object.assign({}, state, {
-                isCreateRoomFetching: true
+                isCreateRoomFetching: true,
+                userName: action.userName
             });
         case constants.CREATE_ROOM_RECEIVE:
             return Object.assign({}, state, {

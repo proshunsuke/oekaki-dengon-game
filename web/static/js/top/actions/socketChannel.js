@@ -1,4 +1,5 @@
 const constants = require('../constants');
+const { createRoomReceive } = require('./createRoom');
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
 import { Socket } from 'phoenix';
@@ -28,7 +29,7 @@ export function joinLobby() {
     return (dispatch, getState) => {
         const { socketChannel } = getState();
         const socket = socketChannel.socket;
-        let channel = socket.channel('lobby', {roomName: 'test'});
+        let channel = socket.channel('lobby');
         onLobby(channel);
         channel.join()
             .receive('ok', messages => {
@@ -65,28 +66,31 @@ function otherUserJoinedRoom(result) {
     }
 }
 
-function onRoom(channel, dispatch) {
+function onRoomJoin(channel, dispatch) {
     channel.on('join', result => {
         dispatch(otherUserJoinedRoom(result));
     });
+    channel.on('joined', result => {
+        dispatch(createRoomReceive(result));
+    });
 }
 
-export function joinRoom() {
+export function joinRoom(data) {
     return (dispatch, getState) => {
         const { socketChannel, createRoom } = getState();
         const socket = socketChannel.socket;
-        let channel = socket.channel(`room:${createRoom.roomId}`);
-        onRoom(channel, dispatch);
+        let channel = socket.channel(`room:${data.roomId}`, data);
+        onRoomJoin(channel, dispatch);
         channel.join()
             .receive('ok', messages => {
                 console.log('catching up', messages)
                 let payload = {
-                    roomId: createRoom.roomId
+                    roomId: data.roomId
                 };
 
                 channel.push('join', payload)
                     .receive('ok', response => {
-                        console.log(`joined room:${createRoom.roomId}`, response);
+                        console.log(`joined room:${data.roomId}`, response);
                         dispatch(joinRoomAction(channel));
                     })
                     .receive('error', error => {

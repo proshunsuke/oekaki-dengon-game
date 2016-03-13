@@ -1,18 +1,19 @@
 const constants = require('../constants');
+const { joinRoom } = require('./socketChannel');
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
 import { Socket } from 'phoenix';
 
-function createRoomRequest(data) {
+function createRoomRequest(userName) {
     return {
         type: constants.CREATE_ROOM_REQUEST,
-        roomInfo: data
+        userName: userName
     };
 }
 
-function createRoomReceive(data) {
+export function createRoomReceive(data) {
     return dispatch => {
-        dispatch(routeActions.push(`/room/${data.room_id}`))
+        dispatch(routeActions.push(`/room/${data.room_id}`));
         return {
             type: constants.CREATE_ROOM_RECEIVE,
             roomId: data.room_id,
@@ -64,7 +65,7 @@ export function enterRoomsIfNeeded(data) {
 
 export function createRoomRequestIfNeeded(data) {
     return dispatch => {
-        dispatch(createRoomRequest(data));
+        dispatch(createRoomRequest(data.userName));
         return request
             .post('/api/room')
             .send(data)
@@ -73,7 +74,12 @@ export function createRoomRequestIfNeeded(data) {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋が作られませんでした。');
                 } else {
-                    dispatch(createRoomReceive(res.body.data));
+                    dispatch(joinRoom({
+                        roomId: res.body.data.room_id,
+                        userName: data.userName,
+                        isCreate: true
+                    }));
+                    //dispatch(createRoomReceive(res.body.data));
                 }
             });
     }

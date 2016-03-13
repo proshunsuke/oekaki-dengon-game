@@ -54,7 +54,6 @@ function channelCheckInEnterRoom() {
 
 function channelCheckInRoom() {
   store.dispatch(leaveOtherChannel());
-  store.dispatch(joinRoom());
 }
 
 ReactDOM.render(
