@@ -8,8 +8,8 @@ defmodule OekakiDengonGame.User do
     timestamps
   end
 
-  @required_fields ~w(name role room_id)
-  @optional_fields ~w()
+  @required_fields ~w()
+  @optional_fields ~w(name role room_id)
 
   @leader "leader"
   @general "general"
@@ -17,8 +17,8 @@ defmodule OekakiDengonGame.User do
   def by_active_room_id(query, room_id) do
     from u in query,
     join: r in OekakiDengonGame.Room,
-    on: r.id == ^room_id,
-    where: r.status != ^OekakiDengonGame.Room.closed,
+    on: r.id == u.room_id,
+    where: r.status != ^OekakiDengonGame.Room.closed and r.id == ^room_id,
     select: u
   end
 

@@ -31,15 +31,7 @@ export function setRoomId(roomId) {
     }
 }
 
-function enterRoom() {
-    return {
-        type: constants.ENTER_ROOM
-    }
-}
-
 function enterRoomReceive(data) {
-    console.log('enterRoomReceive');
-    console.log(data);
     return {
         type: constants.ENTER_ROOM_RECEIVE
     }
@@ -47,18 +39,12 @@ function enterRoomReceive(data) {
 
 export function enterRoomsIfNeeded(data) {
     return (dispatch, getState) => {
-        dispatch(enterRoom());
         const { createRoom } = getState();
-        return request
-            .post(`/api/room/${createRoom.roomId}`)
-            .send({"userName": data.userName})
-            .end(function (err, res) {
-                if (err || !res.ok) {
-                    alert('エラーが発生しました。部屋に入れませんでした。');
-                } else {
-                    dispatch(createRoomReceive(res.body.data));
-                }
-            });
+        dispatch(joinRoom({
+            roomId: createRoom.roomId,
+            userName: data.userName,
+            isCreate: false
+        }));
     }
 }
 
@@ -79,43 +65,7 @@ export function createRoomRequestIfNeeded(data) {
                         userName: data.userName,
                         isCreate: true
                     }));
-                    //dispatch(createRoomReceive(res.body.data));
                 }
             });
-    }
-}
-
-export function startSocket() {
-    let socket = new Socket('/ws');
-    socket.connect();
-    console.log('socket',socket);
-
-    let channel = socket.channel('todos:a');
-
-    console.log('channel', channel);
-
-    channel.on('new:todo', msg => console.log('new:todo', msg));
-
-    channel.join()
-        .receive('ok', messages => {
-            console.log('catching up', messages)
-            let payload = {
-                text: 'test message'
-            };
-
-            channel.push('new:todo', payload)
-                .receive('ok', response => {
-                    console.log('created TODO', response);
-                })
-                .receive('error', error => {
-                    console.error(error);
-                });
-        } )
-        .receive('error', reason => console.log('failed join', reason))
-        .after(10000, () => console.log('Networking issue. Still waiting...'));
-
-
-    return {
-        type: constants.START_SOCKET
     }
 }

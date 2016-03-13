@@ -59,16 +59,26 @@ function joinRoomAction(channel) {
     }
 }
 
-function otherUserJoinedRoom(result) {
+function otherUserJoinsRoom(result) {
     return {
-        type: constants.OTHER_USER_JOINED_ROOM,
+        type: constants.OTHER_USER_JOINS_ROOM,
+        users: result.users
+    }
+}
+
+function otherUserLeavesRoom(result) {
+    return {
+        type: constants.OTHER_USER_LEAVES_ROOM,
         users: result.users
     }
 }
 
 function onRoomJoin(channel, dispatch) {
-    channel.on('join', result => {
-        dispatch(otherUserJoinedRoom(result));
+    channel.on('other_joins', result => {
+        dispatch(otherUserJoinsRoom(result));
+    });
+    channel.on('other_leaves', result => {
+        dispatch(otherUserLeavesRoom(result));
     });
     channel.on('joined', result => {
         dispatch(createRoomReceive(result));
@@ -77,7 +87,7 @@ function onRoomJoin(channel, dispatch) {
 
 export function joinRoom(data) {
     return (dispatch, getState) => {
-        const { socketChannel, createRoom } = getState();
+        const { socketChannel } = getState();
         const socket = socketChannel.socket;
         let channel = socket.channel(`room:${data.roomId}`, data);
         onRoomJoin(channel, dispatch);
@@ -88,7 +98,7 @@ export function joinRoom(data) {
                     roomId: data.roomId
                 };
 
-                channel.push('join', payload)
+                channel.push('other_joins', payload)
                     .receive('ok', response => {
                         console.log(`joined room:${data.roomId}`, response);
                         dispatch(joinRoomAction(channel));
