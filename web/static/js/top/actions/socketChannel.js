@@ -25,7 +25,9 @@ function joinLobbyAction(channel) {
 function onLobby(channel, dispatch) {
     channel.on('join', msg => console.log('other joined lobby', msg));
     channel.on('create_room', rooms => {
-        console.log(rooms);
+        dispatch(fetchRoomsReceive(rooms.rooms));
+    });
+    channel.on('close_room', rooms => {
         dispatch(fetchRoomsReceive(rooms.rooms));
     });
 }

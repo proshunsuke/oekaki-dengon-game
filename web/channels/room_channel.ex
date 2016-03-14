@@ -58,6 +58,26 @@ defmodule OekakiDengonGame.RoomChannel do
         broadcast! socket, "other_leaves", %{
           users: users_join_room
         }
+        if users_join_room == [] do
+          room = Repo.get!(Room, room_id)
+          room_params = %{
+            status: Room.closed
+          }
+          room_changeset = Room.changeset(room, room_params)
+          case Repo.update(room_changeset) do
+            {:ok, room} ->
+              active_rooms = Room
+                          |> Room.active
+                          |> OekakiDengonGame.Repo.all
+                          |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
+              OekakiDengonGame.Endpoint.broadcast! "lobby", "close_room", %{
+                rooms: active_rooms
+              }
+            {:error, room_changeset} ->
+              {:error, socket}
+          end
+
+        end
         {:ok, socket}
       {:error, user_changeset} ->
         {:error, socket}

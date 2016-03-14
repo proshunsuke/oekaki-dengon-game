@@ -10,8 +10,8 @@ defmodule OekakiDengonGame.Room do
     timestamps
   end
 
-  @required_fields ~w(name draw_time status password)
-  @optional_fields ~w()
+  @required_fields ~w()
+  @optional_fields ~w(name draw_time status password)
 
   # draw_time
   @draw_time_5 5
