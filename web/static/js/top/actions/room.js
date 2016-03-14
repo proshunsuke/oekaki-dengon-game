@@ -8,7 +8,8 @@ function fetchRooms() {
     };
 }
 
-function fetchRoomsReceive(rooms) {
+export function fetchRoomsReceive(rooms) {
+    console.log(rooms);
     return {
         type: constants.FETCH_ROOMS_RECEIVE,
         rooms: rooms

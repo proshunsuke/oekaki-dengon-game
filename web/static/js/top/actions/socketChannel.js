@@ -1,5 +1,6 @@
 const constants = require('../constants');
 const { createRoomReceive } = require('./createRoom');
+const { fetchRoomsReceive } = require('./room');
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
 import { Socket } from 'phoenix';
@@ -21,8 +22,12 @@ function joinLobbyAction(channel) {
     }
 }
 
-function onLobby(channel) {
+function onLobby(channel, dispatch) {
     channel.on('join', msg => console.log('other joined lobby', msg));
+    channel.on('create_room', rooms => {
+        console.log(rooms);
+        dispatch(fetchRoomsReceive(rooms.rooms));
+    });
 }
 
 export function joinLobby() {
@@ -30,7 +35,7 @@ export function joinLobby() {
         const { socketChannel } = getState();
         const socket = socketChannel.socket;
         let channel = socket.channel('lobby');
-        onLobby(channel);
+        onLobby(channel, dispatch);
         channel.join()
             .receive('ok', messages => {
                 console.log('catching up', messages)
