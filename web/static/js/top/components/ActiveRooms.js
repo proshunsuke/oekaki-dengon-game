@@ -18,7 +18,7 @@ class ActiveRooms extends React.Component {
     }
 
     render() {
-        const { dispatch, rooms } = this.props;
+        const { rooms } = this.props;
         return (
             <ul>
                 {rooms.map((room, i) =>
