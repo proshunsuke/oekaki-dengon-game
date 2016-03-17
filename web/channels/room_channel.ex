@@ -33,9 +33,9 @@ defmodule OekakiDengonGame.RoomChannel do
 
   def handle_in("other_joins", params, socket) do
     users_join_room = User
-        |> User.by_active_room_id(params["roomId"])
-        |> OekakiDengonGame.Repo.all
-        |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
+    |> User.by_active_room_id(params["roomId"])
+    |> OekakiDengonGame.Repo.all
+    |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
     broadcast! socket, "other_joins", %{
       users: users_join_room
     }
@@ -52,9 +52,9 @@ defmodule OekakiDengonGame.RoomChannel do
     case Repo.update(user_changeset) do
       {:ok, user} ->
         users_join_room = User
-          |> User.by_active_room_id(room_id)
-          |> OekakiDengonGame.Repo.all
-          |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
+        |> User.by_active_room_id(room_id)
+        |> OekakiDengonGame.Repo.all
+        |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
         broadcast! socket, "other_leaves", %{
           users: users_join_room
         }
@@ -67,9 +67,9 @@ defmodule OekakiDengonGame.RoomChannel do
           case Repo.update(room_changeset) do
             {:ok, room} ->
               active_rooms = Room
-                          |> Room.active
-                          |> OekakiDengonGame.Repo.all
-                          |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
+              |> Room.active
+              |> OekakiDengonGame.Repo.all
+              |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
               OekakiDengonGame.Endpoint.broadcast! "lobby", "close_room", %{
                 rooms: active_rooms
               }

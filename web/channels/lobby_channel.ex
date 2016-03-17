@@ -14,6 +14,6 @@ defmodule OekakiDengonGame.LobbyChannel do
   end
 
   def terminate(_reason, socket) do
-      {:ok, socket}
+    {:ok, socket}
   end
 end

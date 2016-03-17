@@ -30,9 +30,9 @@ defmodule OekakiDengonGame.RoomController do
         }
         data = %{room_id: room.id}
         active_rooms = Room
-            |> Room.active
-            |> OekakiDengonGame.Repo.all
-            |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
+        |> Room.active
+        |> OekakiDengonGame.Repo.all
+        |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
         OekakiDengonGame.Endpoint.broadcast! "lobby", "create_room", %{
           rooms: active_rooms
         }
