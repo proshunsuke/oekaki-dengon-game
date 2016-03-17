@@ -8,7 +8,7 @@ const client = (state = {
     userName: null,
     role: null
 }, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case constants.FETCH_ROOMS:
             return Object.assign({}, state, {
                 isRoomFetching: true

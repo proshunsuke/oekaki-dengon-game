@@ -16,22 +16,22 @@ const reducers = require('./reducers');
 const { App, Home, CreateRoom, EnterRoom, Room } = require('./components');
 
 const reducer = combineReducers(Object.assign({}, reducers, {
-  routing: routeReducer
+    routing: routeReducer
 }));
 const reduxRouterMiddleware = syncHistory(browserHistory)
-let middleware = [ thunk, reduxRouterMiddleware ];
+let middleware = [thunk, reduxRouterMiddleware];
 
 let finalCreateStore;
 
 if (__DEV__) {
-  finalCreateStore = compose(
-      applyMiddleware(...middleware),
-      devTools()
-  )(createStore);
+    finalCreateStore = compose(
+        applyMiddleware(...middleware),
+        devTools()
+    )(createStore);
 } else {
-  finalCreateStore = compose(
-      applyMiddleware(...middleware)
-  )(createStore);
+    finalCreateStore = compose(
+        applyMiddleware(...middleware)
+    )(createStore);
 }
 
 const store = finalCreateStore(reducer);
@@ -40,35 +40,35 @@ reduxRouterMiddleware.listenForReplays(store);
 store.dispatch(startSocket());
 
 const channelCheckInHome = () => {
-  store.dispatch(leaveOtherChannel());
-  store.dispatch(joinLobby());
+    store.dispatch(leaveOtherChannel());
+    store.dispatch(joinLobby());
 }
 
 const channelCheckInCreateRoom = () => {
-  store.dispatch(leaveOtherChannel());
+    store.dispatch(leaveOtherChannel());
 }
 
 const channelCheckInEnterRoom = () => {
-  store.dispatch(leaveOtherChannel());
+    store.dispatch(leaveOtherChannel());
 }
 
 const channelCheckInRoom = () => {
-  store.dispatch(leaveOtherChannel());
+    store.dispatch(leaveOtherChannel());
 }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <div>
-      <Router history={browserHistory}>
-        <Route path="/" component={App}>
-          <IndexRoute component={Home} onEnter={channelCheckInHome}/>
-          <Route path="room" component={CreateRoom} onEnter={channelCheckInCreateRoom} />
-          <Route path="room/:id" component={Room}  onEnter={channelCheckInRoom}/>
-          <Route path="room/:id/enter" component={EnterRoom} onEnter={channelCheckInEnterRoom} />
-        </Route>
-      </Router>
-      <DevToolsComponent store={store}/>
-    </div>
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <div>
+            <Router history={browserHistory}>
+                <Route path="/" component={App}>
+                    <IndexRoute component={Home} onEnter={channelCheckInHome}/>
+                    <Route path="room" component={CreateRoom} onEnter={channelCheckInCreateRoom}/>
+                    <Route path="room/:id" component={Room} onEnter={channelCheckInRoom}/>
+                    <Route path="room/:id/enter" component={EnterRoom} onEnter={channelCheckInEnterRoom}/>
+                </Route>
+            </Router>
+            <DevToolsComponent store={store}/>
+        </div>
+    </Provider>,
+    document.getElementById('root')
 );

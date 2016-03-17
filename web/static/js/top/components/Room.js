@@ -9,10 +9,10 @@ class Room extends React.Component {
 
         return <div>
             <Draw />
-            <UserList users = {users} />
+            <UserList users={users}/>
         </div>;
     }
 }
 
-const mapStateToProps = state => ({ users: state.users })
+const mapStateToProps = state => ({users: state.users})
 module.exports = connect(mapStateToProps)(Room);

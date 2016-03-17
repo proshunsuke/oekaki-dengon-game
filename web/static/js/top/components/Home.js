@@ -16,11 +16,11 @@ class Home extends React.Component {
         return (
             <div>
                 <Button onClick={() => dispatch(routeActions.push('/room'))}>部屋を作る</Button>
-                <ActiveRooms rooms = {rooms}/>
+                <ActiveRooms rooms={rooms}/>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => ({ rooms: state.rooms })
+const mapStateToProps = state => ({rooms: state.rooms})
 module.exports = connect(mapStateToProps)(Home);

@@ -5,6 +5,7 @@ class UserList extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         const { users } = this.props;
         return <ul>

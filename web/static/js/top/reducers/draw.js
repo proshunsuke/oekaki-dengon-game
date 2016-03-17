@@ -6,7 +6,7 @@ const draw = (state = {
     startY: null,
     context: null
 }, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case constants.COMPONENT_DID_MOUNT_ROOM:
             return Object.assign({}, state, {
                 context: action.context

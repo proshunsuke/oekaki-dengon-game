@@ -4,7 +4,7 @@ import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
 import { Socket } from 'phoenix';
 
-const createRoomRequest = userName => ({ type: constants.CREATE_ROOM_REQUEST, userName: userName });
+const createRoomRequest = userName => ({type: constants.CREATE_ROOM_REQUEST, userName: userName});
 
 export const createRoomReceive = data => {
     return dispatch => {
@@ -19,7 +19,7 @@ export const createRoomReceive = data => {
     }
 }
 
-export const setRoomId = roomId => ({ type: constants.SET_ROOM_ID, roomId: roomId })
+export const setRoomId = roomId => ({type: constants.SET_ROOM_ID, roomId: roomId})
 const enterRoomReceive = data => ({type: constants.ENTER_ROOM_RECEIVE})
 
 export const enterRoomsIfNeeded = (data) => {
@@ -54,10 +54,9 @@ export const createRoomRequestIfNeeded = data => {
     }
 }
 
-
-const fetchRooms = () =>({type: constants.FETCH_ROOMS})
-export const fetchRoomsReceive = rooms => ({ type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms })
-const fetchRoomsReceiveForClient = () => ({ type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT})
+const fetchRooms = () => ({type: constants.FETCH_ROOMS})
+export const fetchRoomsReceive = rooms => ({type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms})
+const fetchRoomsReceiveForClient = () => ({type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT})
 
 export const fetchRoomsIfNeeded = () => {
     return dispatch => {

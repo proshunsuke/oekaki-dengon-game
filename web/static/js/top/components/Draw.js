@@ -28,16 +28,16 @@ class Draw extends React.Component {
     handleOnMouseDown(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        const startX = (e.pageX - e.target.offsetLeft)*CANVAS_SCALE_RATE_X;
-        const startY = (e.pageY - e.target.offsetTop)*CANVAS_SCALE_RATE_Y;
+        const startX = (e.pageX - e.target.offsetLeft) * CANVAS_SCALE_RATE_X;
+        const startY = (e.pageY - e.target.offsetTop) * CANVAS_SCALE_RATE_Y;
         dispatch(mouseDown(startX, startY));
     }
 
     handleOnMouseMove(e) {
         e.preventDefault();
         const { dispatch } = this.props;
-        const startX = (e.pageX - e.target.offsetLeft)*CANVAS_SCALE_RATE_X;
-        const startY = (e.pageY - e.target.offsetTop)*CANVAS_SCALE_RATE_Y;
+        const startX = (e.pageX - e.target.offsetLeft) * CANVAS_SCALE_RATE_X;
+        const startY = (e.pageY - e.target.offsetTop) * CANVAS_SCALE_RATE_Y;
         dispatch(mouseMove(startX, startY));
     }
 
@@ -63,9 +63,9 @@ class Draw extends React.Component {
         return <canvas
             style={canvasStyle} ref='area'
             onMouseDown={this.handleOnMouseDown.bind(this)}
-            onMouseMove = {this.handleOnMouseMove.bind(this)}
-            onMouseUp = {this.handleOnMouseUp.bind(this)}
-            onMouseLeave = {this.handleOnMouseLeave.bind(this)}
+            onMouseMove={this.handleOnMouseMove.bind(this)}
+            onMouseUp={this.handleOnMouseUp.bind(this)}
+            onMouseLeave={this.handleOnMouseLeave.bind(this)}
         />
     }
 }
