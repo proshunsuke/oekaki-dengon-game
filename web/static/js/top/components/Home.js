@@ -1,7 +1,7 @@
 const React = require('react');
 const { connect } = require('react-redux');
 const ActiveRooms = require('./ActiveRooms');
-const { fetchRoomsIfNeeded } = require('../actions/room');
+const { fetchRoomsIfNeeded } = require('../actions/client');
 import { Button } from 'react-bootstrap';
 import { routeActions } from 'redux-simple-router'
 
@@ -23,14 +23,8 @@ class Home extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { room } = state;
-    let rooms = room.rooms;
-    // ここもうちょっとなんとかなりそう
-    if (rooms == null) {
-        rooms = []
-    }
     return {
-        rooms
+        rooms: state.rooms
     }
 }
 

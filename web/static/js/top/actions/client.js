@@ -69,3 +69,38 @@ export function createRoomRequestIfNeeded(data) {
             });
     }
 }
+
+function fetchRooms() {
+    return {
+        type: constants.FETCH_ROOMS
+    };
+}
+
+export function fetchRoomsReceive(rooms) {
+    return {
+        type: constants.FETCH_ROOMS_RECEIVE,
+        rooms: rooms
+    }
+}
+
+function fetchRoomsReceiveForClient() {
+    return {
+        type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT
+    }
+}
+
+export function fetchRoomsIfNeeded() {
+    return dispatch => {
+        dispatch(fetchRooms());
+        return request
+            .get('/api/room')
+            .end(function (err, res) {
+                if (err || !res.ok) {
+                    alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
+                } else {
+                    dispatch(fetchRoomsReceive(res.body.data));
+                    dispatch(fetchRoomsReceiveForClient());
+                }
+            });
+    }
+}

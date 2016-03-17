@@ -2,7 +2,7 @@ const React = require('react');
 const { Link } = require('react-router');
 const { connect } = require('react-redux');
 const { startSocket } = require('../actions/socketChannel');
-import { Button, Navbar, NavItem, MenuItem, NavDropdown, Nav } from 'react-bootstrap';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 class App extends React.Component {
