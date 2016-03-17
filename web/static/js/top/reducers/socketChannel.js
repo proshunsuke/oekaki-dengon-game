@@ -1,9 +1,9 @@
 const constants = require('../constants');
 
-function socketChannel(state = {
+const socketChannel = (state = {
     socket: null,
     channel: null
-}, action) {
+}, action) => {
     switch(action.type) {
         case constants.START_SOCKET:
             return Object.assign({}, state, {

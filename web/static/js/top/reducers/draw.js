@@ -1,11 +1,11 @@
 const constants = require('../constants');
 
-function draw(state = {
+const draw = (state = {
     isDrawing: false,
     startX: null,
     startY: null,
     context: null
-}, action) {
+}, action) => {
     switch(action.type) {
         case constants.COMPONENT_DID_MOUNT_ROOM:
             return Object.assign({}, state, {

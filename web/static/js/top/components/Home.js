@@ -22,10 +22,5 @@ class Home extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        rooms: state.rooms
-    }
-}
-
+const mapStateToProps = state => ({ rooms: state.rooms })
 module.exports = connect(mapStateToProps)(Home);

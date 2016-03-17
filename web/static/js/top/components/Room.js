@@ -14,10 +14,5 @@ class Room extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        users: state.users
-    }
-}
-
+const mapStateToProps = state => ({ users: state.users })
 module.exports = connect(mapStateToProps)(Room);

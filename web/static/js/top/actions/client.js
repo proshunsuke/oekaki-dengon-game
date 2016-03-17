@@ -4,14 +4,9 @@ import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
 import { Socket } from 'phoenix';
 
-function createRoomRequest(userName) {
-    return {
-        type: constants.CREATE_ROOM_REQUEST,
-        userName: userName
-    };
-}
+const createRoomRequest = userName => ({ type: constants.CREATE_ROOM_REQUEST, userName: userName });
 
-export function createRoomReceive(data) {
+export const createRoomReceive = data => {
     return dispatch => {
         dispatch(routeActions.push(`/room/${data.room_id}`));
         return {
@@ -24,20 +19,10 @@ export function createRoomReceive(data) {
     }
 }
 
-export function setRoomId(roomId) {
-    return {
-        type: constants.SET_ROOM_ID,
-        roomId: roomId
-    }
-}
+export const setRoomId = roomId => ({ type: constants.SET_ROOM_ID, roomId: roomId })
+const enterRoomReceive = data => ({type: constants.ENTER_ROOM_RECEIVE})
 
-function enterRoomReceive(data) {
-    return {
-        type: constants.ENTER_ROOM_RECEIVE
-    }
-}
-
-export function enterRoomsIfNeeded(data) {
+export const enterRoomsIfNeeded = (data) => {
     return (dispatch, getState) => {
         const { createRoom } = getState();
         dispatch(joinRoom({
@@ -48,15 +33,14 @@ export function enterRoomsIfNeeded(data) {
     }
 }
 
-
-export function createRoomRequestIfNeeded(data) {
+export const createRoomRequestIfNeeded = data => {
     return dispatch => {
         dispatch(createRoomRequest(data.userName));
         return request
             .post('/api/room')
             .send(data)
             .set('Accept', 'application/json')
-            .end(function (err, res) {
+            .end((err, res) => {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋が作られませんでした。');
                 } else {
@@ -70,31 +54,17 @@ export function createRoomRequestIfNeeded(data) {
     }
 }
 
-function fetchRooms() {
-    return {
-        type: constants.FETCH_ROOMS
-    };
-}
 
-export function fetchRoomsReceive(rooms) {
-    return {
-        type: constants.FETCH_ROOMS_RECEIVE,
-        rooms: rooms
-    }
-}
+const fetchRooms = () =>({type: constants.FETCH_ROOMS})
+export const fetchRoomsReceive = rooms => ({ type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms })
+const fetchRoomsReceiveForClient = () => ({ type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT})
 
-function fetchRoomsReceiveForClient() {
-    return {
-        type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT
-    }
-}
-
-export function fetchRoomsIfNeeded() {
+export const fetchRoomsIfNeeded = () => {
     return dispatch => {
         dispatch(fetchRooms());
         return request
             .get('/api/room')
-            .end(function (err, res) {
+            .end((err, res) => {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
                 } else {

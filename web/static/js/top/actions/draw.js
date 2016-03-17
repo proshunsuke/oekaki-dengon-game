@@ -1,31 +1,17 @@
 const constants = require('../constants');
 import { routeActions } from 'redux-simple-router'
 
-export function componentDidMountRoom(context) {
-    return {
-        type: constants.COMPONENT_DID_MOUNT_ROOM,
-        context: context
-    }
-}
+export const componentDidMountRoom = context => ({ type: constants.COMPONENT_DID_MOUNT_ROOM, context: context })
+export const mouseDown = (startX, startY) => ({ type: constants.MOUSE_DOWN, startX: startX, startY: startY })
 
-export function mouseDown(startX, startY) {
-    return {
-        type: constants.MOUSE_DOWN,
-        startX: startX,
-        startY: startY
-    }
-}
+const mouseMoveAction = (endX, endY, context) => ({
+    type: constants.MOUSE_MOVE,
+    endX: endX,
+    endY: endY,
+    context: context
+})
 
-function mouseMoveAction(endX, endY, context) {
-    return {
-        type: constants.MOUSE_MOVE,
-        endX: endX,
-        endY: endY,
-        context: context
-    }
-}
-
-export function mouseMove(endX, endY) {
+export const mouseMove = (endX, endY) => {
     return (dispatch, getState) => {
         const { draw } = getState();
         if (!draw.isDrawing) {
@@ -45,14 +31,5 @@ export function mouseMove(endX, endY) {
     }
 }
 
-export function mouseUp() {
-    return {
-        type: constants.MOUSE_UP
-    }
-}
-
-export function mouseLeave() {
-    return {
-        type: constants.MOUSE_LEAVE
-    }
-}
+export const mouseUp = () => ({ type: constants.MOUSE_UP })
+export const mouseLeave = () => ({ type: constants.MOUSE_LEAVE })

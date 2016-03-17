@@ -39,20 +39,20 @@ reduxRouterMiddleware.listenForReplays(store);
 
 store.dispatch(startSocket());
 
-function channelCheckInHome() {
+const channelCheckInHome = () => {
   store.dispatch(leaveOtherChannel());
   store.dispatch(joinLobby());
 }
 
-function channelCheckInCreateRoom() {
+const channelCheckInCreateRoom = () => {
   store.dispatch(leaveOtherChannel());
 }
 
-function channelCheckInEnterRoom() {
+const channelCheckInEnterRoom = () => {
   store.dispatch(leaveOtherChannel());
 }
 
-function channelCheckInRoom() {
+const channelCheckInRoom = () => {
   store.dispatch(leaveOtherChannel());
 }
 

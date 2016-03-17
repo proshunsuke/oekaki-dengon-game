@@ -4,7 +4,7 @@ import request from 'superagent';
 import { routeActions } from 'redux-simple-router'
 import { Socket } from 'phoenix';
 
-export function startSocket() {
+export const startSocket = () => {
     let socket = new Socket('/oekaki-ws');
     socket.connect();
 
@@ -14,14 +14,9 @@ export function startSocket() {
     }
 }
 
-function joinLobbyAction(channel) {
-    return {
-        type: constants.JOIN_LOBBY,
-        channel: channel
-    }
-}
+const joinLobbyAction = channel => ({type: constants.JOIN_LOBBY, channel: channel})
 
-function onLobby(channel, dispatch) {
+const onLobby = (channel, dispatch) => {
     channel.on('join', msg => console.log('other joined lobby', msg));
     channel.on('create_room', rooms => {
         dispatch(fetchRoomsReceive(rooms.rooms));
@@ -31,7 +26,7 @@ function onLobby(channel, dispatch) {
     });
 }
 
-export function joinLobby() {
+export const joinLobby = () => {
     return (dispatch, getState) => {
         const { socketChannel } = getState();
         const socket = socketChannel.socket;
@@ -52,34 +47,17 @@ export function joinLobby() {
                     .receive('error', error => {
                         console.error(error);
                     });
-            } )
+            })
             .receive('error', reason => console.log('failed join', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
     }
 }
 
-function joinRoomAction(channel) {
-    return {
-        type: constants.JOIN_ROOM,
-        channel: channel
-    }
-}
+const joinRoomAction = channel => ({type: constants.JOIN_ROOM, channel: channel})
+const otherUserJoinsRoom = result => ({type: constants.OTHER_USER_JOINS_ROOM, users: result.users})
+const otherUserLeavesRoom = result => ({type: constants.OTHER_USER_LEAVES_ROOM, users: result.users})
 
-function otherUserJoinsRoom(result) {
-    return {
-        type: constants.OTHER_USER_JOINS_ROOM,
-        users: result.users
-    }
-}
-
-function otherUserLeavesRoom(result) {
-    return {
-        type: constants.OTHER_USER_LEAVES_ROOM,
-        users: result.users
-    }
-}
-
-function onRoomJoin(channel, dispatch) {
+const onRoomJoin = (channel, dispatch) => {
     channel.on('other_joins', result => {
         dispatch(otherUserJoinsRoom(result));
     });
@@ -112,19 +90,15 @@ export function joinRoom(data) {
                     .receive('error', error => {
                         console.error(error);
                     });
-            } )
+            })
             .receive('error', reason => console.log('failed join', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
     }
 }
 
-function leaveOtherChannelAction() {
-    return {
-        type: constants.LEAVE_OTHER_CHANNEL
-    }
-}
+const leaveOtherChannelAction = () => ({type: constants.LEAVE_OTHER_CHANNEL})
 
-export function leaveOtherChannel() {
+export const leaveOtherChannel = () => {
     return (dispatch, getState) => {
         const { socketChannel } = getState();
         let channel = socketChannel.channel;
@@ -135,7 +109,7 @@ export function leaveOtherChannel() {
             .receive('ok', messages => {
                 console.log('leave channel', messages);
                 dispatch(leaveOtherChannelAction());
-            } )
+            })
             .receive('error', reason => console.log('failed leave', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
     }

@@ -1,13 +1,13 @@
 const constants = require('../constants');
 
-function client(state = {
+const client = (state = {
     isCreateRoomFetching: false,
     isRoomFetching: false,
     roomId: null,
     userId: null,
     userName: null,
     role: null
-}, action) {
+}, action) => {
     switch(action.type) {
         case constants.FETCH_ROOMS:
             return Object.assign({}, state, {
