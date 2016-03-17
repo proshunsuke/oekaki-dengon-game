@@ -1,4 +1,4 @@
-const React = require('react');
+import React, { PropTypes } from 'react'
 const { connect } = require('react-redux');
 const { setRoomId } = require('../actions/client');
 import { Button } from 'react-bootstrap';
@@ -33,4 +33,5 @@ class ActiveRooms extends React.Component {
     }
 }
 
+ActiveRooms.propTypes = { rooms: PropTypes.array.isRequired }
 module.exports = connect()(ActiveRooms);

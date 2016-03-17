@@ -1,4 +1,4 @@
-const React = require('react');
+import React, { PropTypes } from 'react'
 const { connect } = require('react-redux');
 const ActiveRooms = require('./ActiveRooms');
 const { fetchRoomsIfNeeded } = require('../actions/client');
@@ -23,4 +23,5 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({rooms: state.rooms})
+Home.propTypes = { rooms: PropTypes.array.isRequired }
 module.exports = connect(mapStateToProps)(Home);

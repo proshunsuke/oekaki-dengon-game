@@ -17,4 +17,5 @@ class UserList extends React.Component {
     }
 }
 
+Room.propTypes = { users: PropTypes.array.isRequired }
 module.exports = connect()(UserList);
