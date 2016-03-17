@@ -1,6 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
-const { createRoomRequestIfNeeded } = require('../actions/createRoom');
+const { createRoomRequestIfNeeded } = require('../actions/client');
 import { Button, Input, ButtonInput } from 'react-bootstrap';
 
 class CreateRoom extends React.Component {

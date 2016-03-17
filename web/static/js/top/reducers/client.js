@@ -1,6 +1,6 @@
 const constants = require('../constants');
 
-function createRoom(state = {
+function client(state = {
     isCreateRoomFetching: false,
     roomId: null,
     userId: null,
@@ -31,4 +31,4 @@ function createRoom(state = {
     }
 }
 
-module.exports = createRoom;
+module.exports = client;

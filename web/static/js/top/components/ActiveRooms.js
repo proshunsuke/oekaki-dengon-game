@@ -1,6 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
-const { setRoomId } = require('../actions/createRoom');
+const { setRoomId } = require('../actions/client');
 import { Button } from 'react-bootstrap';
 import { routeActions } from 'redux-simple-router'
 

@@ -1,5 +1,5 @@
 const constants = require('../constants');
-const { createRoomReceive } = require('./createRoom');
+const { createRoomReceive } = require('./client');
 const { fetchRoomsReceive } = require('./room');
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router'

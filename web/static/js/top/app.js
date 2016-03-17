@@ -9,7 +9,7 @@ import { createHistory } from 'history'
 import { syncHistory, routeReducer } from 'redux-simple-router'
 import { devTools } from 'redux-devtools';
 import DevToolsComponent from './containers/index';
-const { startSocket, joinLobby, joinRoom, leaveOtherChannel } = require('./actions/socketChannel');
+const { startSocket, joinLobby, leaveOtherChannel } = require('./actions/socketChannel');
 
 const reducers = require('./reducers');
 
