@@ -12,7 +12,7 @@ var config = {
   entry: [
     'webpack-dev-server/client?' + publicPath,
     'webpack/hot/only-dev-server',
-    './web/static/js/top/app.js'
+    './web/static/js/app.js'
   ],
   output: {
     path: path.join(__dirname, './priv/static/js'),

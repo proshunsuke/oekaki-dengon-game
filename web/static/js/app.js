@@ -1,4 +1,5 @@
-import '../../css/app.css';
+const React = require('react');
+import '../css/app.css';
 const ReactDOM = require('react-dom');
 const { compose, createStore, combineReducers, applyMiddleware } = require('redux');
 import thunk from 'redux-thunk';
