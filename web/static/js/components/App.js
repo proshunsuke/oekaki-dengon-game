@@ -20,19 +20,19 @@ class App extends React.Component {
         const { children } = this.props;
         return (
             <div>
-                <header>
-                    <Navbar>
-                        <Navbar.Header>
-                            <Navbar.Brand>
-                                <Link to="/">お絵かき伝言ゲーム</Link>
-                            </Navbar.Brand>
-                        </Navbar.Header>
-                        <Nav>
-                            <LinkContainer to="/"><NavItem>Home</NavItem></LinkContainer>
-                        </Nav>
-                    </Navbar>
-                </header>
-                <div style={{marginTop: '1.5em'}}>{children}</div>
+              <header>
+                <Navbar>
+                  <Navbar.Header>
+                    <Navbar.Brand>
+                      <Link to="/">お絵かき伝言ゲーム</Link>
+                    </Navbar.Brand>
+                  </Navbar.Header>
+                  <Nav>
+                    <LinkContainer to="/"><NavItem>Home</NavItem></LinkContainer>
+                  </Nav>
+                </Navbar>
+              </header>
+              <div style={{marginTop: '1.5em'}}>{children}</div>
             </div>
         );
     }

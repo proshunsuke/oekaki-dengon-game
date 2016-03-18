@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
 const { connect } = require('react-redux');
 const { setRoomId } = require('../actions/client');
 import { Button } from 'react-bootstrap';
-import { routeActions } from 'redux-simple-router'
+import { routeActions } from 'redux-simple-router';
 
 class ActiveRooms extends React.Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class ActiveRooms extends React.Component {
         e.preventDefault();
         const { dispatch } = this.props;
         dispatch(setRoomId(roomId));
-        dispatch(routeActions.push(`/room/${roomId}/enter`))
+        dispatch(routeActions.push(`/room/${roomId}/enter`));
     }
 
     render() {
@@ -29,9 +29,9 @@ class ActiveRooms extends React.Component {
                     </li>
                 )}
             </ul>
-        )
+        );
     }
 }
 
-ActiveRooms.propTypes = { rooms: PropTypes.array.isRequired }
+ActiveRooms.propTypes = { rooms: PropTypes.array.isRequired };
 module.exports = connect()(ActiveRooms);

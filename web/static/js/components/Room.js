@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
 const { connect } = require('react-redux');
 const UserList = require('./UserList');
 const Draw = require('./Draw');
@@ -14,6 +14,6 @@ class Room extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({users: state.users})
-Room.propTypes = { users: PropTypes.array.isRequired }
+const mapStateToProps = state => ({users: state.users});
+Room.propTypes = { users: PropTypes.array.isRequired };
 module.exports = connect(mapStateToProps)(Room);

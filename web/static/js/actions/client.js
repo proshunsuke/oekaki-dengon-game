@@ -1,7 +1,7 @@
 const constants = require('../constants');
 const { joinRoom } = require('./socketChannel');
 import request from 'superagent';
-import { routeActions } from 'redux-simple-router'
+import { routeActions } from 'redux-simple-router';
 import { Socket } from 'phoenix';
 
 const createRoomRequest = userName => ({type: constants.CREATE_ROOM_REQUEST, userName: userName});
@@ -15,12 +15,12 @@ export const createRoomReceive = data => {
             userId: data.user_id,
             userName: data.user_name,
             role: data.role
-        }
-    }
-}
+        };
+    };
+};
 
-export const setRoomId = roomId => ({type: constants.SET_ROOM_ID, roomId: roomId})
-const enterRoomReceive = data => ({type: constants.ENTER_ROOM_RECEIVE})
+export const setRoomId = roomId => ({type: constants.SET_ROOM_ID, roomId: roomId});
+const enterRoomReceive = data => ({type: constants.ENTER_ROOM_RECEIVE});
 
 export const enterRoomsIfNeeded = (data) => {
     return (dispatch, getState) => {
@@ -30,8 +30,8 @@ export const enterRoomsIfNeeded = (data) => {
             userName: data.userName,
             isCreate: false
         }));
-    }
-}
+    };
+};
 
 export const createRoomRequestIfNeeded = data => {
     return dispatch => {
@@ -51,12 +51,12 @@ export const createRoomRequestIfNeeded = data => {
                     }));
                 }
             });
-    }
-}
+    };
+};
 
-const fetchRooms = () => ({type: constants.FETCH_ROOMS})
-export const fetchRoomsReceive = rooms => ({type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms})
-const fetchRoomsReceiveForClient = () => ({type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT})
+const fetchRooms = () => ({type: constants.FETCH_ROOMS});
+export const fetchRoomsReceive = rooms => ({type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms});
+const fetchRoomsReceiveForClient = () => ({type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT});
 
 export const fetchRoomsIfNeeded = () => {
     return dispatch => {
@@ -71,5 +71,5 @@ export const fetchRoomsIfNeeded = () => {
                     dispatch(fetchRoomsReceiveForClient());
                 }
             });
-    }
-}
+    };
+};

@@ -1,4 +1,4 @@
-const React = require('react');
+import React, { PropTypes } from 'react';;
 const { connect } = require('react-redux');
 
 class UserList extends React.Component {
@@ -17,5 +17,5 @@ class UserList extends React.Component {
     }
 }
 
-Room.propTypes = { users: PropTypes.array.isRequired }
+UserList.propTypes = { users: PropTypes.array.isRequired };
 module.exports = connect()(UserList);
