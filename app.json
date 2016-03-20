@@ -1,0 +1,10 @@
+{
+    "name": "oekaki-dengon-game",
+    "description": "お絵かき伝言ゲーム",
+    "website": "https://peaceful-lowlands-4621.herokuapp.com",
+    "repository": "https://github.com/proshunsuke/oekaki-dengon-game",
+    "success_url": "/",
+    "keywords": [
+	"oekaki",
+    ]
+}
