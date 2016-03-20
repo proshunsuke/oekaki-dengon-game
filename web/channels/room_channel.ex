@@ -5,17 +5,7 @@ defmodule OekakiDengonGame.RoomChannel do
   alias OekakiDengonGame.User
 
   def join("room:" <> room_id, params, socket) do
-    if params["isCreate"] do
-      role = User.leader
-    else
-      role = User.general
-    end
-    user_params = %{
-      name: params["userName"],
-      role: role,
-      room_id: params["roomId"]
-    }
-    user_changeset = User.changeset(%User{}, user_params)
+    user_changeset = User.changeset(%User{}, user_params(params))
     case Repo.insert(user_changeset) do
       {:ok, user} ->
         data = %{room_id: params["roomId"], user_id: user.id, user_name: user.name, role: user.role}
@@ -32,55 +22,49 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def handle_in("other_joins", params, socket) do
-    users_join_room = User
-    |> User.by_active_room_id(params["roomId"])
-    |> OekakiDengonGame.Repo.all
-    |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
     broadcast! socket, "other_joins", %{
-      users: users_join_room
+      users: User.users_join_room(params["roomId"])
     }
     {:reply, :ok, socket}
   end
 
   def terminate(_reason, socket) do
-    user = Repo.get!(User, socket.assigns[:user_id])
-    room_id = user.room_id
-    user_params = %{
-      room_id: nil
-    }
-    user_changeset = User.changeset(user, user_params)
+    user_changeset = User.changeset(User.by_id(socket.assigns[:user_id]), %{room_id: nil})
     case Repo.update(user_changeset) do
       {:ok, user} ->
-        users_join_room = User
-        |> User.by_active_room_id(room_id)
-        |> OekakiDengonGame.Repo.all
-        |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
-        broadcast! socket, "other_leaves", %{
-          users: users_join_room
-        }
-        if users_join_room == [] do
-          room = Repo.get!(Room, room_id)
-          room_params = %{
-            status: Room.closed
-          }
-          room_changeset = Room.changeset(room, room_params)
+				users = User.users_join_room(room_id(socket))
+        broadcast! socket, "other_leaves", %{users: users}
+        if users == [] do
+          room_changeset = Room.changeset(Repo.get!(Room, room_id(socket)), %{status: Room.closed})
           case Repo.update(room_changeset) do
             {:ok, room} ->
-              active_rooms = Room
-              |> Room.active
-              |> OekakiDengonGame.Repo.all
-              |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
               OekakiDengonGame.Endpoint.broadcast! "lobby", "close_room", %{
-                rooms: active_rooms
+                rooms: Room.active_rooms
               }
             {:error, room_changeset} ->
               {:error, socket}
           end
-
         end
         {:ok, socket}
       {:error, user_changeset} ->
         {:error, socket}
     end
   end
+
+	defp user_params(params) do
+    if params["isCreate"] do
+      role = User.leader
+    else
+      role = User.general
+    end
+    user_params = %{
+      name: params["userName"],
+      role: role,
+      room_id: params["roomId"]
+    }
+	end
+
+	defp room_id(socket) do
+		List.last(Regex.run(~r/^room:(\d{1,})$/, socket.topic))		
+	end
 end

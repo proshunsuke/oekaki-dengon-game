@@ -27,6 +27,13 @@ defmodule OekakiDengonGame.Room do
       where: r.status != @closed
   end
 
+	def active_rooms do
+		OekakiDengonGame.Room
+    |> active
+    |> OekakiDengonGame.Repo.all
+    |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
+	end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 

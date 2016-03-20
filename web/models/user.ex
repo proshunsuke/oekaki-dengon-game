@@ -22,6 +22,17 @@ defmodule OekakiDengonGame.User do
     select: u
   end
 
+	def users_join_room(room_id) do
+		OekakiDengonGame.User
+    |> by_active_room_id(room_id)
+    |> OekakiDengonGame.Repo.all
+    |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
+	end
+
+	def by_id(id) do
+		OekakiDengonGame.Repo.get!(OekakiDengonGame.User, id)
+	end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 
