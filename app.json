@@ -3,6 +3,7 @@
     "description": "お絵かき伝言ゲーム",
     "website": "https://peaceful-lowlands-4621.herokuapp.com",
     "repository": "https://github.com/proshunsuke/oekaki-dengon-game",
+    "logo": "http://elixir-lang.org/images/logo/logo.png",
     "success_url": "/",
     "keywords": [
 	"oekaki",
