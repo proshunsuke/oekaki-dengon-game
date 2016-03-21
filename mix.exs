@@ -19,7 +19,7 @@ defmodule OekakiDengonGame.Mixfile do
   def application do
     [mod: {OekakiDengonGame, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :timex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,7 +36,9 @@ defmodule OekakiDengonGame.Mixfile do
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
-     {:poison, "~> 1.5"}]
+     {:poison, "~> 1.5"},
+		 {:timex, "~> 2.1.1"},
+		 {:timex_ecto, "~> 1.0.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
