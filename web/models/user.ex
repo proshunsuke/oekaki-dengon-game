@@ -16,16 +16,15 @@ defmodule OekakiDengonGame.User do
   @leader "leader"
   @general "general"
 
-	# def is_leader? do
-	# 	role == @leader
-	# end
+	def is_leader?(user) do
+		user.role == @leader
+	end
 
   def by_active_room_id(query, room_id) do
     from u in query,
     join: r in OekakiDengonGame.Room,
     on: r.id == u.room_id,
-    where: r.status != ^OekakiDengonGame.Room.closed and r.id == ^room_id,
-    select: u
+    where: r.status != ^OekakiDengonGame.Room.closed and r.id == ^room_id
   end
 
 	def users_join_room(room_id) do
@@ -35,19 +34,34 @@ defmodule OekakiDengonGame.User do
     |> Enum.map(&(Map.take(&1, [:id, :name, :role])))
 	end
 
-	# def old_user_by_room_id(room_id) do
-	# 	from u in query,
-	# 	join: r in OekakiDengonGame.Room,
-	# 	on: r.id == u.room_id,
-		
-		
-	# end
+	def order_by_joined_at_desc(query) do
+		from u in query,
+		order_by: u.joined_at
+	end
 
-	# def users_join_room_with_leader(room_id, user) do
-	# 	if user.is_leader? do
-			
-	# 	end
-	# end
+	def limit(query, num) do
+		from u in query,
+		limit: ^num
+	end
+	
+	def oldest_user_by_room_id(room_id) do
+		OekakiDengonGame.User
+			|> by_active_room_id(room_id)
+			|> order_by_joined_at_desc
+			|> limit(1)
+			|> OekakiDengonGame.Repo.all
+	end
+
+	def users_join_room_with_leader(room_id, terminated_user) do
+		if terminated_user|>is_leader? do
+			oldest_user = List.first(oldest_user_by_room_id(room_id))
+			unless is_nil(oldest_user) do
+				user_changeset = changeset(oldest_user, %{role: @leader})
+				user = OekakiDengonGame.Repo.update!(user_changeset)
+			end
+		end
+		users_join_room(room_id)
+	end
 	
 	def by_id(id) do
 		OekakiDengonGame.Repo.get!(OekakiDengonGame.User, id)

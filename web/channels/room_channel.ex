@@ -34,7 +34,7 @@ defmodule OekakiDengonGame.RoomChannel do
     user_changeset = User.changeset(terminated_user, %{room_id: nil})
     case Repo.update(user_changeset) do
       {:ok, user} ->
-				users = User.users_join_room(room_id(socket.topic))
+				users = User.users_join_room_with_leader(room_id(socket.topic), terminated_user)
         broadcast! socket, "other_leaves", %{users: users}
         if users == [] do
           room_changeset = Room.changeset(Repo.get!(Room, room_id(socket.topic)), %{status: Room.closed})

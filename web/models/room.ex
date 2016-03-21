@@ -1,5 +1,6 @@
 defmodule OekakiDengonGame.Room do
   use OekakiDengonGame.Web, :model
+	use Timex.Ecto.Timestamps
 
   schema "rooms" do
     field :name, :string
