@@ -6,16 +6,18 @@ import { Socket } from 'phoenix';
 
 const createRoomRequest = userName => ({type: constants.CREATE_ROOM_REQUEST, userName: userName});
 
+const createRoomReceiveMain = data => ({
+    type: constants.CREATE_ROOM_RECEIVE,
+    roomId: data.room_id,
+    userId: data.user_id,
+    userName: data.user_name,
+    role: data.role
+});
+
 export const createRoomReceive = data => {
     return dispatch => {
         dispatch(routeActions.push(`/room/${data.room_id}`));
-        return {
-            type: constants.CREATE_ROOM_RECEIVE,
-            roomId: data.room_id,
-            userId: data.user_id,
-            userName: data.user_name,
-            role: data.role
-        };
+	dispatch(createRoomReceiveMain(data));
     };
 };
 
@@ -24,9 +26,9 @@ const enterRoomReceive = data => ({type: constants.ENTER_ROOM_RECEIVE});
 
 export const enterRoomsIfNeeded = (data) => {
     return (dispatch, getState) => {
-        const { createRoom } = getState();
+        const { client } = getState();
         dispatch(joinRoom({
-            roomId: createRoom.roomId,
+            roomId: client.roomId,
             userName: data.userName,
             isCreate: false
         }));

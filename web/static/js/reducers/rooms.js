@@ -7,6 +7,6 @@ const rooms = (state = [], action) => {
         default:
             return state;
     }
-}
+};
 
 module.exports = rooms;

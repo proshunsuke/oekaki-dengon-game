@@ -1,7 +1,7 @@
 const constants = require('../constants');
 const { fetchRoomsReceive, createRoomReceive } = require('./client');
 import request from 'superagent';
-import { routeActions } from 'redux-simple-router'
+import { routeActions } from 'redux-simple-router';
 import { Socket } from 'phoenix';
 
 export const startSocket = () => {
@@ -11,10 +11,10 @@ export const startSocket = () => {
     return {
         type: constants.START_SOCKET,
         socket: socket
-    }
-}
+    };
+};
 
-const joinLobbyAction = channel => ({type: constants.JOIN_LOBBY, channel: channel})
+const joinLobbyAction = channel => ({type: constants.JOIN_LOBBY, channel: channel});
 
 const onLobby = (channel, dispatch) => {
     channel.on('join', msg => console.log('other joined lobby', msg));
@@ -24,7 +24,7 @@ const onLobby = (channel, dispatch) => {
     channel.on('close_room', rooms => {
         dispatch(fetchRoomsReceive(rooms.rooms));
     });
-}
+};
 
 export const joinLobby = () => {
     return (dispatch, getState) => {
@@ -34,7 +34,7 @@ export const joinLobby = () => {
         onLobby(channel, dispatch);
         channel.join()
             .receive('ok', messages => {
-                console.log('catching up', messages)
+                console.log('catching up', messages);
                 let payload = {
                     text: 'joined'
                 };
@@ -50,39 +50,44 @@ export const joinLobby = () => {
             })
             .receive('error', reason => console.log('failed join', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
-    }
-}
+    };
+};
 
-const joinRoomAction = channel => ({type: constants.JOIN_ROOM, channel: channel})
-const otherUserJoinsRoom = result => ({type: constants.OTHER_USER_JOINS_ROOM, users: result.users})
-const otherUserLeavesRoom = result => ({type: constants.OTHER_USER_LEAVES_ROOM, users: result.users})
+const joinRoomAction = channel => ({type: constants.JOIN_ROOM, channel: channel});
+const otherUserJoinsRoom = result => ({type: constants.OTHER_USER_JOINS_ROOM, users: result.users});
+const otherUserLeavesRoom = result => ({type: constants.OTHER_USER_LEAVES_ROOM, users: result.users});
+const beLeader = role => ({type: constants.BE_LEADER, role: role});
 
-const onRoomJoin = (channel, dispatch) => {
+const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('other_joins', result => {
         dispatch(otherUserJoinsRoom(result));
     });
     channel.on('other_leaves', result => {
         dispatch(otherUserLeavesRoom(result));
+	const users = result.users;
+	const { client} = getState();
+	for (let user of users) {
+	    // 自分がリーダーになる
+	    if (user.id === client.userId && user.role === 'leader' && client.role === 'general') {
+		dispatch(beLeader(user.role));
+	    }
+	}
     });
     channel.on('joined', result => {
         dispatch(createRoomReceive(result));
     });
-}
+};
 
 export function joinRoom(data) {
     return (dispatch, getState) => {
         const { socketChannel } = getState();
         const socket = socketChannel.socket;
         let channel = socket.channel(`room:${data.roomId}`, data);
-        onRoomJoin(channel, dispatch);
+        onRoomJoin(channel, dispatch, getState);
         channel.join()
             .receive('ok', messages => {
-                console.log('catching up', messages)
-                let payload = {
-                    roomId: data.roomId
-                };
-
-                channel.push('other_joins', payload)
+                console.log('catching up', messages);
+                channel.push('other_joins', { roomId: data.roomId })
                     .receive('ok', response => {
                         console.log(`joined room:${data.roomId}`, response);
                         dispatch(joinRoomAction(channel));
@@ -93,10 +98,10 @@ export function joinRoom(data) {
             })
             .receive('error', reason => console.log('failed join', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
-    }
+    };
 }
 
-const leaveOtherChannelAction = () => ({type: constants.LEAVE_OTHER_CHANNEL})
+const leaveOtherChannelAction = () => ({type: constants.LEAVE_OTHER_CHANNEL});
 
 export const leaveOtherChannel = () => {
     return (dispatch, getState) => {
@@ -112,5 +117,5 @@ export const leaveOtherChannel = () => {
             })
             .receive('error', reason => console.log('failed leave', reason))
             .after(10000, () => console.log('Networking issue. Still waiting...'));
-    }
-}
+    };
+};
