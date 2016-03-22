@@ -67,6 +67,7 @@ defmodule OekakiDengonGame.RoomChannel do
     }
 	end
 
+	# socketのtopicからroom_idを取る
 	defp room_id(topic) do
 		List.last(Regex.run(~r/^room:(\d{1,})$/, topic))		
 	end
