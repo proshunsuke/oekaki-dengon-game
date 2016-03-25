@@ -3,6 +3,7 @@ const { connect } = require('react-redux');
 const Status = require('./Status');
 const UserList = require('./UserList');
 const Draw = require('./Draw');
+const OtherService = require('./OtherService');
 
 class Room extends React.Component {
     render() {
@@ -10,6 +11,7 @@ class Room extends React.Component {
 
         return <div>
 	    <Status client={client}/>
+	    <OtherService />
             <Draw />
             <UserList users={users}/>
         </div>;
