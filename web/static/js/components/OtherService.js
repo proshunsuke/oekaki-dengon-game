@@ -3,7 +3,6 @@ const { connect } = require('react-redux');
 
 class OtherService extends React.Component {
     render() {
-	console.log('kokokiteru');
         return <div>
 	    other service
         </div>;
