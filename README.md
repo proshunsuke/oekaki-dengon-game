@@ -6,4 +6,6 @@
 
 - https://github.com/proshunsuke/oekaki-dengon-game-misc
 
+## ライセンス
 
+MIT
