@@ -1,19 +1,22 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 const { connect } = require('react-redux');
+const Setting = require('./Setting');
 
 class OtherService extends React.Component {
     constructor(props) {
         super(props);
-        this.handleSetting = this.handleSetting.bind(this);
-    }
-    handleSetting(e) {
-        e.preventDefault();
-	console.log("設定ボタン押した");
+	console.log(props);
     }
     render() {
+	const { client } = this.props;
+	let SettingArea;
+	// leaderだけに設定ボタンが見えるように
+	if (client.role === 'leader') {
+	    SettingArea = <Setting />;
+	}
         return <div>
-	    <Button onClick={this.handleSetting}>設定</Button>
+	    { SettingArea }
             </div>;
     }
 }
