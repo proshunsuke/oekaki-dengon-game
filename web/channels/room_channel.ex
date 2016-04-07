@@ -7,14 +7,10 @@ defmodule OekakiDengonGame.RoomChannel do
 
   def join("room:" <> room_id, params, socket) do
     user_changeset = User.changeset(%User{}, user_params(params))
-    case Repo.insert(user_changeset) do
-      {:ok, user} ->
-        data = %{room_id: params["roomId"], user_id: user.id, user_name: user.name, role: user.role}
-        send(self, {:after_join, data})
-        {:ok, assign(socket, :user_id, user.id)}
-      {:error, user_changeset} ->
-        {:ng, assign(socket, :data, %{test: 'test'}) }
-    end
+    user = Repo.insert!(user_changeset)
+    data = %{room_id: params["roomId"], user_id: user.id, user_name: user.name, role: user.role}
+    send(self, {:after_join, data})
+    {:ok, assign(socket, :user_id, user.id)}
   end
 
   def handle_info({:after_join, data}, socket) do
@@ -32,25 +28,17 @@ defmodule OekakiDengonGame.RoomChannel do
   def terminate(_reason, socket) do
 		terminated_user = User.by_id(socket.assigns[:user_id])
     user_changeset = User.changeset(terminated_user, %{room_id: nil})
-    case Repo.update(user_changeset) do
-      {:ok, user} ->
-				users = User.users_join_room_with_leader(room_id(socket.topic), terminated_user)
-        broadcast! socket, "other_leaves", %{users: users}
-        if users == [] do
-          room_changeset = Room.changeset(Repo.get!(Room, room_id(socket.topic)), %{status: Room.closed})
-          case Repo.update(room_changeset) do
-            {:ok, room} -> 
-             OekakiDengonGame.Endpoint.broadcast! "lobby", "close_room", %{
-                rooms: Room.active_rooms
-              }
-            {:error, room_changeset} ->
-              {:error, socket}
-          end
-        end
-        {:ok, socket}
-      {:error, user_changeset} ->
-        {:error, socket}
+		user = Repo.update!(user_changeset)
+		users = User.users_join_room_with_leader(room_id(socket.topic), terminated_user)
+    broadcast! socket, "other_leaves", %{users: users}
+    if users == [] do
+      room_changeset = Room.changeset(Repo.get!(Room, room_id(socket.topic)), %{status: Room.closed})
+			room = Repo.update!(room_changeset)
+			OekakiDengonGame.Endpoint.broadcast! "lobby", "close_room", %{
+        rooms: Room.active_rooms
+			}
     end
+    {:ok, socket}
   end
 
 	defp user_params(params) do
