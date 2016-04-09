@@ -9,7 +9,6 @@ defmodule OekakiDengonGame.TodoChannel do
     broadcast! socket, "new:todo", %{
       text: params["text"]
     }
-
     {:reply, :ok, socket}
   end
 end
