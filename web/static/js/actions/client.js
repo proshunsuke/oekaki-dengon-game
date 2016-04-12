@@ -75,3 +75,5 @@ export const fetchRoomsIfNeeded = () => {
             });
     };
 };
+
+export const press_setting_button = () => ({type: constants.PRESS_SETTING_BUTTON});
