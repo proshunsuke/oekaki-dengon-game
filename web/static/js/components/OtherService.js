@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 const { connect } = require('react-redux');
-const Setting = require('./Setting');
+const SettingButton = require('./SettingButton');
 
 class OtherService extends React.Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class OtherService extends React.Component {
 	let SettingArea;
 	// leaderだけに設定ボタンが見えるように
 	if (client.role === 'leader') {
-	    SettingArea = <Setting />;
+	    SettingArea = <SettingButton />;
 	}
         return <div>
 	    { SettingArea }
@@ -22,3 +22,5 @@ class OtherService extends React.Component {
 }
 
 module.exports = connect()(OtherService);
+
+

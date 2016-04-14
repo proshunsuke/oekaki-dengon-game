@@ -3,14 +3,16 @@ const { connect } = require('react-redux');
 const Status = require('./Status');
 const UserList = require('./UserList');
 const Draw = require('./Draw');
+const Setting = require('./Setting');
 const OtherService = require('./OtherService');
 
 class Room extends React.Component {
     render() {
         const { users, client, game } = this.props;
 	let drawOrSettingArea;
+	// リーダーの時設定中の時は設定画面を出す
 	if (game.isSetting && client.role === 'leader') {
-	    drawOrSettingArea = <Status client={client}/>;
+	    drawOrSettingArea = <Setting />;
 	} else {
 	    drawOrSettingArea = <Draw />;
 	}
