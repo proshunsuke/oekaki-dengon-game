@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-const { press_setting_button } = require('../actions/client');
+const { pressSettingButton } = require('../actions/client');
 const { connect } = require('react-redux');
 
 class SettingButton extends React.Component {
@@ -11,7 +11,7 @@ class SettingButton extends React.Component {
     handleSetting(e) {
         e.preventDefault();
 	const { dispatch } = this.props;
-	dispatch(press_setting_button());
+	dispatch(pressSettingButton());
     }
     render() {
         return <div>
