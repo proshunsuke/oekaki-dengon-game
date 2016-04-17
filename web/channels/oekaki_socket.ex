@@ -4,7 +4,7 @@ defmodule OekakiDengonGame.OekakiSocket do
   channel "lobby", OekakiDengonGame.LobbyChannel
   channel "room:*", OekakiDengonGame.RoomChannel
 
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket, check_origin: false
 
   def connect(_params, socket) do
     {:ok, socket}
