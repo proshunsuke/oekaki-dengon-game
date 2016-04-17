@@ -17,17 +17,23 @@ class ActiveRooms extends React.Component {
         dispatch(routeActions.push(`/room/${roomId}/enter`));
     }
 
+    // 待機中の部屋のみボタン表示
+    enterRoomButton(status, roomId) {
+	if (status === 'waiting') {
+	    return <Button onClick={this.handleEnterRoom.bind(this, roomId)}>部屋に入る</Button>;
+	}
+    }
+
     render() {
         const { rooms } = this.props;
         return (
             <ul>
-                {rooms.map((room, i) =>
-                    <li
-                        key={room.id}>{i}. id: {room.id}, 部屋の名前: {room.name}, ステータス: {room.status},
-                        描く時間: {room.draw_time}
-                        <Button onClick={this.handleEnterRoom.bind(this, room.id)}>部屋に入る</Button>
-                    </li>
-                )}
+              {rooms.map((room, i) =>
+			 <li key={room.id}>{i}. id: {room.id}, 部屋の名前: {room.name}, ステータス: {room.status},
+                               描く時間: {room.draw_time}
+			       { this.enterRoomButton(room.status, room.id)}
+			     </li>
+			)}
             </ul>
         );
     }

@@ -21,25 +21,21 @@ defmodule OekakiDengonGame.RoomController do
     }
 
     room_changeset = Room.changeset(%Room{}, room_params)
-    case Repo.insert(room_changeset) do
-      {:ok, room} ->
-        user_params = %{
-          name: _params["userName"],
-          role: User.leader,
-          room_id: room.id
-        }
-        data = %{room_id: room.id}
-        active_rooms = Room
-        |> Room.active
-        |> OekakiDengonGame.Repo.all
-        |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
-        OekakiDengonGame.Endpoint.broadcast! "lobby", "create_room", %{
-          rooms: active_rooms
-        }
-        conn
-        |> render("create.json", data: data)
-      {:error, room_changeset} ->
-        render(conn, "create.json", rooms: Repo.all(Room))
-    end
+		room = Repo.insert!(room_changeset)
+		user_params = %{
+      name: _params["userName"],
+      role: User.leader,
+      room_id: room.id
+    }
+    data = %{room_id: room.id}
+    active_rooms = Room
+    |> Room.active
+    |> OekakiDengonGame.Repo.all
+    |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
+    OekakiDengonGame.Endpoint.broadcast! "lobby", "create_room", %{
+      rooms: active_rooms
+    }
+    conn
+    |> render("create.json", data: data)
   end
 end

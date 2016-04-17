@@ -21,8 +21,23 @@ defmodule OekakiDengonGame.Room do
 
   # states
   @waiting "waiting"
+	@setting "setting"
   @closed "closed"
 
+	def is_waiting_room?(room_id) do
+		if OekakiDengonGame.Room
+    |> waiting_room_by_id(room_id)
+    |> OekakiDengonGame.Repo.all
+		|> List.first
+		|> is_nil,
+		do: false, else: true
+	end
+
+	def waiting_room_by_id(query, room_id) do
+		from r in query,
+    where: r.status == ^waiting and r.id == ^room_id
+	end
+	
   def active(query) do
       from r in query,
       where: r.status != @closed
@@ -61,6 +76,10 @@ defmodule OekakiDengonGame.Room do
   def waiting do
     @waiting
   end
+
+	def setting do
+		@setting
+	end
 
   def closed do
     @closed

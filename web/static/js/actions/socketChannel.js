@@ -24,6 +24,12 @@ const onLobby = (channel, dispatch) => {
     channel.on('close_room', rooms => {
         dispatch(fetchRoomsReceive(rooms.rooms));
     });
+    channel.on('now_setting', rooms => {
+        dispatch(fetchRoomsReceive(rooms.rooms));
+    });
+    channel.on('now_waiting', rooms => {
+        dispatch(fetchRoomsReceive(rooms.rooms));
+    });
 };
 
 export const joinLobby = () => {
@@ -76,6 +82,12 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('joined', result => {
         dispatch(createRoomReceive(result));
     });
+    channel.on('now_setting', msg => {
+	dispatch(pressSettingButtonNowSetting());
+    });
+    channel.on('now_waiting', msg => {
+	dispatch(pressSettingButtonNowWaiting());
+    });
 };
 
 export function joinRoom(data) {
@@ -93,10 +105,12 @@ export function joinRoom(data) {
                         dispatch(joinRoomAction(channel));
                     })
                     .receive('error', error => {
-                        console.error(error);
+			alert(error);
                     });
             })
-            .receive('error', reason => console.log('failed join', reason))
+            .receive('error', error =>{
+		alert(`failed join: ${error.reason}`);
+	    })
             .after(10000, () => console.log('Networking issue. Still waiting...'));
     };
 }
@@ -119,3 +133,27 @@ export const leaveOtherChannel = () => {
             .after(10000, () => console.log('Networking issue. Still waiting...'));
     };
 };
+
+const pressSettingButtonNowSetting = () => ({type: constants.NOW_SETTING});
+const pressSettingButtonNowWaiting = () => ({type: constants.NOW_WAITING});
+
+export const pressSettingButton = () => {
+    return (dispatch, getState) => {
+	const { socketChannel, game } = getState();
+        let channel = socketChannel.channel;
+	if (game.isSetting) {
+	    channel.push('now_waiting')
+            .receive('ok', response => {})
+            .receive('error', error => {
+                console.error(`now setting ng: ${error}`);
+            });
+	} else {
+	    channel.push('now_setting')
+            .receive('ok', response => {})
+            .receive('error', error => {
+                console.error(`now setting ng: ${error}`);
+            });
+	}
+    };
+};
+

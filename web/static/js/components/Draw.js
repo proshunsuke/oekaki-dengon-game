@@ -58,15 +58,15 @@ class Draw extends React.Component {
             border: '1px solid #000000',
             width: CANVAS_WIDTH,
             height: CANVAS_HEIGHT
-        }
+        };
 
         return <canvas
-            style={canvasStyle} ref='area'
-            onMouseDown={this.handleOnMouseDown.bind(this)}
-            onMouseMove={this.handleOnMouseMove.bind(this)}
-            onMouseUp={this.handleOnMouseUp.bind(this)}
-            onMouseLeave={this.handleOnMouseLeave.bind(this)}
-        />
+        style={canvasStyle} ref='area'
+        onMouseDown={this.handleOnMouseDown.bind(this)}
+        onMouseMove={this.handleOnMouseMove.bind(this)}
+        onMouseUp={this.handleOnMouseUp.bind(this)}
+        onMouseLeave={this.handleOnMouseLeave.bind(this)}
+            />;
     }
 }
 
