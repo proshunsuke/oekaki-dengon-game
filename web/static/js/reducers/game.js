@@ -18,6 +18,3 @@ const game = (state = {
 };
 
 module.exports = game;
-
-
-
