@@ -4,9 +4,13 @@ const game = (state = {
     isSetting: false
 }, action) => {
     switch (action.type) {
-    case constants.PRESS_SETTING_BUTTON:
+    case constants.NOW_SETTING:
         return Object.assign({}, state, {
-            isSetting: state.isSetting === true ? false : true // 設定ボタンを押すたびにtrue, falseを入れ替え
+            isSetting: true
+        });
+    case constants.NOW_WAITING:
+        return Object.assign({}, state, {
+            isSetting: false
         });
     default:
         return state;
@@ -14,3 +18,6 @@ const game = (state = {
 };
 
 module.exports = game;
+
+
+

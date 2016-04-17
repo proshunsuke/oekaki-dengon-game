@@ -26,7 +26,7 @@ class EnterRoom extends React.Component {
                     <ButtonInput type="submit" value="送信" wrapperClassName="col-xs-offset-2 col-xs-10"/>
                 </form>
             </div>
-        )
+        );
     }
 }
 

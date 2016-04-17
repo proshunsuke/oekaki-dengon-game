@@ -75,11 +75,3 @@ export const fetchRoomsIfNeeded = () => {
             });
     };
 };
-
-const pressSettingButtonForClient = () => ({type: constants.PRESS_SETTING_BUTTON});
-
-export const pressSettingButton = () => {
-    return dispatch => {
-	dispatch(pressSettingButtonForClient());
-    };
-};

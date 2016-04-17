@@ -6,11 +6,15 @@ defmodule OekakiDengonGame.RoomChannel do
   alias OekakiDengonGame.User
 
   def join("room:" <> room_id, params, socket) do
-    user_changeset = User.changeset(%User{}, user_params(params))
-    user = Repo.insert!(user_changeset)
-    data = %{room_id: params["roomId"], user_id: user.id, user_name: user.name, role: user.role}
-    send(self, {:after_join, data})
-    {:ok, assign(socket, :user_id, user.id)}
+		if !Room.is_waiting_room?(room_id) do
+			{:error, %{reason: "room is not waiting"}}
+		else
+			user_changeset = User.changeset(%User{}, user_params(params))
+			user = Repo.insert!(user_changeset)
+			data = %{room_id: params["roomId"], user_id: user.id, user_name: user.name, role: user.role}
+			send(self, {:after_join, data})
+			{:ok, assign(socket, :user_id, user.id)}	
+		end
   end
 
   def handle_info({:after_join, data}, socket) do
@@ -22,6 +26,30 @@ defmodule OekakiDengonGame.RoomChannel do
     broadcast! socket, "other_joins", %{
       users: User.users_join_room(params["roomId"])
     }
+    {:reply, :ok, socket}
+  end
+
+	def handle_in("now_setting", params, socket) do
+		room_changeset = Room.changeset(Repo.get!(Room, room_id(socket.topic)), %{status: Room.setting})
+		room = Repo.update!(room_changeset)
+    broadcast! socket, "now_setting", %{
+			status: Room.setting
+    }
+		OekakiDengonGame.Endpoint.broadcast! "lobby", "now_setting", %{
+      rooms: Room.active_rooms
+		}
+    {:reply, :ok, socket}
+  end
+
+	def handle_in("now_waiting", params, socket) do
+		room_changeset = Room.changeset(Repo.get!(Room, room_id(socket.topic)), %{status: Room.waiting})
+		room = Repo.update!(room_changeset)
+    broadcast! socket, "now_waiting", %{
+			status: Room.waiting
+    }
+		OekakiDengonGame.Endpoint.broadcast! "lobby", "now_waiting", %{
+      rooms: Room.active_rooms
+		}
     {:reply, :ok, socket}
   end
 

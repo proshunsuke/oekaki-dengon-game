@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-const { pressSettingButton } = require('../actions/client');
+const { pressSettingButton } = require('../actions/socketChannel');
 const { connect } = require('react-redux');
 
 class SettingButton extends React.Component {
