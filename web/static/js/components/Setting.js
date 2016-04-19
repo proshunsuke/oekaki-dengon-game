@@ -13,6 +13,7 @@ class Setting extends React.Component {
             height: CANVAS_HEIGHT
         };
         return <div>
+	    style={settingAreaStyle} ref='area'
 	    ここは設定エリア
 	    </div>;
     }
