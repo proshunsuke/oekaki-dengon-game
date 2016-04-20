@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 const { connect } = require('react-redux');
+const BeforeSettingUserList = require('./BeforeSettingUserList');
 
 // 2箇所でハードコーディングしてるからやめたほうがよい
 const CANVAS_WIDTH = 600;
@@ -13,6 +14,7 @@ class Setting extends React.Component {
             height: CANVAS_HEIGHT
         };
         return <div style={settingAreaStyle} ref='area'>
+	    <BeforeSettingUserList/>
 	    ここは設定エリア
 	    </div>;
     }
