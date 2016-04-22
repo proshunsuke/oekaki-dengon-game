@@ -1,6 +1,6 @@
 const constants = require('../constants');
 
-const users = (state = [], action) => {
+const beforeSettingUsers = (state = [], action) => {
     switch (action.type) {
     case constants.OTHER_USER_JOINS_ROOM:
         return action.users;
@@ -11,4 +11,4 @@ const users = (state = [], action) => {
     }
 };
 
-module.exports = users;
+module.exports = beforeSettingUsers;

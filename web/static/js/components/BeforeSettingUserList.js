@@ -3,9 +3,14 @@ const { connect } = require('react-redux');
 
 class BeforeSettingUserList extends React.Component {
     render() {
-        return <div>
-	    ここにユーザリスト
-	    </div>;
+	const { beforeSettingUsers } = this.props;
+        return <ul>
+	    設定前ユーザリスト
+            {beforeSettingUsers.map((user, i) =>
+				    <li key={user.id}>{i}. name: {user.name}
+				    </li>
+				   )}
+        </ul>;
     }
 }
 
