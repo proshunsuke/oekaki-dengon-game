@@ -8,11 +8,11 @@ const OtherService = require('./OtherService');
 
 class Room extends React.Component {
     render() {
-        const { users, client, game, beforeSettingUsers } = this.props;
+        const { users, client, game, beforeSettingUsers, afterSettingUsers } = this.props;
 	let drawOrSettingArea;
 	// リーダーの時設定中の時は設定画面を出す
 	if (game.isSetting && client.role === 'leader') {
-	    drawOrSettingArea = <Setting beforeSettingUsers={beforeSettingUsers} />;
+	    drawOrSettingArea = <Setting beforeSettingUsers={beforeSettingUsers} afterSettingUsers={afterSettingUsers} />;
 	} else {
 	    drawOrSettingArea = <Draw />;
 	}
@@ -26,6 +26,12 @@ class Room extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({users: state.users, client: state.client, game: state.game, beforeSettingUsers: state.beforeSettingUsers});
+const mapStateToProps = state => ({
+    users: state.users,
+    client: state.client,
+    game: state.game,
+    beforeSettingUsers: state.beforeSettingUsers,
+    afterSettingUsers: state.afterSettingUsers
+});
 Room.propTypes = { users: PropTypes.array.isRequired };
 module.exports = connect(mapStateToProps)(Room);
