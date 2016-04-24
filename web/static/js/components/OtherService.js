@@ -6,7 +6,6 @@ const SettingButton = require('./SettingButton');
 class OtherService extends React.Component {
     constructor(props) {
         super(props);
-	console.log(props);
     }
     render() {
 	const { client } = this.props;
