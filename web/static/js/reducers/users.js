@@ -1,5 +1,6 @@
 const constants = require('../constants');
 
+// TODO: room.jsを作り、その要素の1つとしてusersをもたせる
 const users = (state = [], action) => {
     switch (action.type) {
     case constants.OTHER_USER_JOINS_ROOM:

@@ -83,8 +83,8 @@ const deleteUserFromListMain = users => ({
 
 export const deleteUserFromList = user => {
     return (dispatch, getState) => {
-	const { beforeSettingUsers } = getState();
-	dispatch(deleteUserFromListMain(beforeSettingUsers.filter((value) => {return (user !== value);})));
+	const { gameInfo } = getState();
+	dispatch(deleteUserFromListMain(gameInfo.beforeSettingUsers.filter((value) => {return (user !== value);})));
     };
 };
 
@@ -95,7 +95,14 @@ const addUserFromListMain = users => ({
 
 export const addUserFromList = user => {
     return (dispatch, getState) => {
-	const { afterSettingUsers } = getState();
-	dispatch(addUserFromListMain(afterSettingUsers.concat([user])));
+	const { gameInfo } = getState();
+	dispatch(addUserFromListMain(gameInfo.afterSettingUsers.concat([user])));
     };
 };
+
+
+
+
+
+
+

@@ -4,7 +4,6 @@ const socketChannel = require('./socketChannel');
 const draw = require('./draw');
 const users = require('./users');
 const game = require('./game');
-const beforeSettingUsers = require('./beforeSettingUsers');
-const afterSettingUsers = require('./afterSettingUsers');
+const gameInfo = require('./gameInfo');
 
-module.exports = { client, rooms, socketChannel, draw, users, game, beforeSettingUsers, afterSettingUsers };
+module.exports = { client, rooms, socketChannel, draw, users, game, gameInfo };

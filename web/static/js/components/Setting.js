@@ -9,7 +9,7 @@ const CANVAS_HEIGHT = 400;
 
 class Setting extends React.Component {
     render() {
-	const { beforeSettingUsers, afterSettingUsers } = this.props;
+	const { gameInfo } = this.props;
 	const settingAreaStyle = {
             border: '1px solid #000000',
             width: CANVAS_WIDTH,
@@ -17,8 +17,8 @@ class Setting extends React.Component {
         };
         return <div style={settingAreaStyle} ref='area'>
 	    ここは設定エリア
-	    <BeforeSettingUserList beforeSettingUsers={beforeSettingUsers} />
-	    <AfterSettingUserList afterSettingUsers={afterSettingUsers} />
+	    <BeforeSettingUserList gameInfo={gameInfo} />
+	    <AfterSettingUserList gameInfo={gameInfo} />
 	    </div>;
     }
 }

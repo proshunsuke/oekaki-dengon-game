@@ -17,10 +17,10 @@ class BeforeSettingUserList extends React.Component {
 
     
     render() {
-	const { beforeSettingUsers } = this.props;
+	const { gameInfo } = this.props;
         return <ul>
 	    設定前ユーザリスト
-            {beforeSettingUsers.map((user, i) =>
+            {gameInfo.beforeSettingUsers.map((user, i) =>
 				    <li key={user.id} onClick={this.handleSelectUser.bind(this, user)}>{i}. name: {user.name}
 				    </li>
 				   )}

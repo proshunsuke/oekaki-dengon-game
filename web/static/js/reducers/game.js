@@ -1,5 +1,6 @@
 const constants = require('../constants');
 
+// TODO: gameInfoに統合する, isSettingというよりはstate = 'setting'とする
 const game = (state = {
     isSetting: false
 }, action) => {
