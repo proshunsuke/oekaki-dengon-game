@@ -2,7 +2,8 @@ const constants = require('../constants');
 
 const gameInfo = (state = {
     beforeSettingUsers: [],
-    afterSettingUsers: []
+    afterSettingUsers: [],
+    drawTime: 120
 }, action) => {
     switch (action.type) {
     case constants.RESET_BEFORE_USERS:
@@ -21,9 +22,16 @@ const gameInfo = (state = {
 	return Object.assign({}, state, {
             afterSettingUsers: action.users
         });
+    case constants.CHANGE_DRAW_TIME:
+	return Object.assign({}, state, {
+            drawTime: action.drawTime
+        });
     default:
         return state;
     }
 };
 
 module.exports = gameInfo;
+
+
+
