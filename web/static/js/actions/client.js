@@ -75,3 +75,27 @@ export const fetchRoomsIfNeeded = () => {
             });
     };
 };
+
+const deleteUserFromListMain = users => ({
+    type: constants.DELETE_USER_FROM_LIST,
+    users: users
+});
+
+export const deleteUserFromList = user => {
+    return (dispatch, getState) => {
+	const { beforeSettingUsers } = getState();
+	dispatch(deleteUserFromListMain(beforeSettingUsers.filter((value) => {return (user !== value);})));
+    };
+};
+
+const addUserFromListMain = users => ({
+    type: constants.ADD_USER_TO_LIST,
+    users: users
+});
+
+export const addUserFromList = user => {
+    return (dispatch, getState) => {
+	const { afterSettingUsers } = getState();
+	dispatch(addUserFromListMain(afterSettingUsers.concat([user])));
+    };
+};
