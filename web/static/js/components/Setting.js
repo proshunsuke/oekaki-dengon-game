@@ -28,7 +28,6 @@ class Setting extends React.Component {
             height: CANVAS_HEIGHT
         };
         return <div style={settingAreaStyle} ref='area'>
-	    <p>ここは設定エリア</p>
 	    描く時間<input
         type="text"
 	defaultValue = { gameInfo.drawTime }
