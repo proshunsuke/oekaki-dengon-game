@@ -10,6 +10,6 @@ defmodule OekakiDengonGame.RoomView do
   end
 
   def render("room.json", %{room: room}) do
-    %{id: room.id, name: room.name, draw_time: room.draw_time, status: room.status}
+    %{id: room.id, name: room.name, status: room.status}
   end
 end

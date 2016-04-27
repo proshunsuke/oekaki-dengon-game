@@ -15,7 +15,6 @@ defmodule OekakiDengonGame.RoomController do
     room_info = _params
     room_params = %{
       name: _params["roomName"],
-      draw_time: Room.draw_time_120,
       status: Room.waiting,
       password: _params["roomPassword"]
     }
@@ -31,7 +30,7 @@ defmodule OekakiDengonGame.RoomController do
     active_rooms = Room
     |> Room.active
     |> OekakiDengonGame.Repo.all
-    |> Enum.map(&(Map.take(&1, [:id, :name, :draw_time, :status])))
+    |> Enum.map(&(Map.take(&1, [:id, :name, :status])))
     OekakiDengonGame.Endpoint.broadcast! "lobby", "create_room", %{
       rooms: active_rooms
     }
