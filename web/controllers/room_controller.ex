@@ -5,10 +5,7 @@ defmodule OekakiDengonGame.RoomController do
   alias OekakiDengonGame.User
 
   def fetch(conn, _params) do
-    active_rooms = Room
-    |> Room.active
-    |> OekakiDengonGame.Repo.all
-    render(conn, :fetch, rooms: active_rooms)
+    json(conn, Room.active_room_objects)
   end
 
   def create(conn, _params) do

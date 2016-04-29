@@ -28,15 +28,24 @@ class ActiveRooms extends React.Component {
         const { rooms } = this.props;
         return (
             <ul>
-              {rooms.map((room, i) =>
-			 <li key={room.id}>{i}. id: {room.id}, 部屋の名前: {room.name}, ステータス: {room.status}
-			       { this.enterRoomButton(room.status, room.id)}
-			     </li>
-			)}
+	      {Object.keys(rooms).map(id =>
+		<li key={id}>{id}. id: {id}, 部屋の名前: {rooms[id].name}, ステータス: {rooms[id].status}
+	      	    { this.enterRoomButton(rooms[id].status, id)}
+	      	 </li>
+	      )}
             </ul>
         );
     }
 }
 
-ActiveRooms.propTypes = { rooms: PropTypes.array.isRequired };
+ActiveRooms.propTypes = { rooms: PropTypes.object.isRequired };
 module.exports = connect()(ActiveRooms);
+
+
+
+
+
+
+
+
+

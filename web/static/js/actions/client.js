@@ -69,7 +69,7 @@ export const fetchRoomsIfNeeded = () => {
                 if (err || !res.ok) {
                     alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
                 } else {
-                    dispatch(fetchRoomsReceive(res.body.data));
+                    dispatch(fetchRoomsReceive(res.body));
                     dispatch(fetchRoomsReceiveForClient());
                 }
             });

@@ -23,5 +23,14 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({rooms: state.rooms});
-Home.propTypes = { rooms: PropTypes.array.isRequired };
+Home.propTypes = { rooms: PropTypes.object.isRequired };
 module.exports = connect(mapStateToProps)(Home);
+
+
+
+
+
+
+
+
+

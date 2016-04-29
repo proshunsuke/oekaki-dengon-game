@@ -37,11 +37,22 @@ defmodule OekakiDengonGame.Room do
       where: r.status != @closed
   end
 
+  def active_room_objects do
+    active_rooms |> room_objects
+  end
+
   def active_rooms do
     OekakiDengonGame.Room
     |> active
     |> OekakiDengonGame.Repo.all
     |> Enum.map(&(Map.take(&1, [:id, :name, :status])))
+  end
+
+  # roomモデルの結果を受け取る
+  # 以下のような結果が返る
+  # %{1: %{status: 'waiting', name: 'room1'}, 2: %{status: 'waiting', name: 'room2'}}
+  def room_objects(rooms) do
+    rooms |> Enum.reduce(%{}, fn e, acc -> Map.put(acc, Integer.to_string(e.id), %{"status" => e.status, "name" => e.name})  end)
   end
 
   @doc """
