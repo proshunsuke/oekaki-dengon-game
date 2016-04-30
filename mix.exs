@@ -38,7 +38,8 @@ defmodule OekakiDengonGame.Mixfile do
      {:cowboy, "~> 1.0"},
      {:poison, "~> 1.5"},
 		 {:timex, "~> 2.1.1"},
-		 {:timex_ecto, "~> 1.0.3"}]
+     {:timex_ecto, "~> 1.0.3"}
+    ]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

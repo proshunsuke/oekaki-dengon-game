@@ -16,8 +16,10 @@ const createRoomReceiveMain = data => ({
 
 export const createRoomReceive = data => {
     return dispatch => {
-        dispatch(routeActions.push(`/room/${data.room_id}`));
 	dispatch(createRoomReceiveMain(data));
+	// TODO: roomsは非同期で取得してくる
+	dispatch(fetchRoomsIfNeeded());
+	dispatch(routeActions.push(`/room/${data.room_id}`));
     };
 };
 
@@ -57,21 +59,49 @@ export const createRoomRequestIfNeeded = data => {
 };
 
 const fetchRooms = () => ({type: constants.FETCH_ROOMS});
-export const fetchRoomsReceive = rooms => ({type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms});
+export const fetchRoomsReceive = rooms => {
+    return {type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms};
+};
 const fetchRoomsReceiveForClient = () => ({type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT});
 
 export const fetchRoomsIfNeeded = () => {
     return dispatch => {
         dispatch(fetchRooms());
-        return request
-            .get('/api/room')
-            .end((err, res) => {
+	request
+	    .get('/api/room')
+	    .end((err, res) => {
                 if (err || !res.ok) {
-                    alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
+		    alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
                 } else {
-                    dispatch(fetchRoomsReceive(res.body.data));
-                    dispatch(fetchRoomsReceiveForClient());
+		    dispatch(fetchRoomsReceiveForClient());
+		    dispatch(fetchRoomsReceive(res.body));
                 }
-            });
+	    });
     };
 };
+
+const deleteUserFromListMain = users => ({
+    type: constants.DELETE_USER_FROM_LIST,
+    users: users
+});
+
+export const deleteUserFromList = user => {
+    return (dispatch, getState) => {
+	const { gameInfo } = getState();
+	dispatch(deleteUserFromListMain(gameInfo.beforeSettingUsers.filter((value) => {return (user !== value);})));
+    };
+};
+
+const addUserFromListMain = users => ({
+    type: constants.ADD_USER_TO_LIST,
+    users: users
+});
+
+export const addUserFromList = user => {
+    return (dispatch, getState) => {
+	const { gameInfo } = getState();
+	dispatch(addUserFromListMain(gameInfo.afterSettingUsers.concat([user])));
+    };
+};
+
+export const changeDrawTime = drawTime => ({type: constants.CHANGE_DRAW_TIME, drawTime: drawTime});

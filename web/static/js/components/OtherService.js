@@ -6,13 +6,15 @@ const SettingButton = require('./SettingButton');
 class OtherService extends React.Component {
     constructor(props) {
         super(props);
-	console.log(props);
     }
     render() {
-	const { client } = this.props;
+	const { client, rooms } = this.props;
 	let SettingArea;
-	// leaderだけに設定ボタンが見えるように
-	if (client.role === 'leader') {
+	// 待機中または設定中、かつリーダーの場合のみ設定ボタンが出る
+	// TODO: roomsは非同期で取得してくる
+	if (!(client.roomId in rooms)) {
+	} else if (
+	    (rooms[client.roomId].status === 'setting' || rooms[client.roomId].status === 'waiting') && client.role === 'leader') {
 	    SettingArea = <SettingButton />;
 	}
         return <div>
