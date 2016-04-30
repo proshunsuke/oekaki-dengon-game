@@ -31,7 +31,7 @@ class ActiveRooms extends React.Component {
 	      {Object.keys(rooms).map(id =>
 		<li key={id}>{id}. id: {id}, 部屋の名前: {rooms[id].name}, ステータス: {rooms[id].status}
 	      	    { this.enterRoomButton(rooms[id].status, id)}
-	      	 </li>
+	      	</li>
 	      )}
             </ul>
         );

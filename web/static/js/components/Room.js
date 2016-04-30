@@ -8,17 +8,20 @@ const OtherService = require('./OtherService');
 
 class Room extends React.Component {
     render() {
-        const { users, client, game, gameInfo } = this.props;
+        const { users, client, gameInfo, rooms } = this.props;
 	let drawOrSettingArea;
 	// リーダーの時設定中の時は設定画面を出す
-	if (game.isSetting && client.role === 'leader') {
+	// TODO: roomsは非同期で取得してくる
+	if (!(client.roomId in rooms)) {
+	    drawOrSettingArea = <Draw />;
+	} else if (rooms[client.roomId].status === 'setting' && client.role === 'leader') {
 	    drawOrSettingArea = <Setting gameInfo={gameInfo} />;
 	} else {
 	    drawOrSettingArea = <Draw />;
 	}
 
         return <div>
-	    <Status client={client} game={game}/>
+	    <Status client={client} rooms={rooms}/>
 	    <OtherService client={client}/>
             { drawOrSettingArea }
             <UserList users={users}/>
@@ -29,8 +32,8 @@ class Room extends React.Component {
 const mapStateToProps = state => ({
     users: state.users,
     client: state.client,
-    game: state.game,
-    gameInfo: state.gameInfo
+    gameInfo: state.gameInfo,
+    rooms: state.rooms
 });
 Room.propTypes = { users: PropTypes.array.isRequired };
 module.exports = connect(mapStateToProps)(Room);

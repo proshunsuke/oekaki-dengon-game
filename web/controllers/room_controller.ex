@@ -17,8 +17,8 @@ defmodule OekakiDengonGame.RoomController do
     }
 
     room_changeset = Room.changeset(%Room{}, room_params)
-		room = Repo.insert!(room_changeset)
-		user_params = %{
+    room = Repo.insert!(room_changeset)
+    user_params = %{
       name: _params["userName"],
       role: User.leader,
       room_id: room.id

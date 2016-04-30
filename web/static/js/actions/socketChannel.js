@@ -19,16 +19,16 @@ const joinLobbyAction = channel => ({type: constants.JOIN_LOBBY, channel: channe
 const onLobby = (channel, dispatch) => {
     channel.on('join', msg => console.log('other joined lobby', msg));
     channel.on('create_room', rooms => {
-        dispatch(fetchRoomsReceive(rooms.rooms));
+        dispatch(fetchRoomsReceive(rooms));
     });
     channel.on('close_room', rooms => {
-        dispatch(fetchRoomsReceive(rooms.rooms));
+        dispatch(fetchRoomsReceive(rooms));
     });
     channel.on('now_setting', rooms => {
-        dispatch(fetchRoomsReceive(rooms.rooms));
+        dispatch(fetchRoomsReceive(rooms));
     });
     channel.on('now_waiting', rooms => {
-        dispatch(fetchRoomsReceive(rooms.rooms));
+        dispatch(fetchRoomsReceive(rooms));
     });
 };
 
@@ -89,14 +89,14 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('joined', result => {
         dispatch(createRoomReceive(result));
     });
-    channel.on('now_setting', msg => {
+    channel.on('now_setting', rooms => {
 	const { users } = getState();
-	dispatch(pressSettingButtonNowSetting());
+	dispatch(fetchRoomsReceive(rooms));
 	dispatch(resetBeforeUsers(users));
 	dispatch(resetAfterUsers());
     });
-    channel.on('now_waiting', msg => {
-	dispatch(pressSettingButtonNowWaiting());
+    channel.on('now_waiting', rooms => {
+	dispatch(fetchRoomsReceive(rooms));
     });
 };
 
@@ -151,9 +151,9 @@ const resetAfterUsers = () => ({type: constants.RESET_AFTER_USERS});
 
 export const pressSettingButton = () => {
     return (dispatch, getState) => {
-	const { socketChannel, game } = getState();
+	const { socketChannel, rooms, client } = getState();
         let channel = socketChannel.channel;
-	if (game.isSetting) {
+	if (rooms[client.roomId].status === 'setting' ) {
 	    channel.push('now_waiting')
             .receive('ok', response => {})
             .receive('error', error => {

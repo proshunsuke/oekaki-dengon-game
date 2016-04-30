@@ -16,8 +16,10 @@ const createRoomReceiveMain = data => ({
 
 export const createRoomReceive = data => {
     return dispatch => {
-        dispatch(routeActions.push(`/room/${data.room_id}`));
 	dispatch(createRoomReceiveMain(data));
+	// TODO: roomsは非同期で取得してくる
+	dispatch(fetchRoomsIfNeeded());
+	dispatch(routeActions.push(`/room/${data.room_id}`));
     };
 };
 
@@ -57,22 +59,24 @@ export const createRoomRequestIfNeeded = data => {
 };
 
 const fetchRooms = () => ({type: constants.FETCH_ROOMS});
-export const fetchRoomsReceive = rooms => ({type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms});
+export const fetchRoomsReceive = rooms => {
+    return {type: constants.FETCH_ROOMS_RECEIVE, rooms: rooms};
+};
 const fetchRoomsReceiveForClient = () => ({type: constants.FETCH_ROOMS_RECEIVE_FOR_CLIENT});
 
 export const fetchRoomsIfNeeded = () => {
     return dispatch => {
         dispatch(fetchRooms());
-        return request
-            .get('/api/room')
-            .end((err, res) => {
+	request
+	    .get('/api/room')
+	    .end((err, res) => {
                 if (err || !res.ok) {
-                    alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
+		    alert('エラーが発生しました。部屋情報が取得出来ませんでした。');
                 } else {
-                    dispatch(fetchRoomsReceive(res.body));
-                    dispatch(fetchRoomsReceiveForClient());
+		    dispatch(fetchRoomsReceiveForClient());
+		    dispatch(fetchRoomsReceive(res.body));
                 }
-            });
+	    });
     };
 };
 

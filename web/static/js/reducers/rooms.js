@@ -1,6 +1,7 @@
 const constants = require('../constants');
 
-// TODO: lobby.jsを作り、その1つとしてroomsをもたせる
+// 以下のようなオブジェクトになっている
+// {1: {status: 'waiting', name: 'room1'}, 2: {status: 'waiting', name: 'room2'}}
 const rooms = (state = {}, action) => {
     switch (action.type) {
     case constants.FETCH_ROOMS_RECEIVE:

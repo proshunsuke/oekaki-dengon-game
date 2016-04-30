@@ -7,11 +7,14 @@ class Status extends React.Component {
     }
 
     render() {
-        const { client, game } = this.props;
+        const { client, rooms } = this.props;
 	let gameStatus;
-	if (game.isSetting) {
+	// TODO: roomsは非同期で取得してくる
+	if (!(client.roomId in rooms)) {
+	    gameStatus = '待機中';
+	} else if (rooms[client.roomId].status === 'setting') {
 	    gameStatus = '設定中';
-	} else {
+	} else if (rooms[client.roomId].status === 'waiting') {
 	    gameStatus = '待機中';
 	}
 	
