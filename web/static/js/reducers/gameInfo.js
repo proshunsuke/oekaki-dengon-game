@@ -3,7 +3,8 @@ const constants = require('../constants');
 const gameInfo = (state = {
     beforeSettingUsers: [],
     afterSettingUsers: [],
-    drawTime: 120
+    drawTime: 120,
+    currentOrder: null
 }, action) => {
     switch (action.type) {
     case constants.RESET_BEFORE_USERS:
@@ -29,7 +30,8 @@ const gameInfo = (state = {
     case constants.SET_GAME_INFO:
 	return Object.assign({}, state, {
             drawTime: action.drawTime,
-	    afterSettingUsers: action.afterSettingUsers
+	    afterSettingUsers: action.afterSettingUsers,
+	    currentOrder: action.currentOrder
         });
     default:
         return state;

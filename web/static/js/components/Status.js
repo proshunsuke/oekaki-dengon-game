@@ -7,7 +7,7 @@ class Status extends React.Component {
     }
 
     render() {
-        const { client, rooms } = this.props;
+        const { client, rooms, gameInfo } = this.props;
 	let gameStatus;
 	// TODO: roomsは非同期で取得してくる
 	if (!(client.roomId in rooms)) {
@@ -21,7 +21,7 @@ class Status extends React.Component {
 	}
 	
         return <div>
-	    roomId: {client.roomId}, userId: {client.userId}, userName: {client.userName}, role: {client.role}, ゲームの状態: {gameStatus}
+	    roomId: {client.roomId}, userId: {client.userId}, userName: {client.userName}, role: {client.role}, ゲームの状態: {gameStatus}, 現在のユーザ番号: {gameInfo.currentOrder}
 	    </div>;
     }
 }

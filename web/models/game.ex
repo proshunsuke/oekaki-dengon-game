@@ -4,14 +4,15 @@ defmodule OekakiDengonGame.Game do
 
   schema "games" do
     field :draw_time, :integer
+    field :current_order, :integer
     belongs_to :room, OekakiDengonGame.Room
     has_many :game_users, OekakiDengonGame.GameUser
 
     timestamps
   end
 
-  @required_fields ~w(draw_time room_id)
-  @optional_fields ~w()
+  @required_fields ~w()
+  @optional_fields ~w(draw_time room_id current_order)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

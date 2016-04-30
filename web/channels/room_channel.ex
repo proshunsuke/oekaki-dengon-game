@@ -66,12 +66,13 @@ defmodule OekakiDengonGame.RoomChannel do
   # ordersには描く順番で入っている
   # %{"draw_time" => 120, "orders" => [%{"id" => 476, "name" => "a", "role" => "leader"}]}
   def handle_in("game_start", params, socket) do
-    game_changeset = Game.changeset(%Game{}, %{draw_time: params["draw_time"], room_id: String.to_integer(room_id(socket.topic))})
+    game_changeset = Game.changeset(
+      %Game{}, %{draw_time: params["draw_time"], room_id: String.to_integer(room_id(socket.topic)), current_order: 0})
     game = Repo.insert!(game_changeset)
     GameUser.save_orders(params["orders"] , game.id)
     Room.to_playing(room_id(socket.topic))
     active_room_objects = Room.active_room_objects
-    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects)
+    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects) |> Map.put(:current_order, 0)
     OekakiDengonGame.Endpoint.broadcast! "lobby", "game_start", active_room_objects
     {:reply, :ok, socket}    
   end

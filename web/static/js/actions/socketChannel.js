@@ -102,7 +102,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(fetchRoomsReceive(rooms));
     });
     channel.on('game_start', data=> {
-	dispatch(setGameInfo(data.orders, data.draw_time));
+	dispatch(setGameInfo(data.orders, data.draw_time, data.current_order));
 	dispatch(nowPlaying(data.rooms));
     });
 };
@@ -176,10 +176,11 @@ export const pressSettingButton = () => {
     };
 };
 
-const setGameInfo = (orders, drawTime) => ({
+const setGameInfo = (orders, drawTime, currentOrder) => ({
     type: constants.SET_GAME_INFO,
     afterSettingUsers: orders,
-    drawTime: drawTime
+    drawTime: drawTime,
+    currentOrder: currentOrder
 });
 
 const nowPlaying = rooms => ({type: constants.NOW_PLAYING, rooms: rooms});
