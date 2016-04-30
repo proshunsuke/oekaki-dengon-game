@@ -4,6 +4,8 @@ defmodule OekakiDengonGame.RoomChannel do
   alias OekakiDengonGame.Repo
   alias OekakiDengonGame.Room
   alias OekakiDengonGame.User
+  alias OekakiDengonGame.GameUser
+  alias OekakiDengonGame.Game
 
   def join("room:" <> room_id, params, socket) do
     if !Room.is_waiting_room?(room_id) do
@@ -61,6 +63,16 @@ defmodule OekakiDengonGame.RoomChannel do
     {:ok, socket}
   end
 
+  # ordersには描く順番で入っている
+  # %{"draw_time" => 120, "orders" => [%{"id" => 476, "name" => "a", "role" => "leader"}]}
+  def handle_in("game_start", params, socket) do
+    game_changeset = Game.changeset(%Game{}, %{draw_time: params["draw_time"], room_id: String.to_integer(room_id(socket.topic))})
+    game = Repo.insert!(game_changeset)
+    GameUser.save_orders(params["orders"] , game.id)
+    broadcast! socket, "game_start", params
+    {:reply, :ok, socket}    
+  end
+
   defp user_params(params) do
     if params["isCreate"] do
       role = User.leader
@@ -76,7 +88,7 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   # socketのtopicからroom_idを取る
-	defp room_id(topic) do
-		List.last(Regex.run(~r/^room:(\d{1,})$/, topic))		
-	end
+  defp room_id(topic) do
+    List.last(Regex.run(~r/^room:(\d{1,})$/, topic))		
+  end
 end

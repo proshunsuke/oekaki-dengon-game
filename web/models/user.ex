@@ -7,6 +7,8 @@ defmodule OekakiDengonGame.User do
     field :role, :string
     field :joined_at, Timex.Ecto.DateTime
     belongs_to :room, OekakiDengonGame.Room
+    has_many :games, OekakiDengonGame.GameUser
+
     timestamps
   end
 

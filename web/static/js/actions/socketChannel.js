@@ -98,6 +98,9 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('now_waiting', rooms => {
 	dispatch(fetchRoomsReceive(rooms));
     });
+    channel.on('game_start', gameInfo => {
+	dispatch(setGameInfo(gameInfo));
+    });
 };
 
 export function joinRoom(data) {
@@ -155,17 +158,35 @@ export const pressSettingButton = () => {
         let channel = socketChannel.channel;
 	if (rooms[client.roomId].status === 'setting' ) {
 	    channel.push('now_waiting')
-            .receive('ok', response => {})
-            .receive('error', error => {
-                console.error(`now setting ng: ${error}`);
-            });
+		.receive('ok', response => {})
+		.receive('error', error => {
+                    console.error(`now setting ng: ${error}`);
+		});
 	} else {
 	    channel.push('now_setting')
-            .receive('ok', response => {})
-            .receive('error', error => {
-                console.error(`now setting ng: ${error}`);
-            });
+		.receive('ok', response => {})
+		.receive('error', error => {
+                    console.error(`now setting ng: ${error}`);
+		});
 	}
     };
 };
 
+const setGameInfo = gameInfo => ({
+    type: constants.SET_GAME_INFO,
+    afterSettingUsers: gameInfo.orders,
+    drawTime: gameInfo.draw_time
+});
+
+export const pressGameStartButton = () => {
+    return (dispatch, getState) => {
+	const { socketChannel, rooms, client, gameInfo } = getState();
+	let channel = socketChannel.channel;
+	channel.push('game_start', {draw_time: gameInfo.drawTime,
+				    orders: gameInfo.afterSettingUsers})
+	    .receive('ok', response => {})
+	    .receive('error', error => {
+		console.error(`game start ng: ${error}`);
+	    });
+    };
+};

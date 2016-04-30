@@ -26,6 +26,11 @@ const gameInfo = (state = {
 	return Object.assign({}, state, {
             drawTime: action.drawTime
         });
+    case constants.SET_GAME_INFO:
+	return Object.assign({}, state, {
+            drawTime: action.drawTime,
+	    afterSettingUsers: action.afterSettingUsers
+        });
     default:
         return state;
     }
