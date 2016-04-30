@@ -17,6 +17,7 @@ defmodule OekakiDengonGame.Room do
   # states
   @waiting "waiting"
   @setting "setting"
+  @playing "playing"
   @closed "closed"
 
   def is_waiting_room?(room_id) do
@@ -56,6 +57,11 @@ defmodule OekakiDengonGame.Room do
     rooms |> Enum.reduce(%{}, fn e, acc -> Map.put(acc, Integer.to_string(e.id), %{"status" => e.status, "name" => e.name})  end)
   end
 
+  def to_playing(id) do
+    room_changeset = OekakiDengonGame.Room.changeset(OekakiDengonGame.Repo.get!(OekakiDengonGame.Room, id), %{status: playing})
+    OekakiDengonGame.Repo.update!(room_changeset)
+  end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 
@@ -73,6 +79,10 @@ defmodule OekakiDengonGame.Room do
 
   def setting do
     @setting
+  end
+
+  def playing do
+    @playing
   end
 
   def closed do

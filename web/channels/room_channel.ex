@@ -69,7 +69,10 @@ defmodule OekakiDengonGame.RoomChannel do
     game_changeset = Game.changeset(%Game{}, %{draw_time: params["draw_time"], room_id: String.to_integer(room_id(socket.topic))})
     game = Repo.insert!(game_changeset)
     GameUser.save_orders(params["orders"] , game.id)
-    broadcast! socket, "game_start", params
+    Room.to_playing(room_id(socket.topic))
+    active_room_objects = Room.active_room_objects
+    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects)
+    OekakiDengonGame.Endpoint.broadcast! "lobby", "game_start", active_room_objects
     {:reply, :ok, socket}    
   end
 

@@ -22,7 +22,7 @@ class Room extends React.Component {
 
         return <div>
 	    <Status client={client} rooms={rooms}/>
-	    <OtherService client={client}/>
+	    <OtherService client={client} rooms={rooms}/>
             { drawOrSettingArea }
             <UserList users={users}/>
         </div>;

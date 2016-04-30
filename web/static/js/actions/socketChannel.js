@@ -30,6 +30,9 @@ const onLobby = (channel, dispatch) => {
     channel.on('now_waiting', rooms => {
         dispatch(fetchRoomsReceive(rooms));
     });
+    channel.on('game_start', rooms => {
+	dispatch(nowPlaying(rooms));
+    });
 };
 
 export const joinLobby = () => {
@@ -98,8 +101,9 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('now_waiting', rooms => {
 	dispatch(fetchRoomsReceive(rooms));
     });
-    channel.on('game_start', gameInfo => {
-	dispatch(setGameInfo(gameInfo));
+    channel.on('game_start', data=> {
+	dispatch(setGameInfo(data.orders, data.draw_time));
+	dispatch(nowPlaying(data.rooms));
     });
 };
 
@@ -172,11 +176,13 @@ export const pressSettingButton = () => {
     };
 };
 
-const setGameInfo = gameInfo => ({
+const setGameInfo = (orders, drawTime) => ({
     type: constants.SET_GAME_INFO,
-    afterSettingUsers: gameInfo.orders,
-    drawTime: gameInfo.draw_time
+    afterSettingUsers: orders,
+    drawTime: drawTime
 });
+
+const nowPlaying = rooms => ({type: constants.NOW_PLAYING, rooms: rooms});
 
 export const pressGameStartButton = () => {
     return (dispatch, getState) => {
