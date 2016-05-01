@@ -5,6 +5,7 @@ defmodule OekakiDengonGame.User do
   schema "users" do
     field :name, :string
     field :role, :string
+    field :status, :string
     field :joined_at, Timex.Ecto.DateTime
     belongs_to :room, OekakiDengonGame.Room
     has_many :games, OekakiDengonGame.GameUser
@@ -13,8 +14,13 @@ defmodule OekakiDengonGame.User do
   end
 
   @required_fields ~w()
-  @optional_fields ~w(name role room_id joined_at)
+  @optional_fields ~w(name role room_id joined_at status)
 
+  # status
+  @active "active"
+  @inactive "inactive"
+
+  # role
   @leader "leader"
   @general "general"
 
@@ -26,7 +32,7 @@ defmodule OekakiDengonGame.User do
     from u in query,
       join: r in OekakiDengonGame.Room,
       on: r.id == u.room_id,
-      where: r.status != ^OekakiDengonGame.Room.closed and r.id == ^room_id
+      where: r.status != ^OekakiDengonGame.Room.closed and r.id == ^room_id and u.status == @active
   end
 
   def users_join_room(room_id) do
@@ -78,6 +84,14 @@ defmodule OekakiDengonGame.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def active do
+    @active
+  end
+
+  def inactive do
+    @inactive
   end
 
   def leader do

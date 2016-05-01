@@ -4,7 +4,8 @@ defmodule OekakiDengonGame.Game do
 
   schema "games" do
     field :draw_time, :integer
-    field :current_order, :integer
+    field :status, :string
+    field :current_game_user_id, :integer
     belongs_to :room, OekakiDengonGame.Room
     has_many :game_users, OekakiDengonGame.GameUser
 
@@ -12,7 +13,11 @@ defmodule OekakiDengonGame.Game do
   end
 
   @required_fields ~w()
-  @optional_fields ~w(draw_time room_id current_order)
+  @optional_fields ~w(draw_time room_id current_game_user_id status)
+
+  # status
+  @active "active"
+  @finished "finished"
 
   def next_order_game do
     
@@ -27,5 +32,13 @@ defmodule OekakiDengonGame.Game do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def active do
+    @active
+  end
+
+  def finished do
+    @finished
   end
 end
