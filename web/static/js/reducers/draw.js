@@ -1,16 +1,16 @@
 const constants = require('../constants');
 
-const initialize_state = {
+const initializeState = {
     isDrawing: false,
     startX: null,
     startY: null,
     context: null
 };
 
-const draw = (state = initialize_state, action) => {
+const draw = (state = initializeState, action) => {
     switch (action.type) {
     case constants.INITIALIZE_STATE:
-	return Object.assign({}, state, initialize_state);
+	return Object.assign({}, state, initializeState);
     case constants.COMPONENT_DID_MOUNT_ROOM:
         return Object.assign({}, state, {
             context: action.context
