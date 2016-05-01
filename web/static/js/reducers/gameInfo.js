@@ -4,7 +4,8 @@ const initializeState = {
     beforeSettingUsers: [],
     afterSettingUsers: [],
     drawTime: 120,
-    currentOrder: null
+    currentOrder: null,
+    remainingTime: null
 };
 
 const gameInfo = (state = initializeState, action) => {
@@ -35,7 +36,12 @@ const gameInfo = (state = initializeState, action) => {
 	return Object.assign({}, state, {
             drawTime: action.drawTime,
 	    afterSettingUsers: action.afterSettingUsers,
-	    currentOrder: action.currentOrder
+	    currentOrder: action.currentOrder,
+	    remainingTime: action.drawTime
+        });
+    case constants.PASS_REMAINING_TIME:
+	return Object.assign({}, state, {
+	    remainingTime: action.remainingTime
         });
     default:
         return state;

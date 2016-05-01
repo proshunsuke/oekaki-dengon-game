@@ -101,9 +101,10 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('now_waiting', rooms => {
 	dispatch(fetchRoomsReceive(rooms));
     });
-    channel.on('game_start', data=> {
+    channel.on('game_start', data => {
 	dispatch(setGameInfo(data.orders, data.draw_time, data.current_order));
 	dispatch(nowPlaying(data.rooms));
+	dispatch(drawTimer());
     });
 };
 
@@ -197,3 +198,32 @@ export const pressGameStartButton = () => {
 	    });
     };
 };
+
+const passRemainingTime = remainingTime => ({type: constants.PASS_REMAINING_TIME, remainingTime: remainingTime});
+
+const drawTimer = () => {
+    return (dispatch, getState) => {
+	const drawTimerInterval = setInterval(() => {
+	    const { socketChannel, client, gameInfo } = getState();
+	    let remainingTime = gameInfo.remainingTime-1;
+	    if (gameInfo.remainingTime <= 0) {
+		remainingTime = 0;
+		clearInterval(drawTimerInterval);
+		const currentUser = gameInfo.afterSettingUsers[gameInfo.currentOrder];
+		// TODO: 自分の番をうまく表現出来るはず
+		// 自分の番だったら
+		if (currentUser.id === client.userId) {
+		    const channel = socketChannel.channel;
+		    // ここで本来は絵を保存してそれを渡す
+		    channel.push('next_user', {})
+			.receive('ok', response => {})
+			.receive('error', error => {
+			    console.error(`next_user ng: ${error}`);
+			});
+		}
+	    }
+	    dispatch(passRemainingTime(remainingTime));
+	}, 1000);
+    };
+};
+

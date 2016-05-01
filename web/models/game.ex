@@ -14,6 +14,10 @@ defmodule OekakiDengonGame.Game do
   @required_fields ~w()
   @optional_fields ~w(draw_time room_id current_order)
 
+  def next_order_game do
+    
+  end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 

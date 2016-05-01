@@ -74,9 +74,13 @@ defmodule OekakiDengonGame.RoomChannel do
     active_room_objects = Room.active_room_objects
     broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects) |> Map.put(:current_order, 0)
     OekakiDengonGame.Endpoint.broadcast! "lobby", "game_start", active_room_objects
-    {:reply, :ok, socket}    
+    {:reply, :ok, socket}
   end
 
+  def handle_in("next_user", params, socket) do
+    {:reply, :ok, socket}
+  end
+  
   defp user_params(params) do
     if params["isCreate"] do
       role = User.leader

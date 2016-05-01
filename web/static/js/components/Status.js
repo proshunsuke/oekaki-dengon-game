@@ -31,7 +31,7 @@ class Status extends React.Component {
 	}
 	
         return <div>
-	    roomId: {client.roomId}, userId: {client.userId}, userName: {client.userName}, role: {client.role}, ゲームの状態: {gameStatus}, 現在のユーザ番号: {this.currentOrder()}
+	    roomId: {client.roomId}, userId: {client.userId}, userName: {client.userName}, role: {client.role}, ゲームの状態: {gameStatus}, 現在のユーザ: {this.currentOrder()}, 残り時間: {gameInfo.remainingTime}
 	    </div>;
     }
 }
