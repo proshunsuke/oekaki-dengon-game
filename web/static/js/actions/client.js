@@ -105,3 +105,5 @@ export const addUserFromList = user => {
 };
 
 export const changeDrawTime = drawTime => ({type: constants.CHANGE_DRAW_TIME, drawTime: drawTime});
+
+export const initialiseState = () => ({type: constants.INITIALIZE_STATE});
