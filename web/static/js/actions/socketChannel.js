@@ -107,11 +107,11 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(drawTimer());
     });
     channel.on('next_user', data => {
-	dispatch(setCurrentGameOrderUserId(data.next_user_id));
+	dispatch(setGameInfoWhenNextUser(data.next_user_id));
 	dispatch(drawTimer());
     });
     channel.on('game_finished', data => {
-	dispatch(setCurrentGameOrderUserId(null));
+	dispatch(setGameInfoWhenNextUser(null));
 	console.log('ゲーム終了');
     });
 };
@@ -232,5 +232,5 @@ const drawTimer = () => {
     };
 };
 
-const setCurrentGameOrderUserId = userId => ({type: constants.SET_CURRENT_GAME_ORDER_USER_ID, currentGameOrderuserId: userId});
+const setGameInfoWhenNextUser = userId => ({type: constants.SET_GAME_INFO_WHEN_NEXT_USER, currentGameOrderuserId: userId});
 
