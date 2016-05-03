@@ -81,6 +81,12 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def handle_in("next_user", params, socket) do
+    room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
+    game = room_with_active_users.games |> List.first
+    game_users = room_with_active_users.game_users
+    next_order_game = Game.save_as_next_order_game(game, game_users)
+    next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
+    broadcast! socket, "next_user", %{next_user_id: next_user_id}
     {:reply, :ok, socket}
   end
   

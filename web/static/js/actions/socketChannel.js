@@ -106,6 +106,10 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(nowPlaying(data.rooms));
 	dispatch(drawTimer());
     });
+    channel.on('next_user', next_user_id => {
+	console.log(next_user_id);
+    });
+
 };
 
 export function joinRoom(data) {

@@ -1,6 +1,7 @@
 defmodule OekakiDengonGame.Game do
   use OekakiDengonGame.Web, :model
   use Timex.Ecto.Timestamps
+  alias OekakiDengonGame.Repo
 
   schema "games" do
     field :draw_time, :integer
@@ -19,8 +20,18 @@ defmodule OekakiDengonGame.Game do
   @active "active"
   @finished "finished"
 
-  def next_order_game do
-    
+  def save_as_next_order_game(game, game_users) do
+    next_game_user_id = next_game_user_id(game.current_game_user_id, game_users)
+    game_changeset = changeset(game, %{current_game_user_id: next_game_user_id})
+    Repo.update!(game_changeset)
+  end
+
+  defp next_game_user_id(current_game_user_id, game_users) do
+    next_index = game_users
+    |> Enum.sort(fn (gu1, gu2) -> gu1.game_order < gu2.game_order end)
+    |> Enum.find_index(fn gu -> current_game_user_id == gu.id  end)
+    |> + 1
+    game_users |> Enum.fetch!(next_index) |> Map.get(:id)
   end
 
   @doc """
