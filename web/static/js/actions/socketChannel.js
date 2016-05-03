@@ -209,10 +209,7 @@ const drawTimer = () => {
 	    if (gameInfo.remainingTime <= 0) {
 		remainingTime = 0;
 		clearInterval(drawTimerInterval);
-		const currentUser = gameInfo.afterSettingUsers.find((user, index) => (user['id'] === gameInfo.currentGameOrderuserId));
-		// TODO: 自分の番をうまく表現出来るはず
-		// 自分の番だったら
-		if (currentUser.id === client.userId) {
+		if (gameInfo.currentGameOrderuserId === client.userId) {
 		    const channel = socketChannel.channel;
 		    // ここで本来は絵を保存してそれを渡す
 		    channel.push('next_user', {})

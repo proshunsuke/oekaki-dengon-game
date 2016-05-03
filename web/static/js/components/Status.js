@@ -12,6 +12,7 @@ class Status extends React.Component {
 	if (gameInfo.afterSettingUsers === [] || gameInfo.currentGameOrderuserId === null) {
 	    return;
 	}
+	// TODO: ここうまく作れるはず
 	const currentUser = gameInfo.afterSettingUsers.find((user, index) => (user['id'] === gameInfo.currentGameOrderuserId));
 	return <p>{currentUser.name}</p>;
     }
