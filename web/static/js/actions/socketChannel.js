@@ -102,7 +102,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(fetchRoomsReceive(rooms));
     });
     channel.on('game_start', data => {
-	dispatch(setGameInfo(data.orders, data.draw_time, data.current_order));
+	dispatch(setGameInfo(data.orders, data.draw_time, data.orders[0]['id']));
 	dispatch(nowPlaying(data.rooms));
 	dispatch(drawTimer());
     });
@@ -177,11 +177,11 @@ export const pressSettingButton = () => {
     };
 };
 
-const setGameInfo = (orders, drawTime, currentOrder) => ({
+const setGameInfo = (orders, drawTime, currentGameOrderuserId) => ({
     type: constants.SET_GAME_INFO,
     afterSettingUsers: orders,
     drawTime: drawTime,
-    currentOrder: currentOrder
+    currentGameOrderuserId: currentGameOrderuserId
 });
 
 const nowPlaying = rooms => ({type: constants.NOW_PLAYING, rooms: rooms});
@@ -209,7 +209,7 @@ const drawTimer = () => {
 	    if (gameInfo.remainingTime <= 0) {
 		remainingTime = 0;
 		clearInterval(drawTimerInterval);
-		const currentUser = gameInfo.afterSettingUsers[gameInfo.currentOrder];
+		const currentUser = gameInfo.afterSettingUsers.find((user, index) => (user['id'] === gameInfo.currentGameOrderuserId));
 		// TODO: 自分の番をうまく表現出来るはず
 		// 自分の番だったら
 		if (currentUser.id === client.userId) {

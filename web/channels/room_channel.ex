@@ -75,7 +75,7 @@ defmodule OekakiDengonGame.RoomChannel do
     Repo.update!(game_changeset_update)
     Room.to_playing(room_id(socket.topic))
     active_room_objects = Room.active_room_objects
-    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects) |> Map.put(:current_order, 0)
+    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects)
     OekakiDengonGame.Endpoint.broadcast! "lobby", "game_start", active_room_objects
     {:reply, :ok, socket}
   end

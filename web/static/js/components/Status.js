@@ -9,10 +9,10 @@ class Status extends React.Component {
 
     currentOrder() {
 	const { client, rooms, gameInfo } = this.props;
-	if (gameInfo.afterSettingUsers === [] || gameInfo.currentOrder === null) {
+	if (gameInfo.afterSettingUsers === [] || gameInfo.currentGameOrderuserId === null) {
 	    return;
 	}
-	const currentUser = gameInfo.afterSettingUsers[gameInfo.currentOrder];
+	const currentUser = gameInfo.afterSettingUsers.find((user, index) => (user['id'] === gameInfo.currentGameOrderuserId));
 	return <p>{currentUser.name}</p>;
     }
 
