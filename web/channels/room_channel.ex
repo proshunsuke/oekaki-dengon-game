@@ -84,10 +84,16 @@ defmodule OekakiDengonGame.RoomChannel do
     room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
     game = room_with_active_users.games |> List.first
     game_users = room_with_active_users.game_users
-    next_order_game = Game.save_as_next_order_game(game, game_users)
-    next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
-    broadcast! socket, "next_user", %{next_user_id: next_user_id}
-    {:reply, :ok, socket}
+    next_game_user = Game.next_game_user(game, game_users)
+    if is_nil(next_game_user) do
+      broadcast! socket, "game_finished", %{}
+      {:reply, :ok, socket}
+    else
+      next_order_game = Game.save_as_next_order_game(game, next_game_user)
+      next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
+      broadcast! socket, "next_user", %{next_user_id: next_user_id}
+      {:reply, :ok, socket}
+    end
   end
   
   defp user_params(params) do

@@ -43,6 +43,10 @@ const gameInfo = (state = initializeState, action) => {
 	return Object.assign({}, state, {
 	    remainingTime: action.remainingTime
         });
+    case constants.SET_CURRENT_GAME_ORDER_USER_ID:
+	return Object.assign({}, state, {
+	    currentGameOrderuserId: action.currentGameOrderuserId
+        });
     default:
         return state;
     }
