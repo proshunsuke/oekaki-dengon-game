@@ -20,6 +20,7 @@ defmodule OekakiDengonGame.Room do
   @waiting "waiting"
   @setting "setting"
   @playing "playing"
+  @finished "finished"
   @closed "closed"
 
   def is_waiting_room?(room_id) do
@@ -60,7 +61,12 @@ defmodule OekakiDengonGame.Room do
   end
 
   def to_playing(id) do
-    room_changeset = OekakiDengonGame.Room.changeset(OekakiDengonGame.Repo.get!(OekakiDengonGame.Room, id), %{status: playing})
+    room_changeset = OekakiDengonGame.Room.changeset(Repo.get!(OekakiDengonGame.Room, id), %{status: @playing})
+    OekakiDengonGame.Repo.update!(room_changeset)
+  end
+
+  def to_finished(id) do
+    room_changeset = OekakiDengonGame.Room.changeset(Repo.get!(OekakiDengonGame.Room, id), %{status: @finished})
     OekakiDengonGame.Repo.update!(room_changeset)
   end
 
@@ -102,6 +108,10 @@ defmodule OekakiDengonGame.Room do
 
   def playing do
     @playing
+  end
+
+  def finished do
+    @finished
   end
 
   def closed do

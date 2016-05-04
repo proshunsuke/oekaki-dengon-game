@@ -34,6 +34,11 @@ defmodule OekakiDengonGame.Game do
     sorted_by_order_game_users |> Enum.at(next_index)
   end
 
+  def to_finished_by_room_id(room_id) do
+    game_changeset = changeset(Repo.get_by(OekakiDengonGame.Game, room_id: room_id), %{status: @finished})
+    Repo.update!(game_changeset)
+  end
+
   @doc """
   Creates a changeset based on the `model` and `params`.
 

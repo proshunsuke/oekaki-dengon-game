@@ -29,6 +29,8 @@ class Status extends React.Component {
 	    gameStatus = '待機中';
 	} else if (rooms[client.roomId].status === 'playing') {
 	    gameStatus = 'プレイ中';
+	} else if (rooms[client.roomId].status === 'finished') {
+	    gameStatus = '終了';
 	}
 	
         return <div>

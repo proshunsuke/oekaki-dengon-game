@@ -12,6 +12,8 @@ const rooms = (state = initializeState, action) => {
         return action.rooms;
     case constants.NOW_PLAYING:
 	return action.rooms;
+    case constants.NOW_FINISHED:
+	return action.rooms;
     default:
         return state;
     }

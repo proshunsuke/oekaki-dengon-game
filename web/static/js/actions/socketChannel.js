@@ -33,6 +33,9 @@ const onLobby = (channel, dispatch) => {
     channel.on('game_start', rooms => {
 	dispatch(nowPlaying(rooms));
     });
+    channel.on('game_finished', rooms => {
+	dispatch(nowFinished(rooms));
+    });
 };
 
 export const joinLobby = () => {
@@ -112,7 +115,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
     });
     channel.on('game_finished', data => {
 	dispatch(setGameInfoWhenNextUser(null));
-	console.log('ゲーム終了');
+	dispatch(nowFinished(data.rooms));
     });
 };
 
@@ -234,3 +237,4 @@ const drawTimer = () => {
 
 const setGameInfoWhenNextUser = userId => ({type: constants.SET_GAME_INFO_WHEN_NEXT_USER, currentGameOrderuserId: userId});
 
+const nowFinished = rooms => ({type: constants.NOW_FINISHED, rooms: rooms});

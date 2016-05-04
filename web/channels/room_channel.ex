@@ -86,7 +86,11 @@ defmodule OekakiDengonGame.RoomChannel do
     game_users = room_with_active_users.game_users
     next_game_user = Game.next_game_user(game, game_users)
     if is_nil(next_game_user) do
-      broadcast! socket, "game_finished", %{}
+      Game.to_finished_by_room_id(room_id(socket.topic))
+      Room.to_finished(room_id(socket.topic))
+      active_room_objects = Room.active_room_objects
+      broadcast! socket, "game_finished", %{rooms: active_room_objects}
+      OekakiDengonGame.Endpoint.broadcast! "lobby", "game_finished", active_room_objects
       {:reply, :ok, socket}
     else
       next_order_game = Game.save_as_next_order_game(game, next_game_user)
