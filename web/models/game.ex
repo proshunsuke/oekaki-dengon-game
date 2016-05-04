@@ -35,8 +35,16 @@ defmodule OekakiDengonGame.Game do
   end
 
   def to_finished_by_room_id(room_id) do
-    game_changeset = changeset(Repo.get_by(OekakiDengonGame.Game, room_id: room_id), %{status: @finished})
+    game = OekakiDengonGame.Game
+    |> active_room_game(room_id)
+    |> Repo.one
+    game_changeset = changeset(game, %{status: @finished})
     Repo.update!(game_changeset)
+  end
+
+  defp active_room_game(query, room_id) do
+    from g in query,
+      where: g.status == @active and g.room_id == ^room_id
   end
 
   @doc """

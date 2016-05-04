@@ -238,3 +238,16 @@ const drawTimer = () => {
 const setGameInfoWhenNextUser = userId => ({type: constants.SET_GAME_INFO_WHEN_NEXT_USER, currentGameOrderuserId: userId});
 
 const nowFinished = rooms => ({type: constants.NOW_FINISHED, rooms: rooms});
+
+export const pressBackToWaitingButton = () => {
+    return (dispatch, getState) => {
+	const { socketChannel, rooms, client } = getState();
+        let channel = socketChannel.channel;
+	    channel.push('now_waiting')
+	    .receive('ok', response => {})
+	    .receive('error', error => {
+                console.error(`now setting ng: ${error}`);
+	    });
+    };
+};
+
