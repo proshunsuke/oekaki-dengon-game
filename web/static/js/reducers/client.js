@@ -1,6 +1,6 @@
 const constants = require('../constants');
 
-const initialize_state = {
+const initializeState = {
     isCreateRoomFetching: false,
     isRoomFetching: false,
     roomId: null,
@@ -9,10 +9,10 @@ const initialize_state = {
     role: null
 };
 
-const client = (state = initialize_state, action) => {
+const client = (state = initializeState, action) => {
     switch (action.type) {
     case constants.INITIALIZE_STATE:
-	return Object.assign({}, state, initialize_state);
+	return Object.assign({}, state, initializeState);
     case constants.FETCH_ROOMS:
         return Object.assign({}, state, {
             isRoomFetching: true

@@ -1,6 +1,7 @@
 defmodule OekakiDengonGame.Room do
   use OekakiDengonGame.Web, :model
   use Timex.Ecto.Timestamps
+  alias OekakiDengonGame.Repo
 
   schema "rooms" do
     field :name, :string
@@ -8,6 +9,7 @@ defmodule OekakiDengonGame.Room do
     field :password, :string
     has_many :users, OekakiDengonGame.User
     has_many :games, OekakiDengonGame.Game
+    has_many :game_users, through: [:games, :users]
     timestamps
   end
 
@@ -18,6 +20,7 @@ defmodule OekakiDengonGame.Room do
   @waiting "waiting"
   @setting "setting"
   @playing "playing"
+  @finished "finished"
   @closed "closed"
 
   def is_waiting_room?(room_id) do
@@ -58,8 +61,30 @@ defmodule OekakiDengonGame.Room do
   end
 
   def to_playing(id) do
-    room_changeset = OekakiDengonGame.Room.changeset(OekakiDengonGame.Repo.get!(OekakiDengonGame.Room, id), %{status: playing})
+    room_changeset = OekakiDengonGame.Room.changeset(Repo.get!(OekakiDengonGame.Room, id), %{status: @playing})
     OekakiDengonGame.Repo.update!(room_changeset)
+  end
+
+  def to_finished(id) do
+    room_changeset = OekakiDengonGame.Room.changeset(Repo.get!(OekakiDengonGame.Room, id), %{status: @finished})
+    OekakiDengonGame.Repo.update!(room_changeset)
+  end
+
+  def with_active_game_users(room_id) do
+    OekakiDengonGame.Room
+    |> active_game_users_by_room_id(room_id)
+    |> OekakiDengonGame.Repo.all
+    |> List.first
+  end
+
+  def active_game_users_by_room_id(query, room_id) do
+    from r in query,
+      join: g in assoc(r, :games),
+      join: gu in assoc(g, :game_users),
+      join: u in assoc(gu, :user),
+      where: g.status == ^OekakiDengonGame.Game.active and u.status == ^OekakiDengonGame.User.active and r.id == ^room_id,
+      preload: [games: g],
+      preload: [game_users: gu]
   end
 
   @doc """
@@ -83,6 +108,10 @@ defmodule OekakiDengonGame.Room do
 
   def playing do
     @playing
+  end
+
+  def finished do
+    @finished
   end
 
   def closed do

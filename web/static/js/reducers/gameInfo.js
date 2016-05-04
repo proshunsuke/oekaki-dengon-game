@@ -1,16 +1,17 @@
 const constants = require('../constants');
 
-const initialize_state = {
+const initializeState = {
     beforeSettingUsers: [],
     afterSettingUsers: [],
     drawTime: 120,
-    currentOrder: null
+    currentGameOrderuserId: null,
+    remainingTime: null
 };
 
-const gameInfo = (state = initialize_state, action) => {
+const gameInfo = (state = initializeState, action) => {
     switch (action.type) {
     case constants.INITIALIZE_STATE:
-	return Object.assign({}, state, initialize_state);
+	return Object.assign({}, state, initializeState);
     case constants.RESET_BEFORE_USERS:
 	return Object.assign({}, state, {
             beforeSettingUsers: action.users
@@ -35,7 +36,17 @@ const gameInfo = (state = initialize_state, action) => {
 	return Object.assign({}, state, {
             drawTime: action.drawTime,
 	    afterSettingUsers: action.afterSettingUsers,
-	    currentOrder: action.currentOrder
+	    currentGameOrderuserId: action.currentGameOrderuserId,
+	    remainingTime: action.drawTime
+        });
+    case constants.PASS_REMAINING_TIME:
+	return Object.assign({}, state, {
+	    remainingTime: action.remainingTime
+        });
+    case constants.SET_GAME_INFO_WHEN_NEXT_USER:
+	return Object.assign({}, state, {
+	    currentGameOrderuserId: action.currentGameOrderuserId,
+	    remainingTime: state.drawTime
         });
     default:
         return state;

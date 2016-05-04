@@ -41,7 +41,7 @@ reduxRouterMiddleware.listenForReplays(store);
 store.dispatch(startSocket());
 
 const channelCheckInHome = () => {
-
+    store.dispatch(initialiseState());
     store.dispatch(leaveOtherChannel());
     store.dispatch(joinLobby());
 };

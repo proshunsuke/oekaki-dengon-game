@@ -51,7 +51,7 @@ defmodule OekakiDengonGame.RoomChannel do
 
   def terminate(_reason, socket) do
     terminated_user = User.by_id(socket.assigns[:user_id])
-    user_changeset = User.changeset(terminated_user, %{room_id: nil})
+    user_changeset = User.changeset(terminated_user, %{status: User.inactive})
     user = Repo.update!(user_changeset)
     users = User.users_join_room_with_leader(room_id(socket.topic), terminated_user)
     broadcast! socket, "other_leaves", %{users: users}
@@ -67,16 +67,39 @@ defmodule OekakiDengonGame.RoomChannel do
   # %{"draw_time" => 120, "orders" => [%{"id" => 476, "name" => "a", "role" => "leader"}]}
   def handle_in("game_start", params, socket) do
     game_changeset = Game.changeset(
-      %Game{}, %{draw_time: params["draw_time"], room_id: String.to_integer(room_id(socket.topic)), current_order: 0})
+      %Game{}, %{draw_time: params["draw_time"], room_id: String.to_integer(room_id(socket.topic)), status: Game.active})
     game = Repo.insert!(game_changeset)
-    GameUser.save_orders(params["orders"] , game.id)
+    game_users =  GameUser.save_orders(params["orders"] , game.id)
+    game_user =  Enum.find(game_users, fn game_user -> game_user.game_order == 0  end)
+    game_changeset_update = Game.changeset(game, %{current_game_user_id: game_user.id})
+    Repo.update!(game_changeset_update)
     Room.to_playing(room_id(socket.topic))
     active_room_objects = Room.active_room_objects
-    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects) |> Map.put(:current_order, 0)
+    broadcast! socket, "game_start", Map.put(params, :rooms, active_room_objects)
     OekakiDengonGame.Endpoint.broadcast! "lobby", "game_start", active_room_objects
-    {:reply, :ok, socket}    
+    {:reply, :ok, socket}
   end
 
+  def handle_in("next_user", params, socket) do
+    room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
+    game = room_with_active_users.games |> List.first
+    game_users = room_with_active_users.game_users
+    next_game_user = Game.next_game_user(game, game_users)
+    if is_nil(next_game_user) do
+      Game.to_finished_by_room_id(room_id(socket.topic))
+      Room.to_finished(room_id(socket.topic))
+      active_room_objects = Room.active_room_objects
+      broadcast! socket, "game_finished", %{rooms: active_room_objects}
+      OekakiDengonGame.Endpoint.broadcast! "lobby", "game_finished", active_room_objects
+      {:reply, :ok, socket}
+    else
+      next_order_game = Game.save_as_next_order_game(game, next_game_user)
+      next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
+      broadcast! socket, "next_user", %{next_user_id: next_user_id}
+      {:reply, :ok, socket}
+    end
+  end
+  
   defp user_params(params) do
     if params["isCreate"] do
       role = User.leader
@@ -86,6 +109,7 @@ defmodule OekakiDengonGame.RoomChannel do
     user_params = %{
       name: params["userName"],
       role: role,
+      status: User.active,
       room_id: params["roomId"],
       joined_at: DateTime.now
     }

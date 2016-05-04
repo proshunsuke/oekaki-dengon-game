@@ -4,6 +4,17 @@ const { connect } = require('react-redux');
 class Status extends React.Component {
     constructor(props) {
         super(props);
+	this.currentOrder = this.currentOrder.bind(this);
+    }
+
+    currentOrder() {
+	const { client, rooms, gameInfo } = this.props;
+	if (gameInfo.afterSettingUsers === [] || gameInfo.currentGameOrderuserId === null) {
+	    return;
+	}
+	// TODO: ここうまく作れるはず
+	const currentUser = gameInfo.afterSettingUsers.find((user, index) => (user['id'] === gameInfo.currentGameOrderuserId));
+	return <p>{currentUser.name}</p>;
     }
 
     render() {
@@ -18,10 +29,12 @@ class Status extends React.Component {
 	    gameStatus = '待機中';
 	} else if (rooms[client.roomId].status === 'playing') {
 	    gameStatus = 'プレイ中';
+	} else if (rooms[client.roomId].status === 'finished') {
+	    gameStatus = '終了';
 	}
 	
         return <div>
-	    roomId: {client.roomId}, userId: {client.userId}, userName: {client.userName}, role: {client.role}, ゲームの状態: {gameStatus}, 現在のユーザ番号: {gameInfo.currentOrder}
+	    roomId: {client.roomId}, userId: {client.userId}, userName: {client.userName}, role: {client.role}, ゲームの状態: {gameStatus}, 現在のユーザ: {this.currentOrder()}, 残り時間: {gameInfo.remainingTime}
 	    </div>;
     }
 }

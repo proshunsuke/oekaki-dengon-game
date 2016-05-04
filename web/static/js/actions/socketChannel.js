@@ -33,6 +33,9 @@ const onLobby = (channel, dispatch) => {
     channel.on('game_start', rooms => {
 	dispatch(nowPlaying(rooms));
     });
+    channel.on('game_finished', rooms => {
+	dispatch(nowFinished(rooms));
+    });
 };
 
 export const joinLobby = () => {
@@ -101,9 +104,18 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('now_waiting', rooms => {
 	dispatch(fetchRoomsReceive(rooms));
     });
-    channel.on('game_start', data=> {
-	dispatch(setGameInfo(data.orders, data.draw_time, data.current_order));
+    channel.on('game_start', data => {
+	dispatch(setGameInfo(data.orders, data.draw_time, data.orders[0]['id']));
 	dispatch(nowPlaying(data.rooms));
+	dispatch(drawTimer());
+    });
+    channel.on('next_user', data => {
+	dispatch(setGameInfoWhenNextUser(data.next_user_id));
+	dispatch(drawTimer());
+    });
+    channel.on('game_finished', data => {
+	dispatch(setGameInfoWhenNextUser(null));
+	dispatch(nowFinished(data.rooms));
     });
 };
 
@@ -176,11 +188,11 @@ export const pressSettingButton = () => {
     };
 };
 
-const setGameInfo = (orders, drawTime, currentOrder) => ({
+const setGameInfo = (orders, drawTime, currentGameOrderuserId) => ({
     type: constants.SET_GAME_INFO,
     afterSettingUsers: orders,
     drawTime: drawTime,
-    currentOrder: currentOrder
+    currentGameOrderuserId: currentGameOrderuserId
 });
 
 const nowPlaying = rooms => ({type: constants.NOW_PLAYING, rooms: rooms});
@@ -197,3 +209,45 @@ export const pressGameStartButton = () => {
 	    });
     };
 };
+
+const passRemainingTime = remainingTime => ({type: constants.PASS_REMAINING_TIME, remainingTime: remainingTime});
+
+const drawTimer = () => {
+    return (dispatch, getState) => {
+	const drawTimerInterval = setInterval(() => {
+	    const { socketChannel, client, gameInfo } = getState();
+	    let remainingTime = gameInfo.remainingTime-1;
+	    if (gameInfo.remainingTime <= 0) {
+		remainingTime = 0;
+		clearInterval(drawTimerInterval);
+		if (gameInfo.currentGameOrderuserId === client.userId) {
+		    const channel = socketChannel.channel;
+		    // ここで本来は絵を保存してそれを渡す
+		    channel.push('next_user', {})
+			.receive('ok', response => {})
+			.receive('error', error => {
+			    console.error(`next_user ng: ${error}`);
+			});
+		}
+	    }
+	    dispatch(passRemainingTime(remainingTime));
+	}, 1000);
+    };
+};
+
+const setGameInfoWhenNextUser = userId => ({type: constants.SET_GAME_INFO_WHEN_NEXT_USER, currentGameOrderuserId: userId});
+
+const nowFinished = rooms => ({type: constants.NOW_FINISHED, rooms: rooms});
+
+export const pressBackToWaitingButton = () => {
+    return (dispatch, getState) => {
+	const { socketChannel, rooms, client } = getState();
+        let channel = socketChannel.channel;
+	    channel.push('now_waiting')
+	    .receive('ok', response => {})
+	    .receive('error', error => {
+                console.error(`now setting ng: ${error}`);
+	    });
+    };
+};
+
