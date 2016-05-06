@@ -1,14 +1,13 @@
 const constants = require('../constants');
 import { routeActions } from 'redux-simple-router';
 
-export const componentDidMountRoom = context => ({type: constants.COMPONENT_DID_MOUNT_ROOM, context: context});
+export const componentDidMountRoom = canvas => ({type: constants.COMPONENT_DID_MOUNT_ROOM, canvas: canvas});
 export const mouseDown = (startX, startY) => ({type: constants.MOUSE_DOWN, startX: startX, startY: startY});
 
-const mouseMoveAction = (endX, endY, context) => ({
+const mouseMoveAction = (endX, endY) => ({
     type: constants.MOUSE_MOVE,
     endX: endX,
-    endY: endY,
-    context: context
+    endY: endY
 });
 
 export const mouseMove = (endX, endY) => {
@@ -17,7 +16,7 @@ export const mouseMove = (endX, endY) => {
         if (!draw.isDrawing) {
             return;
         }
-        let context = draw.context;
+        let context = draw.canvas.getContext('2d');
         context.lineWidth = 2;
         context.lineJoin = 'round';
         context.lineCap = 'round';
@@ -27,7 +26,7 @@ export const mouseMove = (endX, endY) => {
         context.lineTo(endX, endY);
         context.stroke();
         context.closePath();
-        dispatch(mouseMoveAction(endX, endY, context));
+        dispatch(mouseMoveAction(endX, endY));
     };
 };
 

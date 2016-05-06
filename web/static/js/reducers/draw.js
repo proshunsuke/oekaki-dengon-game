@@ -4,7 +4,7 @@ const initializeState = {
     isDrawing: false,
     startX: null,
     startY: null,
-    context: null
+    canvas: null
 };
 
 const draw = (state = initializeState, action) => {
@@ -13,7 +13,7 @@ const draw = (state = initializeState, action) => {
 	return Object.assign({}, state, initializeState);
     case constants.COMPONENT_DID_MOUNT_ROOM:
         return Object.assign({}, state, {
-            context: action.context
+            canvas: action.canvas
         });
     case constants.MOUSE_DOWN:
         return Object.assign({}, state, {
@@ -24,8 +24,7 @@ const draw = (state = initializeState, action) => {
     case constants.MOUSE_MOVE:
         return Object.assign({}, state, {
             startX: action.endX,
-            startY: action.endY,
-            context: action.context
+            startY: action.endY
         });
     case constants.MOUSE_UP:
         return Object.assign({}, state, {

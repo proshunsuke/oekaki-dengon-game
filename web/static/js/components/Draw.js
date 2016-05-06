@@ -21,8 +21,8 @@ class Draw extends React.Component {
 
     componentDidMount() {
         const { dispatch } = this.props;
-        const context = findDOMNode(this.refs.area).getContext('2d');
-        dispatch(componentDidMountRoom(context));
+	const canvas = findDOMNode(this.refs.area);
+        dispatch(componentDidMountRoom(canvas));
     }
 
     handleOnMouseDown(e) {
