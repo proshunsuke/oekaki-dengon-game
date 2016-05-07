@@ -215,7 +215,7 @@ const passRemainingTime = remainingTime => ({type: constants.PASS_REMAINING_TIME
 const drawTimer = () => {
     return (dispatch, getState) => {
 	const drawTimerInterval = setInterval(() => {
-	    const { socketChannel, client, gameInfo } = getState();
+	    const { socketChannel, client, gameInfo, draw } = getState();
 	    let remainingTime = gameInfo.remainingTime-1;
 	    if (gameInfo.remainingTime <= 0) {
 		remainingTime = 0;
@@ -223,6 +223,9 @@ const drawTimer = () => {
 		if (gameInfo.currentGameOrderuserId === client.userId) {
 		    const channel = socketChannel.channel;
 		    // ここで本来は絵を保存してそれを渡す
+		    
+		    const base64= draw.canvas.toDataURL('image/png');
+		    console.log(base64);
 		    channel.push('next_user', {})
 			.receive('ok', response => {})
 			.receive('error', error => {
