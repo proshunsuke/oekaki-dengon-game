@@ -81,6 +81,7 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def handle_in("next_user", params, socket) do
+    IO.inspect params["canvasUrl"]
     room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
     game = room_with_active_users.games |> List.first
     game_users = room_with_active_users.game_users

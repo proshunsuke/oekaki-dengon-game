@@ -222,11 +222,8 @@ const drawTimer = () => {
 		clearInterval(drawTimerInterval);
 		if (gameInfo.currentGameOrderuserId === client.userId) {
 		    const channel = socketChannel.channel;
-		    // ここで本来は絵を保存してそれを渡す
-		    
-		    const base64= draw.canvas.toDataURL('image/png');
-		    console.log(base64);
-		    channel.push('next_user', {})
+		    const canvasUrl = draw.canvas.toDataURL('image/png');
+		    channel.push('next_user', {canvasUrl: canvasUrl})
 			.receive('ok', response => {})
 			.receive('error', error => {
 			    console.error(`next_user ng: ${error}`);
