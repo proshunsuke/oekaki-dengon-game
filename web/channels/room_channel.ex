@@ -6,6 +6,7 @@ defmodule OekakiDengonGame.RoomChannel do
   alias OekakiDengonGame.User
   alias OekakiDengonGame.GameUser
   alias OekakiDengonGame.Game
+  alias OekakiDengonGame.Image
 
   def join("room:" <> room_id, params, socket) do
     if !Room.is_waiting_room?(room_id) do
@@ -81,7 +82,7 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def handle_in("next_user", params, socket) do
-    IO.inspect params["canvasUrl"]
+    image = Image.save(params["canvasUrl"], user_id(socket))
     room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
     game = room_with_active_users.games |> List.first
     game_users = room_with_active_users.game_users
