@@ -120,4 +120,8 @@ defmodule OekakiDengonGame.RoomChannel do
   defp room_id(topic) do
     List.last(Regex.run(~r/^room:(\d{1,})$/, topic))		
   end
+
+  defp user_id(socket) do
+    socket |> Map.fetch!(:assigns) |> Map.fetch!(:user_id)    
+  end
 end
