@@ -87,6 +87,7 @@ defmodule OekakiDengonGame.RoomChannel do
     game = room_with_active_users.games |> List.first
     game_users = room_with_active_users.game_users
     next_game_user = Game.next_game_user(game, game_users)
+    IO.inspect next_game_user.user_id
     if is_nil(next_game_user) do
       Game.to_finished_by_room_id(room_id(socket.topic))
       Room.to_finished(room_id(socket.topic))
