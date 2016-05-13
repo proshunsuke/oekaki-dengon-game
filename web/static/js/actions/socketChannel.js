@@ -117,6 +117,9 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(setGameInfoWhenNextUser(null));
 	dispatch(nowFinished(data.rooms));
     });
+    channel.on('previous_image', data => {
+	console.log(data.url);
+    });
 };
 
 export function joinRoom(data) {
