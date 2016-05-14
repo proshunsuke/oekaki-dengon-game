@@ -96,6 +96,7 @@ defmodule OekakiDengonGame.RoomChannel do
       OekakiDengonGame.Endpoint.broadcast! "lobby", "game_finished", active_room_objects
       {:reply, :ok, socket}
     else
+      IO.inspect socket
       IO.inspect next_game_user.user_id
       next_order_game = Game.save_as_next_order_game(game, next_game_user)
       next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
