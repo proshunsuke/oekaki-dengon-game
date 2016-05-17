@@ -100,12 +100,11 @@ defmodule OekakiDengonGame.RoomChannel do
       OekakiDengonGame.Endpoint.broadcast! "lobby", "game_finished", active_room_objects
       {:reply, :ok, socket}
     else
-      
-      # とりあえず全員に一旦送る方向にする
-      IO.inspect next_game_user.user_id
       next_order_game = Game.save_as_next_order_game(game, next_game_user)
       next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
-      push socket, "previous_image", %{url: image.url}
+
+      # とりあえず全員に一旦送る方向にする
+      # push socket, "previous_image", %{url: image.url}
       broadcast! socket, "next_user", %{next_user_id: next_user_id}
       {:reply, :ok, socket}
     end
