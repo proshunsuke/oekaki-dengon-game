@@ -259,3 +259,4 @@ export const pressBackToWaitingButton = () => {
     };
 };
 
+const setImgToCanvas = canvas => ({type: constants.SET_IMG_TO_CANVAS, canvas: canvas});
