@@ -37,6 +37,6 @@ const draw = (state = initializeState, action) => {
     default:
         return state;
     }
-}
+};
 
 module.exports = draw;

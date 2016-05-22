@@ -121,9 +121,13 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	const { client, draw } = getState();
 	// ここ一旦全員に絵を返しているが、本来は描く人にだけ届くはず。今はこうして振り分けてる
 	if (client.userId === data.next_user_id) {
-	    console.log(data.url);
+	    const image = new Image();
+	    image.onload = () => {
+		let context = draw.canvas.getContext('2d');
+		context.drawImage(image, 0, 0);
+	    };
+	    image.src = data.url;
 	}
-	
     });
 };
 
@@ -259,4 +263,3 @@ export const pressBackToWaitingButton = () => {
     };
 };
 
-const setImgToCanvas = canvas => ({type: constants.SET_IMG_TO_CANVAS, canvas: canvas});
