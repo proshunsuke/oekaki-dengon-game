@@ -120,6 +120,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('previous_image', data => {
 	const { client, draw } = getState();
 	// ここ一旦全員に絵を返しているが、本来は描く人にだけ届くはず。今はこうして振り分けてる
+	// ココらへん切り出す
 	if (client.userId === data.next_user_id) {
 	    const image = new Image();
 	    image.onload = () => {
