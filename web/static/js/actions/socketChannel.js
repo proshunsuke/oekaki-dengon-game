@@ -117,6 +117,19 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(setGameInfoWhenNextUser(null));
 	dispatch(nowFinished(data.rooms));
     });
+    channel.on('previous_image', data => {
+	const { client, draw } = getState();
+	// ここ一旦全員に絵を返しているが、本来は描く人にだけ届くはず。今はこうして振り分けてる
+	// ココらへん切り出す
+	if (client.userId === data.next_user_id) {
+	    const image = new Image();
+	    image.onload = () => {
+		let context = draw.canvas.getContext('2d');
+		context.drawImage(image, 0, 0);
+	    };
+	    image.src = data.url;
+	}
+    });
 };
 
 export function joinRoom(data) {
@@ -215,15 +228,15 @@ const passRemainingTime = remainingTime => ({type: constants.PASS_REMAINING_TIME
 const drawTimer = () => {
     return (dispatch, getState) => {
 	const drawTimerInterval = setInterval(() => {
-	    const { socketChannel, client, gameInfo } = getState();
+	    const { socketChannel, client, gameInfo, draw } = getState();
 	    let remainingTime = gameInfo.remainingTime-1;
 	    if (gameInfo.remainingTime <= 0) {
 		remainingTime = 0;
 		clearInterval(drawTimerInterval);
 		if (gameInfo.currentGameOrderuserId === client.userId) {
 		    const channel = socketChannel.channel;
-		    // ここで本来は絵を保存してそれを渡す
-		    channel.push('next_user', {})
+		    const canvasUrl = draw.canvas.toDataURL('image/png');
+		    channel.push('next_user', {canvasUrl: canvasUrl})
 			.receive('ok', response => {})
 			.receive('error', error => {
 			    console.error(`next_user ng: ${error}`);

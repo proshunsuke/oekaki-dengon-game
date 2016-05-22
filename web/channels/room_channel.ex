@@ -6,6 +6,7 @@ defmodule OekakiDengonGame.RoomChannel do
   alias OekakiDengonGame.User
   alias OekakiDengonGame.GameUser
   alias OekakiDengonGame.Game
+  alias OekakiDengonGame.Image
 
   def join("room:" <> room_id, params, socket) do
     if !Room.is_waiting_room?(room_id) do
@@ -81,10 +82,13 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def handle_in("next_user", params, socket) do
+    image = Image.save(params["canvasUrl"], user_id(socket))
     room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
     game = room_with_active_users.games |> List.first
     game_users = room_with_active_users.game_users
     next_game_user = Game.next_game_user(game, game_users)
+    
+    # ここ一般化出来そう
     if is_nil(next_game_user) do
       Game.to_finished_by_room_id(room_id(socket.topic))
       Room.to_finished(room_id(socket.topic))
@@ -95,6 +99,10 @@ defmodule OekakiDengonGame.RoomChannel do
     else
       next_order_game = Game.save_as_next_order_game(game, next_game_user)
       next_user_id = game_users |> Enum.find(fn gu -> gu.id == next_order_game.current_game_user_id end) |> Map.get(:user_id)
+
+      # push socket, "previous_image", %{url: image.url} # ←みたいに出来そう。特定のユーザのsocketが必要
+      # とりあえず全員に一旦送る方向にする
+      broadcast! socket, "previous_image", %{url: image.url, next_user_id: next_user_id}
       broadcast! socket, "next_user", %{next_user_id: next_user_id}
       {:reply, :ok, socket}
     end
@@ -118,5 +126,9 @@ defmodule OekakiDengonGame.RoomChannel do
   # socketのtopicからroom_idを取る
   defp room_id(topic) do
     List.last(Regex.run(~r/^room:(\d{1,})$/, topic))		
+  end
+
+  defp user_id(socket) do
+    socket |> Map.fetch!(:assigns) |> Map.fetch!(:user_id)    
   end
 end

@@ -6,6 +6,7 @@ defmodule OekakiDengonGame.GameUser do
     field :game_order, :integer
     belongs_to :game, OekakiDengonGame.Game
     belongs_to :user, OekakiDengonGame.User
+    has_one :image, OekakiDengonGame.Image
 
     timestamps
   end
