@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 const { connect } = require('react-redux');
 const SettingButton = require('./SettingButton');
 const BackToWaitingButton = require('./BackToWaitingButton');
+const StartDrawButton = require('./StartDrawButton');
 
 class OtherService extends React.Component {
     constructor(props) {
