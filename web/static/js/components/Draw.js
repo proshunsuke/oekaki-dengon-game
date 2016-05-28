@@ -3,8 +3,8 @@ const { connect } = require('react-redux');
 const { componentDidMountRoom, mouseDown, mouseMove, mouseUp, mouseLeave } = require('../actions/draw');
 import { findDOMNode } from 'react-dom';
 
-const CANVAS_WIDTH = 600;
-const CANVAS_HEIGHT = 400;
+export const CANVAS_WIDTH = 600;
+export const CANVAS_HEIGHT = 400;
 const CANVAS_SCALE_X = 300; // この値ちょっと不明
 const CANVAS_SCALE_Y = 150; // この値ちょっと不明
 const CANVAS_SCALE_RATE_X = CANVAS_SCALE_X / CANVAS_WIDTH;

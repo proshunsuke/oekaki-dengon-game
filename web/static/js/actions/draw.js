@@ -1,4 +1,5 @@
 const constants = require('../constants');
+const drawComponent = require('../components/Draw');
 import { routeActions } from 'redux-simple-router';
 
 export const componentDidMountRoom = canvas => ({type: constants.COMPONENT_DID_MOUNT_ROOM, canvas: canvas});
@@ -32,3 +33,13 @@ export const mouseMove = (endX, endY) => {
 
 export const mouseUp = () => ({type: constants.MOUSE_UP});
 export const mouseLeave = () => ({type: constants.MOUSE_LEAVE});
+
+export const cleareCanvas = () => {
+    console.log(drawComponent.CANVAS_WIDTH);
+    console.log(drawComponent.CANVAS_HEIGHT);
+    // return (dispatch, getState) => {
+    //     const { draw } = getState();
+    //     let context = draw.canvas.getContext('2d');
+    // 	context.clearRect(0, 0, 100, 100);
+    // };
+};

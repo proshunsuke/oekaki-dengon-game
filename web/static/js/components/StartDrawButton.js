@@ -1,21 +1,21 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-// const { pressSettingButton } = require('../actions/socketChannel');
+const { cleareCanvas } = require('../actions/draw');
 const { connect } = require('react-redux');
 
 class StartDrawButton extends React.Component {
     constructor(props) {
         super(props);
-        // this.handleSetting = this.handleSetting.bind(this);
+        this.handleStartDraw = this.handleStartDraw.bind(this);
     }
-    handleSetting(e) {
+    handleStartDraw(e) {
         e.preventDefault();
-	// const { dispatch } = this.props;
-	// dispatch(pressSettingButton());
+	const { dispatch } = this.props;
+	dispatch(cleareCanvas());
     }
     render() {
         return <div>
-	    <Button onClick={this.handleSetting}>描き始める</Button>
+	    <Button onClick={this.handleStartDraw}>描き始める</Button>
 	    </div>;
     }
 }
