@@ -35,11 +35,9 @@ export const mouseUp = () => ({type: constants.MOUSE_UP});
 export const mouseLeave = () => ({type: constants.MOUSE_LEAVE});
 
 export const cleareCanvas = () => {
-    console.log(drawComponent.CANVAS_WIDTH);
-    console.log(drawComponent.CANVAS_HEIGHT);
-    // return (dispatch, getState) => {
-    //     const { draw } = getState();
-    //     let context = draw.canvas.getContext('2d');
-    // 	context.clearRect(0, 0, 100, 100);
-    // };
+    return (dispatch, getState) => {
+        const { draw } = getState();
+        let context = draw.canvas.getContext('2d');
+    	context.clearRect(0, 0, drawComponent.CANVAS_WIDTH, drawComponent.CANVAS_HEIGHT);
+    };
 };
