@@ -6,7 +6,8 @@ const initializeState = {
     roomId: null,
     userId: null,
     userName: null,
-    role: null
+    role: null,
+    isStartDrawing: false
 };
 
 const client = (state = initializeState, action) => {
