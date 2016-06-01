@@ -7,7 +7,7 @@ const initializeState = {
     userId: null,
     userName: null,
     role: null,
-    isStartDrawing: false
+    canDraw: true
 };
 
 const client = (state = initializeState, action) => {
