@@ -4,7 +4,8 @@ const initializeState = {
     isDrawing: false,
     startX: null,
     startY: null,
-    canvas: null
+    canvas: null,
+    canDraw: true
 };
 
 const draw = (state = initializeState, action) => {
