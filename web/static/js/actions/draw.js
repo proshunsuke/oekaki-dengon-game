@@ -14,7 +14,7 @@ const mouseMoveAction = (endX, endY) => ({
 export const mouseMove = (endX, endY) => {
     return (dispatch, getState) => {
         const { draw } = getState();
-        if (!draw.isDrawing) {
+        if (!(draw.isDrawing && draw.canDraw)) {
             return;
         }
         let context = draw.canvas.getContext('2d');
