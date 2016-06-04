@@ -121,6 +121,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	const { client, draw } = getState();
 	// ここ一旦全員に絵を返しているが、本来は描く人にだけ届くはず。今はこうして振り分けてる
 	// ココらへん切り出す
+	// 描く順番が自分の時
 	if (client.userId === data.next_user_id) {
 	    const image = new Image();
 	    image.onload = () => {
