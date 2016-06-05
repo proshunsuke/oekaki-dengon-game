@@ -106,11 +106,13 @@ const onRoomJoin = (channel, dispatch, getState) => {
     });
     channel.on('game_start', data => {
 	dispatch(setGameInfo(data.orders, data.draw_time, data.orders[0]['id']));
+	dispatch(myTurn());
 	dispatch(nowPlaying(data.rooms));
 	dispatch(drawTimer());
     });
     channel.on('next_user', data => {
 	dispatch(setGameInfoWhenNextUser(data.next_user_id));
+	dispatch(myTurn());
 	dispatch(drawTimer());
     });
     channel.on('game_finished', data => {
@@ -265,3 +267,4 @@ export const pressBackToWaitingButton = () => {
     };
 };
 
+export const myTurn = () => ({type: constants.MY_TURN});

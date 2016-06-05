@@ -35,6 +35,10 @@ const draw = (state = initializeState, action) => {
         return Object.assign({}, state, {
             isDrawing: false
         });
+    case constants.MY_TURN:
+	return Object.assign({}, state, {
+	    canDraw: false
+	});
     default:
         return state;
     }
