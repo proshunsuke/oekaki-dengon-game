@@ -106,7 +106,6 @@ const onRoomJoin = (channel, dispatch, getState) => {
     });
     channel.on('game_start', data => {
 	dispatch(setGameInfo(data.orders, data.draw_time, data.orders[0]['id']));
-	dispatch(myTurn());
 	dispatch(nowPlaying(data.rooms));
 	dispatch(drawTimer());
     });
