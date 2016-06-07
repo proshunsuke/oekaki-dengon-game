@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-const { cleareCanvas } = require('../actions/draw');
+const { cleareCanvas, enableDraw } = require('../actions/draw');
 const { connect } = require('react-redux');
 
 class StartDrawButton extends React.Component {
@@ -12,6 +12,7 @@ class StartDrawButton extends React.Component {
         e.preventDefault();
 	const { dispatch } = this.props;
 	dispatch(cleareCanvas());
+	dispatch(enableDraw());
     }
     render() {
         return <div>

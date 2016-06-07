@@ -41,3 +41,5 @@ export const cleareCanvas = () => {
     	context.clearRect(0, 0, drawComponent.CANVAS_WIDTH, drawComponent.CANVAS_HEIGHT);
     };
 };
+
+export const enableDraw = () => ({type: constants.ENABLE_DRAW});

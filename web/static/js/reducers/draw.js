@@ -39,9 +39,16 @@ const draw = (state = initializeState, action) => {
 	return Object.assign({}, state, {
 	    canDraw: false
 	});
+    case constants.ENABLE_DRAW:
+	return Object.assign({}, state, {
+	    canDraw: true
+	});
     default:
         return state;
     }
 };
 
 module.exports = draw;
+
+
+
