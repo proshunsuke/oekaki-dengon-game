@@ -1,5 +1,6 @@
 const constants = require('../constants');
 const { fetchRoomsReceive, createRoomReceive } = require('./client');
+const { enableDraw } = require('./draw');
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router';
 import { Socket } from 'phoenix';
