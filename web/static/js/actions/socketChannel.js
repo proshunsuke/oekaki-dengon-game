@@ -1,6 +1,6 @@
 const constants = require('../constants');
 const { fetchRoomsReceive, createRoomReceive } = require('./client');
-const { enableDraw } = require('./draw');
+const { enableDraw } = require('./draw'); // これ動かない component/Draw.jsのcomponentDidMountで落ちる
 import request from 'superagent';
 import { routeActions } from 'redux-simple-router';
 import { Socket } from 'phoenix';
@@ -118,6 +118,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
     channel.on('game_finished', data => {
 	dispatch(setGameInfoWhenNextUser(null));
 	dispatch(nowFinished(data.rooms));
+	// dispatch(enableDraw());
     });
     channel.on('previous_image', data => {
 	const { client, draw } = getState();
