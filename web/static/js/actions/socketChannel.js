@@ -105,6 +105,7 @@ const onRoomJoin = (channel, dispatch, getState) => {
 	dispatch(fetchRoomsReceive(rooms));
     });
     channel.on('game_start', data => {
+	console.log('kokokuru?');
 	dispatch(setGameInfo(data.orders, data.draw_time, data.orders[0]['id']));
 	dispatch(nowPlaying(data.rooms));
 	dispatch(drawTimer());
