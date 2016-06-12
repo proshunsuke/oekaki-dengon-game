@@ -33,6 +33,7 @@ const gameInfo = (state = initializeState, action) => {
             drawTime: action.drawTime
         });
     case constants.SET_GAME_INFO:
+	console.log(action.afterSettingUsers);
 	return Object.assign({}, state, {
             drawTime: action.drawTime,
 	    afterSettingUsers: action.afterSettingUsers,

@@ -87,6 +87,8 @@ defmodule OekakiDengonGame.RoomChannel do
     game = room_with_active_users.games |> List.first
     game_users = room_with_active_users.game_users
     next_game_user = Game.next_game_user(game, game_users)
+
+    IO.inspect next_game_user
     
     # ここ一般化出来そう
     if is_nil(next_game_user) do
