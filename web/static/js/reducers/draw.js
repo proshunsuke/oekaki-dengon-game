@@ -4,7 +4,8 @@ const initializeState = {
     isDrawing: false,
     startX: null,
     startY: null,
-    canvas: null
+    canvas: null,
+    canDraw: true
 };
 
 const draw = (state = initializeState, action) => {
@@ -34,9 +35,20 @@ const draw = (state = initializeState, action) => {
         return Object.assign({}, state, {
             isDrawing: false
         });
+    case constants.MY_TURN:
+	return Object.assign({}, state, {
+	    canDraw: false
+	});
+    case constants.ENABLE_DRAW:
+	return Object.assign({}, state, {
+	    canDraw: true
+	});
     default:
         return state;
     }
 };
 
 module.exports = draw;
+
+
+

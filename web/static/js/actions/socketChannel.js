@@ -111,16 +111,21 @@ const onRoomJoin = (channel, dispatch, getState) => {
     });
     channel.on('next_user', data => {
 	dispatch(setGameInfoWhenNextUser(data.next_user_id));
+	dispatch(myTurn());
 	dispatch(drawTimer());
     });
     channel.on('game_finished', data => {
 	dispatch(setGameInfoWhenNextUser(null));
 	dispatch(nowFinished(data.rooms));
+	 // ここで呼ぶべきなのか、とりあえずここで
+	const { enableDraw } = require('./draw');
+	dispatch(enableDraw());
     });
     channel.on('previous_image', data => {
 	const { client, draw } = getState();
 	// ここ一旦全員に絵を返しているが、本来は描く人にだけ届くはず。今はこうして振り分けてる
 	// ココらへん切り出す
+	// 描く順番が自分の時
 	if (client.userId === data.next_user_id) {
 	    const image = new Image();
 	    image.onload = () => {
@@ -264,3 +269,4 @@ export const pressBackToWaitingButton = () => {
     };
 };
 
+export const myTurn = () => ({type: constants.MY_TURN});
