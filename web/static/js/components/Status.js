@@ -13,7 +13,7 @@ class Status extends React.Component {
 	    return;
 	}
 	// TODO: ここうまく作れるはず
-	console.log(gameInfo);
+
 	const currentUser = gameInfo.afterSettingUsers.find((user, index) => (user['id'] === gameInfo.currentGameOrderuserId));
 	return <p>{currentUser.name}</p>;
     }
