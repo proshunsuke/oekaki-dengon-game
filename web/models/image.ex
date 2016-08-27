@@ -17,6 +17,8 @@ defmodule OekakiDengonGame.Image do
 
   def save(url, user_id) do
     IO.inspect 'error here'
+    IO.inspect url
+    IO.inspect user_id
     game_user =  Repo.get_by!(GameUser, user_id: user_id)
     image_changeset = changeset(%Image{}, %{url: url, game_user_id: game_user.id})
     Repo.insert!(image_changeset)
