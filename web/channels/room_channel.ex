@@ -82,12 +82,12 @@ defmodule OekakiDengonGame.RoomChannel do
   end
 
   def handle_in("next_user", params, socket) do
-    image = Image.save(params["canvasUrl"], user_id(socket))
     room_with_active_users = Room.with_active_game_users(room_id(socket.topic))
     game = room_with_active_users.games |> List.first
+    image = Image.save(params["canvasUrl"], user_id(socket), game.id)
     game_users = room_with_active_users.game_users
     next_game_user = Game.next_game_user(game, game_users)
-    
+
     # ここ一般化出来そう
     if is_nil(next_game_user) do
       Game.to_finished_by_room_id(room_id(socket.topic))

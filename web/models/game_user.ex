@@ -1,6 +1,8 @@
 defmodule OekakiDengonGame.GameUser do
   use OekakiDengonGame.Web, :model
   use Timex.Ecto.Timestamps
+  alias OekakiDengonGame.Repo
+  alias OekakiDengonGame.GameUser
 
   schema "game_users" do
     field :game_order, :integer
@@ -23,6 +25,23 @@ defmodule OekakiDengonGame.GameUser do
     game_user_changeset = changeset(%OekakiDengonGame.GameUser{},
       %{game_order: elem(order_tuple, 1), user_id: elem(order_tuple, 0)["id"], game_id: game_id})
     OekakiDengonGame.Repo.insert!(game_user_changeset)
+  end
+
+  def by_user_and_game(user_id, game_id) do
+    GameUser
+    |> GameUser.by_user(user_id)
+    |> GameUser.by_game(game_id)
+    |> Repo.one
+  end
+
+  def by_user(query, user_id) do
+    from gu in query,
+      where: gu.user_id == ^user_id
+  end
+
+  def by_game(query, game_id) do
+    from gu in query,
+      where: gu.game_id == ^game_id
   end
 
   @doc """
