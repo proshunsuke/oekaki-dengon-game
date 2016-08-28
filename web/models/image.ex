@@ -3,7 +3,7 @@ defmodule OekakiDengonGame.Image do
   use Timex.Ecto.Timestamps
   alias OekakiDengonGame.Repo
   alias OekakiDengonGame.Image
-  alias  OekakiDengonGame.GameUser
+  alias OekakiDengonGame.GameUser
 
   schema "images" do
     field :url, :string
@@ -15,11 +15,8 @@ defmodule OekakiDengonGame.Image do
   @required_fields ~w()
   @optional_fields ~w(url game_user_id)
 
-  def save(url, user_id) do
-    IO.inspect 'error here'
-    IO.inspect url
-    IO.inspect user_id
-    game_user =  Repo.get_by!(GameUser, user_id: user_id)
+  def save(url, user_id, game_id) do
+    game_user = GameUser.by_user_and_game(user_id, game_id)
     image_changeset = changeset(%Image{}, %{url: url, game_user_id: game_user.id})
     Repo.insert!(image_changeset)
   end
