@@ -12,7 +12,7 @@
 
 <body>
 <div class="container" role="main">
-  <%= @inner %>
+  <%= render @view_module, @view_template, assigns %>
 </div> <!-- /container -->
 <%= if Mix.env == :dev do %>
   <script src="http://localhost:3000/app.js"></script>

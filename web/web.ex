@@ -18,8 +18,9 @@ defmodule OekakiDengonGame.Web do
 
   def model do
     quote do
-      use Ecto.Model
+      use Ecto.Schema
 
+      import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
     end
@@ -30,7 +31,8 @@ defmodule OekakiDengonGame.Web do
       use Phoenix.Controller
 
       alias OekakiDengonGame.Repo
-      import Ecto.Model
+      import Ecto
+      import Ecto.Schema
       import Ecto.Query, only: [from: 1, from: 2]
 
       import OekakiDengonGame.Router.Helpers
@@ -48,6 +50,8 @@ defmodule OekakiDengonGame.Web do
       use Phoenix.HTML
 
       import OekakiDengonGame.Router.Helpers
+      import OekakiDengonGame.ErrorHelpers
+      import OekakiDengonGame.Gettext
     end
   end
 
@@ -62,7 +66,8 @@ defmodule OekakiDengonGame.Web do
       use Phoenix.Channel
 
       alias OekakiDengonGame.Repo
-      import Ecto.Model
+      import Ecto.Schema
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
     end
   end
