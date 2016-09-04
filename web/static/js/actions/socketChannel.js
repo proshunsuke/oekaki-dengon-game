@@ -61,7 +61,7 @@ export const joinLobby = () => {
                     });
             })
             .receive('error', reason => console.log('failed join', reason))
-            .after(10000, () => console.log('Networking issue. Still waiting...'));
+            .receive("timeout", () => console.log("times! up"));
     };
 };
 
@@ -158,7 +158,7 @@ export function joinRoom(data) {
             .receive('error', error =>{
 		alert(`failed join: ${error.reason}`);
 	    })
-            .after(10000, () => console.log('Networking issue. Still waiting...'));
+            .receive("timeout", () => console.log("times! up"));
     };
 }
 
@@ -177,7 +177,7 @@ export const leaveOtherChannel = () => {
                 dispatch(leaveOtherChannelAction());
             })
             .receive('error', reason => console.log('failed leave', reason))
-            .after(10000, () => console.log('Networking issue. Still waiting...'));
+            .receive("timeout", () => console.log("times! up"));
     };
 };
 
