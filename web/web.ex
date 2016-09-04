@@ -50,6 +50,8 @@ defmodule OekakiDengonGame.Web do
       use Phoenix.HTML
 
       import OekakiDengonGame.Router.Helpers
+      import OekakiDengonGame.ErrorHelpers
+      import OekakiDengonGame.Gettext
     end
   end
 
