@@ -1,1 +1,2 @@
+npm install
 DEBUG=false $(npm bin)/webpack
